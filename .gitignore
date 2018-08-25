@@ -3,7 +3,9 @@ perfects.txt
 **/.DS_Store
 ._*
 
-# Project settings
+# Project files
 .classpath
 .project
 .settings/
+
+bin/
