@@ -11,9 +11,6 @@ import java.util.Set;
 import com.cgreen.object.CharTranslator;
 
 public class StringPitchTranslator {
-	// TODO: Consider moving this elsewhere (like Pitch.java?)
-	protected static final String[] PITCH_CLASSES = {"C-natural","C-sharp/D-flat","D-natural","D-sharp/E-flat","E-natural","F-natural","F-sharp/G-flat","G-natural","G-sharp/A-flat","A-natural","A-sharp/B-flat","B-natural"};
-	private static final String BLANK = "???";
 	
 	public static List<Pitch> byLetter(String input, boolean stripLetters, boolean useGermanH) {
 		List<Pitch> out = new ArrayList<Pitch>();
@@ -39,17 +36,6 @@ public class StringPitchTranslator {
 		}
 		return out;
 	}
-	// TODO: Consider moving this elsewhere (like Pitch.java?)
-	public static String getLabel(Pitch p) {
-		int pitchIndex = getIntRepresentation(p.getPitchClass());
-		try {
-			String out = PITCH_CLASSES[pitchIndex];
-			return out;
-		} catch (ArrayIndexOutOfBoundsException aioobe) {
-			// System.out.println("Got symbol: " + p.getPitchClass());
-			return BLANK;
-		}
-	}
 	
 	private static String stripNonPitchLetters(String input, String pitchLetters) {
 		String output = "";
@@ -63,30 +49,11 @@ public class StringPitchTranslator {
 		return output;
 	}
 	
-	private static int getIntRepresentation(char arg) {
-		int i;
-		Map<String, Integer> map = new HashMap<String, Integer>();
-		map.put("t", 10);
-		map.put("e", 11);
-		try {
-			i = Integer.parseInt(arg + "");
-		} catch (NumberFormatException nfe) {
-			// System.out.println(arg + " not parsed -- searching map...");
-			try {
-				i = map.get(arg + "");
-				// System.out.println("Got it!");
-			} catch (NullPointerException npe) {
-				// System.out.println("Value not found in map: " + arg);
-				return -1;
-			}
-		}
-		return i;
-	}
 	// TODO
 	public static String[] decodeByLetter(List<Pitch> input, char key) {
 		for (Pitch pitch : input) {
 			Pitch p = new Pitch(pitch.getPitchClass());
-			p.transpose(-(getIntRepresentation(key)));
+			p.transpose(-(p.getIntRepresentation(key)));
 		}
 		return new String[]{};
 	}
