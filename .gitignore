@@ -9,3 +9,4 @@ perfects.txt
 .settings/
 
 bin/
+/target/

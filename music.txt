@@ -1,0 +1,5 @@
+7:3 G-natural
+4:3 E-natural
+e:3 B-natural
+e:3 B-natural
+2:4 D-natural
