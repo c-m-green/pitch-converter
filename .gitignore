@@ -1,0 +1,9 @@
+partials.txt
+perfects.txt
+**/.DS_Store
+._*
+
+# Project settings
+.classpath
+.project
+.settings/
