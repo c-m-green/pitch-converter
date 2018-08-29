@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.cgreen.pitchconverter.pitch.Pitch;
+
 public class TempMain {
 	public static void main(String[] args) {		
 		try {
@@ -31,7 +33,7 @@ public class TempMain {
 		}*/
 		try (PrintWriter musicOut = new PrintWriter("music.txt")  ){
 		    for (Pitch p : music) {
-		    	musicOut.println(p.toString() + " " + p.getLabel());
+		    	musicOut.println(p.toString() + " " + CharTranslator.getLabel(p));
 		    }
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -77,7 +79,7 @@ public class TempMain {
 	private static List<String> decodePitches(List<Pitch> ps) {
 		List<String> out = new ArrayList<String>();
 		for (Pitch p : ps) {
-			out.add(p.getLabel());
+			out.add(CharTranslator.getLabel(p));
 		}
 		return out;
 	}

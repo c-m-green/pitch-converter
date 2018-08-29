@@ -4,11 +4,17 @@ import java.text.Normalizer;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.cgreen.pitchconverter.pitch.Pitch;
+import com.cgreen.pitchconverter.pitch.PitchCreator;
+
 public class CharTranslator {
+	protected static final String[] PITCH_CLASS_LABELS = {"C-natural","C-sharp/D-flat","D-natural","D-sharp/E-flat","E-natural","F-natural","F-sharp/G-flat","G-natural","G-sharp/A-flat","A-natural","A-sharp/B-flat","B-natural"};
+	private static final String BLANK = "???";
+	
 	protected static Pitch letterToPitchLiteral(char ch, boolean useGermanH) {
 		int register = 4;
 		if (!Character.isLetter(ch)) { // if non-letter is passed in
-			Pitch blank = new Pitch('?');
+			Pitch blank = PitchCreator.createPitch('?');
 			return blank;
 		} else {
 			char in = Normalizer.normalize(ch + "", Normalizer.Form.NFD).toUpperCase().charAt(0);
@@ -20,7 +26,7 @@ public class CharTranslator {
 	}
 	protected static Pitch alphaNumToPitchDegree(char ch, int octaveStart, boolean isChromatic) {
 		if (!Character.isLetterOrDigit(ch)) { // if non-alphanumeric character is passed in
-			Pitch blank = new Pitch('?');
+			Pitch blank = PitchCreator.createPitch('?');
 			return blank;	
 		} else {
 			char in = Normalizer.normalize(ch + "", Normalizer.Form.NFD).toUpperCase().charAt(0);
@@ -74,7 +80,7 @@ public class CharTranslator {
 	private static Pitch getPitch(char[] pitchClasses, int charValue, int registerStart) {
 		int pitchIndex = charValue % pitchClasses.length;
 		int register = charValue / pitchClasses.length + registerStart;
-		Pitch out = new Pitch(pitchClasses[pitchIndex], register);
+		Pitch out = PitchCreator.createPitch(pitchClasses[pitchIndex], register);
 		return out;
 	}
 	
@@ -89,6 +95,17 @@ public class CharTranslator {
 		}
 		//System.out.print(glob);
 		return glob;
+	}
+	
+	public static String getLabel(Pitch p) {
+		int pitchIndex = getIntRepresentation(p.getPitchClass());
+		try {
+			String out = PITCH_CLASS_LABELS[pitchIndex];
+			return out;
+		} catch (ArrayIndexOutOfBoundsException aioobe) {
+			// System.out.println("Got symbol: " + p.getPitchClass());
+			return BLANK;
+		}
 	}
 
 }

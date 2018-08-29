@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.cgreen.pitchconverter.pitch.Pitch;
+
 public class StringPitchTranslator {
 	
 	public static List<Pitch> byLetter(String input, boolean stripLetters, boolean useGermanH) {
@@ -46,13 +48,13 @@ public class StringPitchTranslator {
 	}
 	
 	// TODO
-	public static String[] decodeByLetter(List<Pitch> input, char key) {
+	/*public static String[] decodeByLetter(List<Pitch> input, char key) {
 		for (Pitch pitch : input) {
 			Pitch p = new Pitch(pitch.getPitchClass());
 			p.transpose(-(p.getIntRepresentation(key)));
 		}
 		return new String[]{};
-	}
+	}*/
 	
 	public static Set<String> decodeByDegree(List<Pitch> input, WordCollection wc, int transposition) {
 		String[] charConversions = new String[input.size()];
