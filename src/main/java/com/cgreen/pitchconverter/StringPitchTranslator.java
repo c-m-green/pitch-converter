@@ -62,7 +62,7 @@ public class StringPitchTranslator {
 		Set<String> results = new HashSet<String>();
 		int iterations = 1;
 		for (int i = 0; i < input.size(); i++) {
-			charConversions[i] = CharTranslator.getPossibleChars(input.get(i));
+			charConversions[i] = CharTranslator.getPossibleCharsByDegree(input.get(i));
 			conversionLengths[i] = charConversions[i].length();
 			iterations *= conversionLengths[i];
 		}
