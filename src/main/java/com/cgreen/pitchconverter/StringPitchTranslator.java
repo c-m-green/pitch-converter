@@ -10,15 +10,19 @@ import com.cgreen.pitchconverter.pitch.Pitch;
 
 public class StringPitchTranslator {
 	/**
-	 * Converts a string into a sequence of musical pitches by interpreting each character as a pitch class.
+	 * Converts a string into a sequence of musical pitches by interpreting each
+	 * character as a pitch class.
 	 * 
-	 * Characters that directly map to a pitch (essentially, A to G) will do so. Letters that are not converted this way continue the pattern through the alphabet.
+	 * Characters that directly map to a pitch (essentially, A to G) will do so.
+	 * Letters that are not converted this way continue the pattern through the
+	 * alphabet.
 	 * 
-	 * @param input - a String to convert
-	 * @param stripLetters - Before converting, remove letters that do not exist as pitch class names.
-	 * @param useGermanH - option to include H as a viable base letter. In the
-	 *                   German naming scheme, 'H' represents B-natural ('B' then
-	 *                   represents B-flat).
+	 * @param input        - a String to convert
+	 * @param stripLetters - Before converting, remove letters that do not exist as
+	 *                     pitch class names.
+	 * @param useGermanH   - option to include H as a viable base letter. In the
+	 *                     German naming scheme, 'H' represents B-natural ('B' then
+	 *                     represents B-flat).
 	 * @return - a list of Pitch objects
 	 */
 	public static List<Pitch> byLetter(String input, boolean stripLetters, boolean useGermanH) {
@@ -35,14 +39,18 @@ public class StringPitchTranslator {
 		}
 		return out;
 	}
+
 	/**
-	 * Converts a string into a sequence of musical pitches by interpreting each character as a scale degree.
+	 * Converts a string into a sequence of musical pitches by interpreting each
+	 * character as a scale degree.
 	 * 
-	 * Letters lower in the alphabet will be lower pitched; the inverse is also true.
+	 * Letters lower in the alphabet will be lower pitched; the inverse is also
+	 * true.
 	 * 
-	 * @param input - a String to convert
+	 * @param input       - a String to convert
 	 * @param startOctave - the lowest register in which a pitch will be created
-	 * @param isChromatic - option to include chromatic notes. If false, all notes will be part of a C Major scale.
+	 * @param isChromatic - option to include chromatic notes. If false, all notes
+	 *                    will be part of a C Major scale.
 	 * @return
 	 */
 	public static List<Pitch> byDegree(String input, int startOctave, boolean isChromatic) {
@@ -54,6 +62,7 @@ public class StringPitchTranslator {
 		}
 		return out;
 	}
+
 	/**
 	 * Removes characters from a string that are not also pitch class names.
 	 * 
@@ -72,24 +81,23 @@ public class StringPitchTranslator {
 		}
 		return output;
 	}
-	
+
 	// TODO
-	/*public static String[] decodeByLetter(List<Pitch> input, char key) {
-		for (Pitch pitch : input) {
-			Pitch p = new Pitch(pitch.getPitchClass());
-			p.transpose(-(p.getIntRepresentation(key)));
-		}
-		return new String[]{};
-	}*/
-	
+	/*
+	 * public static String[] decodeByLetter(List<Pitch> input, char key) { for
+	 * (Pitch pitch : input) { Pitch p = new Pitch(pitch.getPitchClass());
+	 * p.transpose(-(p.getIntRepresentation(key))); } return new String[]{}; }
+	 */
+
 	/**
-	 * Given a sequence of pitches, attempts to decode a message that was encoded by degree.
+	 * Given a sequence of pitches, attempts to decode a message that was encoded by
+	 * degree.
 	 * 
 	 * @param input - List of Pitches to be decoded
-	 * @param wc - WordCollection
+	 * @param wc    - WordCollection
 	 * @return a Set of potential messages
 	 */
-	//TODO Account for transposition
+	// TODO Account for transposition
 	public static Set<String> decodeByDegree(List<Pitch> input, WordCollection wc) {
 		String[] charConversions = new String[input.size()];
 		int[] conversionLengths = new int[input.size()];
@@ -102,7 +110,7 @@ public class StringPitchTranslator {
 		}
 		int[] comboIndices = new int[conversionLengths.length];
 		int index = comboIndices.length - 1;
-		//System.out.println("There will be " + iterations + " combinations.");
+		// System.out.println("There will be " + iterations + " combinations.");
 		for (int j = 0; j < iterations; j++) {
 			String combo = "";
 			for (int i = 0; i < charConversions.length; i++) {
@@ -126,15 +134,16 @@ public class StringPitchTranslator {
 		}
 		return results;
 	}
+
 	/**
 	 * Searches a collection of words to identify valid words in an input string.
 	 * 
 	 * @param potentialLine - String to be read for words
-	 * @param wc - WordCollection
+	 * @param wc            - WordCollection
 	 * @return - List of perfect and partial matches
 	 */
 	private static List<String> getPotentialStrings(String potentialLine, WordCollection wc) {
-		//System.out.println("Searching for words in: \"" + potentialLine + "\"");
+		// System.out.println("Searching for words in: \"" + potentialLine + "\"");
 		List<String> possibilities = new ArrayList<String>();
 		int head = 0;
 		int current = head + 1;
@@ -142,16 +151,16 @@ public class StringPitchTranslator {
 		while (current <= foot) {
 			String substr = potentialLine.substring(head, current);
 			if (wc.isValidWord(substr)) {
-				//System.out.println("Found word: " + substr);
+				// System.out.println("Found word: " + substr);
 				String newQuery = potentialLine.substring(substr.length(), foot);
 				if (newQuery.length() > 0) {
-					//System.out.println("Now trying: " + newQuery);
+					// System.out.println("Now trying: " + newQuery);
 					List<String> subResults = getPotentialStrings(newQuery, wc);
 					if (subResults.isEmpty()) {
 						possibilities.add(substr + "?");
 					} else {
 						for (String s : subResults) {
-							//System.out.println("Adding to the results: " + substr + " " + s);
+							// System.out.println("Adding to the results: " + substr + " " + s);
 							possibilities.add(substr + " " + s);
 						}
 					}
@@ -159,12 +168,13 @@ public class StringPitchTranslator {
 					possibilities.add(substr);
 				}
 			} else {
-				//System.out.println("\"" + substr + "\" is not a word.");
+				// System.out.println("\"" + substr + "\" is not a word.");
 			}
 			current++;
 		}
-		//System.out.println("For " + potentialLine + ", returning " + possibilities.size() + " results.");
+		// System.out.println("For " + potentialLine + ", returning " +
+		// possibilities.size() + " results.");
 		return possibilities;
 	}
-	
+
 }
