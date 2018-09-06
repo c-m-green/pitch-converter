@@ -2,7 +2,15 @@ package com.cgreen.pitchconverter.pitch;
 
 public class PitchCreator {
 	private static final String PITCH_CLASS_INTS = "0123456789te";
-	
+
+	/**
+	 * Create a Pitch.
+	 * 
+	 * @param pitchClass - an integer representation of a pitch class. 't' and 'e'
+	 *                   are used for B-flat and B-natural, respectively.
+	 * @return a Pitch of the given pitch class. Invalid pitch classes return a
+	 *         pitch of '?'.
+	 */
 	public static Pitch createPitch(char pitchClass) {
 		if (isValidPitchClass(pitchClass)) {
 			return new Pitch(pitchClass);
@@ -10,7 +18,15 @@ public class PitchCreator {
 			return new Pitch('?');
 		}
 	}
-	
+
+	/**
+	 * Create a Pitch in a particular register.
+	 * 
+	 * @param pitchClass
+	 * @param register
+	 * @return a Pitch of the given pitch class. Invalid pitch classes return a
+	 *         pitch of '?'.
+	 */
 	public static Pitch createPitch(char pitchClass, int register) {
 		if (isValidPitchClass(pitchClass)) {
 			return new Pitch(pitchClass, register);
@@ -18,11 +34,19 @@ public class PitchCreator {
 			return new Pitch('?');
 		}
 	}
-	
+
 	private static boolean isValidPitchClass(char pc) {
 		return !(PITCH_CLASS_INTS.indexOf(pc) == -1);
 	}
-	// TODO: Test this
+
+	/**
+	 * Transpose a pitch up or down by a particular interval.
+	 * 
+	 * @param p
+	 * @param interval
+	 * @return a new Pitch
+	 */
+	// TODO Test this.
 	public static Pitch transposePitch(Pitch p, int interval) {
 		char pc = p.getPitchClass();
 		String r = p.getRegister();
@@ -34,7 +58,8 @@ public class PitchCreator {
 				newIndex += numPitchClasses;
 			}
 			int octaveShift = shiftedPitch / numPitchClasses;
-			// TODO: What this currently does with r is clunky converting from int to String to int. Consider refinement.
+			// TODO: What this currently does with r is clunky converting from int to String
+			// to int. Consider refinement.
 			if (!r.equals("?")) {
 				int newRegister = Integer.parseInt(r);
 				newRegister += (shiftedPitch < 0) ? octaveShift - 1 : octaveShift;
