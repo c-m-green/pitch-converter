@@ -43,7 +43,7 @@ public class PitchCreator {
 	 * Transpose a pitch up or down by a particular interval.
 	 * 
 	 * @param p
-	 * @param interval
+	 * @param interval in semitones
 	 * @return a new Pitch
 	 */
 	// TODO Test this.
