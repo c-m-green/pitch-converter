@@ -9,7 +9,18 @@ import java.util.Set;
 import com.cgreen.pitchconverter.pitch.Pitch;
 
 public class StringPitchTranslator {
-	
+	/**
+	 * Converts a string into a sequence of musical pitches by interpreting each character as a pitch class.
+	 * 
+	 * Characters that directly map to a pitch (essentially, A to G) will do so. Letters that are not converted this way continue the pattern through the alphabet.
+	 * 
+	 * @param input - a String to convert
+	 * @param stripLetters - Before converting, remove letters that do not exist as pitch class names.
+	 * @param useGermanH - option to include H as a viable base letter. In the
+	 *                   German naming scheme, 'H' represents B-natural ('B' then
+	 *                   represents B-flat).
+	 * @return - a list of Pitch objects
+	 */
 	public static List<Pitch> byLetter(String input, boolean stripLetters, boolean useGermanH) {
 		List<Pitch> out = new ArrayList<Pitch>();
 		String s = input;
@@ -24,7 +35,16 @@ public class StringPitchTranslator {
 		}
 		return out;
 	}
-	
+	/**
+	 * Converts a string into a sequence of musical pitches by interpreting each character as a scale degree.
+	 * 
+	 * Letters lower in the alphabet will be lower pitched; the inverse is also true.
+	 * 
+	 * @param input - a String to convert
+	 * @param startOctave - the lowest register in which a pitch will be created
+	 * @param isChromatic - option to include chromatic notes. If false, all notes will be part of a C Major scale.
+	 * @return
+	 */
 	public static List<Pitch> byDegree(String input, int startOctave, boolean isChromatic) {
 		List<Pitch> out = new ArrayList<Pitch>();
 		for (int i = 0; i < input.length(); i++) {
@@ -34,7 +54,13 @@ public class StringPitchTranslator {
 		}
 		return out;
 	}
-	
+	/**
+	 * Removes characters from a string that are not also pitch class names.
+	 * 
+	 * @param input
+	 * @param pitchLetters - the collection of note names to retain
+	 * @return the stripped string
+	 */
 	private static String stripNonPitchLetters(String input, String pitchLetters) {
 		String output = "";
 		for (int i = 0; i < input.length(); i++) {
@@ -56,7 +82,15 @@ public class StringPitchTranslator {
 		return new String[]{};
 	}*/
 	
-	public static Set<String> decodeByDegree(List<Pitch> input, WordCollection wc, int transposition) {
+	/**
+	 * Given a sequence of pitches, attempts to decode a message that was encoded by degree.
+	 * 
+	 * @param input - List of Pitches to be decoded
+	 * @param wc - WordCollection
+	 * @return a Set of potential messages
+	 */
+	//TODO Account for transposition
+	public static Set<String> decodeByDegree(List<Pitch> input, WordCollection wc) {
 		String[] charConversions = new String[input.size()];
 		int[] conversionLengths = new int[input.size()];
 		Set<String> results = new HashSet<String>();
@@ -92,7 +126,13 @@ public class StringPitchTranslator {
 		}
 		return results;
 	}
-	
+	/**
+	 * Searches a collection of words to identify valid words in an input string.
+	 * 
+	 * @param potentialLine - String to be read for words
+	 * @param wc - WordCollection
+	 * @return - List of perfect and partial matches
+	 */
 	private static List<String> getPotentialStrings(String potentialLine, WordCollection wc) {
 		//System.out.println("Searching for words in: \"" + potentialLine + "\"");
 		List<String> possibilities = new ArrayList<String>();
