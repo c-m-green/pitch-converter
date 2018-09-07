@@ -39,7 +39,7 @@ public class TempMain {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Set<String> cf = StringConverter.decodeByDegree(music, wc);
+		Set<String> cf = PitchDecoder.decodeByDegree(music, wc);
 		List<String> partials = new ArrayList<String>();
 		List<String> perfects = new ArrayList<String>();
 		for (String s : cf) {
