@@ -25,7 +25,7 @@ public class TempMain {
 		} else {
 			System.out.println("Uh-oh! Something went wrong importing the words.");
 		}
-		List<Pitch> music = StringPitchTranslator.byDegree("hello", 3, true);
+		List<Pitch> music = StringConverter.byDegree("hello", 3, true);
 		/*char[] pcs = new char[]{''};
 		List<Pitch> music = new ArrayList<Pitch>();
 		for (char pc : pcs) {
@@ -39,7 +39,7 @@ public class TempMain {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Set<String> cf = StringPitchTranslator.decodeByDegree(music, wc);
+		Set<String> cf = StringConverter.decodeByDegree(music, wc);
 		List<String> partials = new ArrayList<String>();
 		List<String> perfects = new ArrayList<String>();
 		for (String s : cf) {

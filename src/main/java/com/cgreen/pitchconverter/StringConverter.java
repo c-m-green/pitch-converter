@@ -8,7 +8,7 @@ import java.util.Set;
 
 import com.cgreen.pitchconverter.pitch.Pitch;
 
-public class StringPitchTranslator {
+public class StringConverter {
 	/**
 	 * Converts a string into a sequence of musical pitches by interpreting each
 	 * character as a pitch class.
