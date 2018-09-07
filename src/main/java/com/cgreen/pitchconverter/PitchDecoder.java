@@ -1,86 +1,26 @@
 package com.cgreen.pitchconverter;
 
-import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.cgreen.pitchconverter.pitch.Pitch;
 
-public class StringPitchTranslator {
+public class PitchDecoder {
+	
 	/**
-	 * Converts a string into a sequence of musical pitches by interpreting each
-	 * character as a pitch class.
-	 * 
-	 * Characters that directly map to a pitch (essentially, A to G) will do so.
-	 * Letters that are not converted this way continue the pattern through the
-	 * alphabet.
-	 * 
-	 * @param input        - a String to convert
-	 * @param stripLetters - Before converting, remove letters that do not exist as
-	 *                     pitch class names.
-	 * @param useGermanH   - option to include H as a viable base letter. In the
-	 *                     German naming scheme, 'H' represents B-natural ('B' then
-	 *                     represents B-flat).
-	 * @return - a list of Pitch objects
+	 * Allows for English representation of pitches.
 	 */
-	public static List<Pitch> byLetter(String input, boolean stripLetters, boolean useGermanH) {
-		List<Pitch> out = new ArrayList<Pitch>();
-		String s = input;
-		if (stripLetters) {
-			String pitchLetters = useGermanH ? "ABCDEFGH" : "ABCDEFG";
-			s = stripNonPitchLetters(input, pitchLetters);
-		}
-		for (int i = 0; i < s.length(); i++) {
-			char ch = s.charAt(i);
-			Pitch p = CharTranslator.letterToPitchLiteral(ch, useGermanH);
-			out.add(p);
-		}
-		return out;
-	}
-
+	private static final String[] PITCH_CLASS_LABELS = { "C-natural", "C-sharp/D-flat", "D-natural", "D-sharp/E-flat",
+			"E-natural", "F-natural", "F-sharp/G-flat", "G-natural", "G-sharp/A-flat", "A-natural", "A-sharp/B-flat",
+			"B-natural" };
 	/**
-	 * Converts a string into a sequence of musical pitches by interpreting each
-	 * character as a scale degree.
-	 * 
-	 * Letters lower in the alphabet will be lower pitched; the inverse is also
-	 * true.
-	 * 
-	 * @param input       - a String to convert
-	 * @param startOctave - the lowest register in which a pitch will be created
-	 * @param isChromatic - option to include chromatic notes. If false, all notes
-	 *                    will be part of a C Major scale.
-	 * @return
+	 * Used for English representation of indeterminate pitches.
 	 */
-	public static List<Pitch> byDegree(String input, int startOctave, boolean isChromatic) {
-		List<Pitch> out = new ArrayList<Pitch>();
-		for (int i = 0; i < input.length(); i++) {
-			char ch = input.charAt(i);
-			Pitch p = CharTranslator.alphaNumToPitchDegree(ch, startOctave, isChromatic);
-			out.add(p);
-		}
-		return out;
-	}
-
-	/**
-	 * Removes characters from a string that are not also pitch class names.
-	 * 
-	 * @param input
-	 * @param pitchLetters - the collection of note names to retain
-	 * @return the stripped string
-	 */
-	private static String stripNonPitchLetters(String input, String pitchLetters) {
-		String output = "";
-		for (int i = 0; i < input.length(); i++) {
-			char ch = input.charAt(i);
-			ch = Normalizer.normalize(ch + "", Normalizer.Form.NFD).toUpperCase().charAt(0);
-			if (pitchLetters.indexOf(ch) != -1) {
-				output += ch;
-			}
-		}
-		return output;
-	}
+	private static final String BLANK = "???";
 
 	// TODO
 	/*
@@ -104,7 +44,7 @@ public class StringPitchTranslator {
 		Set<String> results = new HashSet<String>();
 		int iterations = 1;
 		for (int i = 0; i < input.size(); i++) {
-			charConversions[i] = CharTranslator.getPossibleCharsByDegree(input.get(i));
+			charConversions[i] = getPossibleCharsByDegree(input.get(i));
 			conversionLengths[i] = charConversions[i].length();
 			iterations *= conversionLengths[i];
 		}
@@ -176,5 +116,67 @@ public class StringPitchTranslator {
 		// possibilities.size() + " results.");
 		return possibilities;
 	}
+	
+	/**
+	 * Derive all possible characters that could have converted by degree to the
+	 * input Pitch.
+	 * 
+	 * @param p - Input Pitch
+	 * @return String of potential characters
+	 */
+	private static String getPossibleCharsByDegree(Pitch p) {
+		char pitchClass = p.getPitchClass();
+		int bottomIndex = 97;
+		int index = bottomIndex + getIntRepresentation(pitchClass);
+		String glob = "";
+		while (index < bottomIndex + 26) {
+			glob += (char) index + "";
+			index += 12;
+		}
+		return glob;
+	}
+	
+	/**
+	 * Returns the int representation of a pitch class.
+	 * 
+	 * @param pc - A pitch class as a character.
+	 * @return The pitch class as an integer.
+	 */
+	private static int getIntRepresentation(char pc) {
+		int i;
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("t", 10);
+		map.put("e", 11);
+		try {
+			i = Integer.parseInt(pc + "");
+		} catch (NumberFormatException nfe) {
+			// System.out.println(arg + " not parsed -- searching map...");
+			try {
+				i = map.get(pc + "");
+				// System.out.println("Got it!");
+			} catch (NullPointerException npe) {
+				// System.out.println("Value not found in map: " + arg);
+				return -1;
+			}
+		}
+		return i;
+	}
+	
 
+	/**
+	 * Represent a musical pitch in text.
+	 * 
+	 * @param p - Input pitch
+	 * @return Pitch name in English
+	 */
+	protected static String getLabel(Pitch p) {
+		int pitchIndex = getIntRepresentation(p.getPitchClass());
+		try {
+			String out = PITCH_CLASS_LABELS[pitchIndex];
+			return out;
+		} catch (ArrayIndexOutOfBoundsException aioobe) {
+			// System.out.println("Got symbol: " + p.getPitchClass());
+			return BLANK;
+		}
+	}
 }
