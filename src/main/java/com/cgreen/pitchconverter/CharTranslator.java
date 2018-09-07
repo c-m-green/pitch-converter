@@ -8,16 +8,6 @@ import com.cgreen.pitchconverter.pitch.Pitch;
 import com.cgreen.pitchconverter.pitch.PitchCreator;
 
 public class CharTranslator {
-	/**
-	 * Allows for English representation of pitches.
-	 */
-	private static final String[] PITCH_CLASS_LABELS = { "C-natural", "C-sharp/D-flat", "D-natural", "D-sharp/E-flat",
-			"E-natural", "F-natural", "F-sharp/G-flat", "G-natural", "G-sharp/A-flat", "A-natural", "A-sharp/B-flat",
-			"B-natural" };
-	/**
-	 * Used for English representation of indeterminate pitches.
-	 */
-	private static final String BLANK = "???";
 
 	/**
 	 * Converts a letter into a musical pitch by direct letter association (e.g., A
@@ -87,32 +77,6 @@ public class CharTranslator {
 	}
 
 	/**
-	 * Returns the int representation of a pitch class.
-	 * 
-	 * @param pc - A pitch class as a character.
-	 * @return The pitch class as an integer.
-	 */
-	private static int getIntRepresentation(char pc) {
-		int i;
-		Map<String, Integer> map = new HashMap<String, Integer>();
-		map.put("t", 10);
-		map.put("e", 11);
-		try {
-			i = Integer.parseInt(pc + "");
-		} catch (NumberFormatException nfe) {
-			// System.out.println(arg + " not parsed -- searching map...");
-			try {
-				i = map.get(pc + "");
-				// System.out.println("Got it!");
-			} catch (NullPointerException npe) {
-				// System.out.println("Value not found in map: " + arg);
-				return -1;
-			}
-		}
-		return i;
-	}
-
-	/**
 	 * Converts a character into an int based on alphabetical position or its parsed
 	 * value.
 	 * 
@@ -148,42 +112,6 @@ public class CharTranslator {
 		int register = charValue / pitchClasses.length + registerStart;
 		Pitch out = PitchCreator.createPitch(pitchClasses[pitchIndex], register);
 		return out;
-	}
-
-	/**
-	 * Derive all possible characters that could have converted by degree to the
-	 * input Pitch.
-	 * 
-	 * @param p - Input Pitch
-	 * @return String of potential characters
-	 */
-	protected static String getPossibleCharsByDegree(Pitch p) {
-		char pitchClass = p.getPitchClass();
-		int bottomIndex = 97;
-		int index = bottomIndex + getIntRepresentation(pitchClass);
-		String glob = "";
-		while (index < bottomIndex + 26) {
-			glob += (char) index + "";
-			index += 12;
-		}
-		return glob;
-	}
-
-	/**
-	 * Represent a musical pitch in text.
-	 * 
-	 * @param p - Input pitch
-	 * @return Pitch name in English
-	 */
-	public static String getLabel(Pitch p) {
-		int pitchIndex = getIntRepresentation(p.getPitchClass());
-		try {
-			String out = PITCH_CLASS_LABELS[pitchIndex];
-			return out;
-		} catch (ArrayIndexOutOfBoundsException aioobe) {
-			// System.out.println("Got symbol: " + p.getPitchClass());
-			return BLANK;
-		}
 	}
 
 }
