@@ -38,7 +38,7 @@ public class PitchDecoder {
 	 * @param checkChromatic - If true, assume message was encoded using all twelve notes of a chromatic scale
 	 * @return a Set of potential messages
 	 */
-	// TODO Account for transposition and chromatic
+	// TODO Account for transposition
 	public static Set<String> decodeByDegree(List<Pitch> input, WordCollection wc, boolean checkChromatic) {
 		String[] charConversions = new String[input.size()];
 		int[] conversionLengths = new int[input.size()];
@@ -127,9 +127,8 @@ public class PitchDecoder {
 	 * @return String of potential characters
 	 */
 	private static String getPossibleCharsByDegree(Pitch p, boolean isChromatic) {
-		char pitchClass = p.getPitchClass();
 		int bottomIndex = 97; // 'a'
-		int index = bottomIndex + getIntRepresentation(pitchClass);
+		int index = bottomIndex + p.getPitchClassAsInteger();
 		String glob = "";
 		while (index < bottomIndex + 26) {
 			glob += (char) index + "";
@@ -140,40 +139,13 @@ public class PitchDecoder {
 	}
 	
 	/**
-	 * Returns the int representation of a pitch class.
-	 * 
-	 * @param pc - A pitch class as a character.
-	 * @return The pitch class as an integer.
-	 */
-	private static int getIntRepresentation(char pc) {
-		int i;
-		Map<String, Integer> map = new HashMap<String, Integer>();
-		map.put("t", 10);
-		map.put("e", 11);
-		try {
-			i = Integer.parseInt(pc + "");
-		} catch (NumberFormatException nfe) {
-			// System.out.println(arg + " not parsed -- searching map...");
-			try {
-				i = map.get(pc + "");
-				// System.out.println("Got it!");
-			} catch (NullPointerException npe) {
-				// System.out.println("Value not found in map: " + arg);
-				return -1;
-			}
-		}
-		return i;
-	}
-	
-
-	/**
 	 * Represent a musical pitch in text.
 	 * 
 	 * @param p - Input pitch
 	 * @return Pitch name in English
 	 */
 	protected static String getLabel(Pitch p) {
-		int pitchIndex = getIntRepresentation(p.getPitchClass());
+		int pitchIndex = p.getPitchClassAsInteger();
 		try {
 			String out = PITCH_CLASS_LABELS[pitchIndex];
 			return out;
