@@ -9,7 +9,7 @@ import java.util.Set;
 import com.cgreen.pitchconverter.pitch.Pitch;
 
 public class TempMain {
-	public static void main(String[] args) {		
+	public static void main(String[] args) {
 		try {
 			launch(args);
 		} catch (FileNotFoundException e) {
@@ -17,7 +17,7 @@ public class TempMain {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void launch(String[] args) throws FileNotFoundException {
 		WordCollection wc = new WordCollection(args[0]);
 		if (wc.buildWordCollection()) {
@@ -26,15 +26,14 @@ public class TempMain {
 			System.out.println("Uh-oh! Something went wrong importing the words.");
 		}
 		List<Pitch> music = StringConverter.byDegree("hello", 3, false);
-		/*char[] pcs = new char[]{''};
-		List<Pitch> music = new ArrayList<Pitch>();
-		for (char pc : pcs) {
-			music.add(new Pitch(pc, 3));
-		}*/
-		try (PrintWriter musicOut = new PrintWriter("music.txt")  ){
-		    for (Pitch p : music) {
-		    	musicOut.println(p.toString() + " " + PitchDecoder.getLabel(p));
-		    }
+		/*
+		 * char[] pcs = new char[]{''}; List<Pitch> music = new ArrayList<Pitch>(); for
+		 * (char pc : pcs) { music.add(new Pitch(pc, 3)); }
+		 */
+		try (PrintWriter musicOut = new PrintWriter("music.txt")) {
+			for (Pitch p : music) {
+				musicOut.println(p.toString() + " " + PitchDecoder.getLabel(p));
+			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -51,31 +50,31 @@ public class TempMain {
 		}
 		perfects.sort((s1, s2) -> (s1.split(" ").length - s2.split(" ").length));
 		partials.sort((s1, s2) -> (s2.length() - s1.length()));
-		try (PrintWriter partialsOut = new PrintWriter("partials.txt")  ){
-		    for (String s : partials) {
+		try (PrintWriter partialsOut = new PrintWriter("partials.txt")) {
+			for (String s : partials) {
 				partialsOut.println(s);
-		    }
+			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		try(PrintWriter perfectsOut = new PrintWriter("perfects.txt")  ){
+		try (PrintWriter perfectsOut = new PrintWriter("perfects.txt")) {
 			for (String s : perfects) {
 				perfectsOut.println(s);
-		    }
+			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		/*System.out.println("**PERFECT MATCHES**");
-		int numResults = Math.min(perfects.size(), 50);
-		System.out.println("Top results: ");
-		for (int i = 0; i < numResults; i++) {
-			System.out.println(i + 1 + ") " + perfects.get(i));
-		}
-		System.out.println("Partial matches: " + partials.size());*/
+		/*
+		 * System.out.println("**PERFECT MATCHES**"); int numResults =
+		 * Math.min(perfects.size(), 50); System.out.println("Top results: "); for (int
+		 * i = 0; i < numResults; i++) { System.out.println(i + 1 + ") " +
+		 * perfects.get(i)); } System.out.println("Partial matches: " +
+		 * partials.size());
+		 */
 	}
-	
+
 	private static List<String> decodePitches(List<Pitch> ps) {
 		List<String> out = new ArrayList<String>();
 		for (Pitch p : ps) {
@@ -83,6 +82,5 @@ public class TempMain {
 		}
 		return out;
 	}
-	
 
 }

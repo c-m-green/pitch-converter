@@ -10,7 +10,7 @@ import java.util.Set;
 import com.cgreen.pitchconverter.pitch.Pitch;
 
 public class PitchDecoder {
-	
+
 	/**
 	 * Allows for English representation of pitches.
 	 */
@@ -33,9 +33,10 @@ public class PitchDecoder {
 	 * Given a sequence of pitches, attempts to decode a message that was encoded by
 	 * degree.
 	 * 
-	 * @param input - List of Pitches to be decoded
-	 * @param wc    - WordCollection
-	 * @param checkChromatic - If true, assume message was encoded using all twelve notes of a chromatic scale
+	 * @param input          - List of Pitches to be decoded
+	 * @param wc             - WordCollection
+	 * @param checkChromatic - If true, assume message was encoded using all twelve
+	 *                       notes of a chromatic scale
 	 * @return a Set of potential messages
 	 */
 	// TODO Account for transposition
@@ -44,6 +45,7 @@ public class PitchDecoder {
 		int[] conversionLengths = new int[input.size()];
 		Set<String> results = new HashSet<String>();
 		int iterations = 1;
+		// TODO: What to do if the pitch is a question mark?
 		for (int i = 0; i < input.size(); i++) {
 			charConversions[i] = getPossibleCharsByDegree(input.get(i), checkChromatic);
 			conversionLengths[i] = charConversions[i].length();
@@ -117,13 +119,14 @@ public class PitchDecoder {
 		// possibilities.size() + " results.");
 		return possibilities;
 	}
-	
+
 	/**
 	 * Derive all possible characters that could have converted by degree to the
 	 * input Pitch.
 	 * 
-	 * @param p - Input Pitch
-	 * @param isChromatic - Check for chromatic notes. If false, check members of the C Major scale
+	 * @param p           - Input Pitch
+	 * @param isChromatic - Check for chromatic notes. If false, check members of
+	 *                    the C Major scale
 	 * @return String of potential characters
 	 */
 	private static String getPossibleCharsByDegree(Pitch p, boolean isChromatic) {
@@ -137,7 +140,7 @@ public class PitchDecoder {
 		}
 		return glob;
 	}
-	
+
 	/**
 	 * Represent a musical pitch in text.
 	 * 

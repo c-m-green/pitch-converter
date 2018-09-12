@@ -4,7 +4,8 @@ package com.cgreen.pitchconverter.pitch;
  * The Pitch class represents a musical pitch.
  * 
  * Pitches use the integer representation of pitch classes to track their
- * frequency. Pitches can be created with or without a register. Pitches use a question mark for invalid pitch frequencies and/or unknown ranges.
+ * frequency. Pitches can be created with or without a register. Pitches use a
+ * question mark for invalid pitch frequencies and/or unknown ranges.
  * 
  * @author c_m_g
  *
@@ -27,9 +28,11 @@ public class Pitch {
 	public char getPitchClass() {
 		return pitchClass;
 	}
+
 	/**
 	 * Get the pitch's pitch class as an integer.
-	 * @return - -1 if not found
+	 * 
+	 * @return -1 if not found
 	 */
 	public int getPitchClassAsInteger() {
 		int pc;
