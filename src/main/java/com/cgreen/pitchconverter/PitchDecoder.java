@@ -35,16 +35,17 @@ public class PitchDecoder {
 	 * 
 	 * @param input - List of Pitches to be decoded
 	 * @param wc    - WordCollection
+	 * @param checkChromatic - If true, assume message was encoded using all twelve notes of a chromatic scale
 	 * @return a Set of potential messages
 	 */
-	// TODO Account for transposition
-	public static Set<String> decodeByDegree(List<Pitch> input, WordCollection wc) {
+	// TODO Account for transposition and chromatic
+	public static Set<String> decodeByDegree(List<Pitch> input, WordCollection wc, boolean checkChromatic) {
 		String[] charConversions = new String[input.size()];
 		int[] conversionLengths = new int[input.size()];
 		Set<String> results = new HashSet<String>();
 		int iterations = 1;
 		for (int i = 0; i < input.size(); i++) {
-			charConversions[i] = getPossibleCharsByDegree(input.get(i));
+			charConversions[i] = getPossibleCharsByDegree(input.get(i), checkChromatic);
 			conversionLengths[i] = charConversions[i].length();
 			iterations *= conversionLengths[i];
 		}
@@ -122,16 +123,18 @@ public class PitchDecoder {
 	 * input Pitch.
 	 * 
 	 * @param p - Input Pitch
+	 * @param isChromatic - Check for chromatic notes. If false, check members of the C Major scale
 	 * @return String of potential characters
 	 */
-	private static String getPossibleCharsByDegree(Pitch p) {
+	private static String getPossibleCharsByDegree(Pitch p, boolean isChromatic) {
 		char pitchClass = p.getPitchClass();
-		int bottomIndex = 97;
+		int bottomIndex = 97; // 'a'
 		int index = bottomIndex + getIntRepresentation(pitchClass);
 		String glob = "";
 		while (index < bottomIndex + 26) {
 			glob += (char) index + "";
-			index += 12;
+			int increase = (isChromatic) ? 12 : 8;
+			index += increase;
 		}
 		return glob;
 	}
