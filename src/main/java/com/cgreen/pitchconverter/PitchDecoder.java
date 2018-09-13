@@ -140,7 +140,7 @@ public class PitchDecoder {
 		String glob = "";
 		while (index < bottomIndex + 26) {
 			glob += (char) index + "";
-			int increase = (isChromatic) ? 12 : 8;
+			int increase = (isChromatic) ? 12 : 7;
 			index += increase;
 		}
 		return glob;
