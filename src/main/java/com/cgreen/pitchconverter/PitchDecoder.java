@@ -40,14 +40,19 @@ public class PitchDecoder {
 	 * @return a Set of potential messages
 	 */
 	// TODO Account for transposition
-	public static Set<String> decodeByDegree(List<Pitch> input, WordCollection wc, boolean checkChromatic) {
-		String[] charConversions = new String[input.size()];
-		int[] conversionLengths = new int[input.size()];
+	public static Set<String> decodeByDegree(List<Pitch> music, WordCollection wc, boolean checkChromatic) {
+		List<Pitch> in = new ArrayList<Pitch>();
+		for (Pitch p : music) {
+			if (p.getPitchClassAsInteger() != -1) {
+				in.add(p);
+			}
+		}
+		String[] charConversions = new String[in.size()];
+		int[] conversionLengths = new int[in.size()];
 		Set<String> results = new HashSet<String>();
 		int iterations = 1;
-		// TODO: What to do if the pitch is a question mark?
-		for (int i = 0; i < input.size(); i++) {
-			charConversions[i] = getPossibleCharsByDegree(input.get(i), checkChromatic);
+		for (int i = 0; i < in.size(); i++) {
+			charConversions[i] = getPossibleCharsByDegree(in.get(i), checkChromatic);
 			conversionLengths[i] = charConversions[i].length();
 			iterations *= conversionLengths[i];
 		}

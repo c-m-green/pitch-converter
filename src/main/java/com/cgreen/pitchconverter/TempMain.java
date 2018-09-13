@@ -25,7 +25,7 @@ public class TempMain {
 		} else {
 			System.out.println("Uh-oh! Something went wrong importing the words.");
 		}
-		List<Pitch> music = StringConverter.byDegree("hello", 3, false);
+		List<Pitch> music = StringConverter.byDegree("hello world", 3, false);
 		/*
 		 * char[] pcs = new char[]{''}; List<Pitch> music = new ArrayList<Pitch>(); for
 		 * (char pc : pcs) { music.add(new Pitch(pc, 3)); }
