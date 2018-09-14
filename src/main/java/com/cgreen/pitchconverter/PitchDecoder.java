@@ -52,7 +52,11 @@ public class PitchDecoder {
 		Set<String> results = new HashSet<String>();
 		int iterations = 1;
 		for (int i = 0; i < in.size(); i++) {
-			charConversions[i] = getPossibleCharsByDegree(in.get(i), checkChromatic);
+			String possibleChars = getPossibleCharsByDegree(in.get(i), checkChromatic);
+			if (possibleChars.isEmpty()) {
+				continue;
+			}
+			charConversions[i] = possibleChars;
 			conversionLengths[i] = charConversions[i].length();
 			iterations *= conversionLengths[i];
 		}
@@ -62,7 +66,11 @@ public class PitchDecoder {
 		for (int j = 0; j < iterations; j++) {
 			String combo = "";
 			for (int i = 0; i < charConversions.length; i++) {
-				combo += charConversions[i].charAt(comboIndices[i]);
+				try {
+					combo += charConversions[i].charAt(comboIndices[i]);
+				} catch (NullPointerException npe) {
+					continue;
+				}
 			}
 			System.out.println("Current String: " + combo + " (" + (j + 1) + "/" + iterations + ")");
 			List<String> l = getPotentialStrings(combo, wc);
