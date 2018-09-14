@@ -56,7 +56,7 @@ public class WordCollection {
 		}
 	}
 
-	public boolean isValidWord(String query) {
+	public boolean containsWord(String query) {
 		return words.get(query.charAt(0) + "").contains(query);
 	}
 

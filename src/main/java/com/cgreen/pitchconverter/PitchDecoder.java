@@ -104,7 +104,7 @@ public class PitchDecoder {
 		int foot = potentialLine.length();
 		while (current <= foot) {
 			String substr = potentialLine.substring(head, current);
-			if (wc.isValidWord(substr)) {
+			if (wc.containsWord(substr)) {
 				// System.out.println("Found word: " + substr);
 				String newQuery = potentialLine.substring(substr.length(), foot);
 				if (newQuery.length() > 0) {
