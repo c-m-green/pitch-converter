@@ -136,7 +136,21 @@ public class PitchDecoder {
 	 */
 	private static String getPossibleCharsByDegree(Pitch p, boolean isChromatic) {
 		int bottomIndex = 97; // 'a'
-		int index = bottomIndex + p.getPitchClassAsInteger();
+		int index;
+		if (isChromatic) {
+			index = bottomIndex + p.getPitchClassAsInteger();
+		} else {
+			if (p.isNatural()) {
+				int pc = p.getPitchClassAsInteger();
+				if (pc < 5) {
+					index = bottomIndex + pc / 2;
+				} else {
+					index = bottomIndex + pc / 2 + 1;
+				}
+			} else {
+				return "";
+			}
+		}
 		String glob = "";
 		while (index < bottomIndex + 26) {
 			glob += (char) index + "";

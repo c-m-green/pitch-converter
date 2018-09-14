@@ -53,6 +53,10 @@ public class Pitch {
 	public String getRegister() {
 		return register;
 	}
+	
+	public boolean isNatural() {
+		return !(pitchClass == '1' || pitchClass == '3' || pitchClass == '6' || pitchClass == '8' || pitchClass == 't');
+	}
 
 	@Override
 	public String toString() {
