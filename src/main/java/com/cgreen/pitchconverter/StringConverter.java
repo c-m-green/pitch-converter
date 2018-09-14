@@ -2,9 +2,7 @@ package com.cgreen.pitchconverter;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.cgreen.pitchconverter.pitch.Pitch;
 
