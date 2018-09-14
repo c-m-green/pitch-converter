@@ -61,16 +61,16 @@ public class PitchDecoder {
 		int[] comboIndices = new int[conversionLengths.length];
 		int index = comboIndices.length - 1;
 		// System.out.println("There will be " + iterations + " combinations.");
-		for (int j = 0; j < iterations; j++) {
+		for (int i = 0; i < iterations; i++) {
 			String combo = "";
-			for (int i = 0; i < charConversions.length; i++) {
+			for (int j = 0; j < charConversions.length; j++) {
 				try {
-					combo += charConversions[i].charAt(comboIndices[i]);
+					combo += charConversions[j].charAt(comboIndices[j]);
 				} catch (NullPointerException npe) {
 					continue;
 				}
 			}
-			System.out.println("Current String: " + combo + " (" + (j + 1) + "/" + iterations + ")");
+			System.out.println("Current String: " + combo + " (" + (i + 1) + "/" + iterations + ")");
 			List<String> l = getPotentialStrings(combo, wc);
 			for (String s : l) {
 				results.add(s);
