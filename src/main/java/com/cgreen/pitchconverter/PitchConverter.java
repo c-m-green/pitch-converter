@@ -11,7 +11,7 @@ import com.cgreen.pitchconverter.converter.StringConverter;
 import com.cgreen.pitchconverter.datastore.WordCollection;
 import com.cgreen.pitchconverter.datastore.pitch.Pitch;
 
-public class TempMain {
+public class PitchConverter {
 	public static void main(String[] args) {
 		try {
 			launch(args);
