@@ -78,12 +78,4 @@ public class PitchConverter {
 		 */
 	}
 
-	private static List<String> decodePitches(List<Pitch> ps) {
-		List<String> out = new ArrayList<String>();
-		for (Pitch p : ps) {
-			out.add(PitchDecoder.getLabel(p));
-		}
-		return out;
-	}
-
 }
