@@ -4,7 +4,11 @@ Ever wanted to encode a message in music and then decipher it? Want to store sna
 
 Hey! That's cool, I guess!
 
-Anyway, here's a thingy I've got that will hopefully let you do such things.
+Anyway, here's a app I'm creating that will hopefully let you do such things.
+
+<hr>
+
+usage: PitchConverter -m <encode|decode> <input-file> <output-file>
 
 <hr>
 
