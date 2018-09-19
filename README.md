@@ -8,7 +8,7 @@ Anyway, here's a app I'm creating that will hopefully let you do such things.
 
 <hr>
 
-usage: PitchConverter -m <encode|decode> <input-file> <output-file>
+usage: PitchConverter -m <encode|decode> `<input-file`> `<output-file`>
 
 <hr>
 
