@@ -1,81 +1,66 @@
 package com.cgreen.pitchconverter;
 
+import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.Scanner;
+import picocli.CommandLine;
+import picocli.CommandLine.*;
+import picocli.CommandLine.Option;
+import picocli.CommandLine.Parameters;
 
-import com.cgreen.pitchconverter.converter.PitchDecoder;
-import com.cgreen.pitchconverter.converter.StringConverter;
-import com.cgreen.pitchconverter.datastore.WordCollection;
-import com.cgreen.pitchconverter.datastore.pitch.Pitch;
+@Command(name = "PitchConverter", mixinStandardHelpOptions = true, version = "trial 0.3.1")
+public class PitchConverter implements Runnable {
 
-public class PitchConverter {
-	public static void main(String[] args) {
-		try {
-			launch(args);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	@Parameters(arity = "1", paramLabel = "INPUT-FILE", description = "File to process.")
+	private File input;
+
+	@Parameters(arity = "1", paramLabel = "OUTPUT-FILE", description = "Path of output file.")
+	private File output;
+	
+	@Parameters(arity = "0..*", paramLabel = "WORD-LISTS", description = "File(s) each containing a list of valid words to reference when decoding.")
+	private File[] wordCollections;
+
+	@Option(names = { "--m", "--mode" }, required = true, description = "Select mode to run application. "
+			+ "Options: encode, decode")
+	private String mode;
+
+	@Option(names = { "-v", "--verbose" }, description = "Verbose mode. Helpful for troubleshooting.")
+	private boolean verbose;
+
+	public void run() {
+		if (mode == null) {
+			System.out.println("Please select a mode to run the application.");
+		} else {
+			switch (mode) {
+			case "encode":
+				promptEncode();
+				break;
+			case "decode":
+				if (wordCollections.length < 1) {
+					System.out.println("Error: No word collection provided.");
+				} else {
+					promptDecode();
+				}
+				break;
+			default:
+				System.out.println("Error: Invalid mode given.");
+				break;
+			}
 		}
 	}
 
-	public static void launch(String[] args) throws FileNotFoundException {
-		WordCollection wc = new WordCollection(args[0]);
-		if (wc.buildWordCollection()) {
-			System.out.println("Collected " + wc.getWordCount() + " words.");
-		} else {
-			System.out.println("Uh-oh! Something went wrong importing the words.");
-		}
-		List<Pitch> music = StringConverter.byDegree("abcdefgh", 3, true);
-		/*
-		 * char[] pcs = new char[]{''}; List<Pitch> music = new ArrayList<Pitch>(); for
-		 * (char pc : pcs) { music.add(new Pitch(pc, 3)); }
-		 */
-		try (PrintWriter musicOut = new PrintWriter("music.txt")) {
-			for (Pitch p : music) {
-				musicOut.println(p.toString() + " " + PitchDecoder.getLabel(p));
-			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Set<String> cf = PitchDecoder.decodeByDegree(music, wc, false);
-		List<String> partials = new ArrayList<String>();
-		List<String> perfects = new ArrayList<String>();
-		for (String s : cf) {
-			if (s.contains("?")) {
-				partials.add(s);
-			} else {
-				perfects.add(s);
-			}
-		}
-		perfects.sort((s1, s2) -> (s1.split(" ").length - s2.split(" ").length));
-		partials.sort((s1, s2) -> (s2.length() - s1.length()));
-		try (PrintWriter partialsOut = new PrintWriter("partials.txt")) {
-			for (String s : partials) {
-				partialsOut.println(s);
-			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try (PrintWriter perfectsOut = new PrintWriter("perfects.txt")) {
-			for (String s : perfects) {
-				perfectsOut.println(s);
-			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		/*
-		 * System.out.println("**PERFECT MATCHES**"); int numResults =
-		 * Math.min(perfects.size(), 50); System.out.println("Top results: "); for (int
-		 * i = 0; i < numResults; i++) { System.out.println(i + 1 + ") " +
-		 * perfects.get(i)); } System.out.println("Partial matches: " +
-		 * partials.size());
-		 */
+	public static void main(String[] args) {
+		CommandLine.run(new PitchConverter(), System.out, args);
+	}
+	
+	private static void promptEncode() {
+		Scanner s = new Scanner(System.in);
+		s.close();
+	}
+	
+	private static void promptDecode() {
+		Scanner s = new Scanner(System.in);
+		s.close();
 	}
 
 }
