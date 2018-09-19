@@ -1,11 +1,12 @@
-package com.cgreen.pitchconverter;
+package com.cgreen.pitchconverter.converter;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.cgreen.pitchconverter.pitch.Pitch;
+import com.cgreen.pitchconverter.datastore.WordCollection;
+import com.cgreen.pitchconverter.datastore.pitch.Pitch;
 
 public class PitchDecoder {
 
@@ -172,7 +173,7 @@ public class PitchDecoder {
 	 * @param p - Input pitch
 	 * @return Pitch name in English
 	 */
-	protected static String getLabel(Pitch p) {
+	public static String getLabel(Pitch p) {
 		int pitchIndex = p.getPitchClassAsInteger();
 		try {
 			String out = PITCH_CLASS_LABELS[pitchIndex];

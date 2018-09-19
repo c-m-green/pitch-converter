@@ -1,4 +1,4 @@
-package com.cgreen.pitchconverter.pitch;
+package com.cgreen.pitchconverter.datastore.pitch;
 
 public class PitchCreator {
 	private static final String PITCH_CLASS_INTS = "0123456789te";

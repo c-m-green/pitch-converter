@@ -1,11 +1,9 @@
-package com.cgreen.pitchconverter;
+package com.cgreen.pitchconverter.converter;
 
 import java.text.Normalizer;
-import java.util.HashMap;
-import java.util.Map;
 
-import com.cgreen.pitchconverter.pitch.Pitch;
-import com.cgreen.pitchconverter.pitch.PitchCreator;
+import com.cgreen.pitchconverter.datastore.pitch.Pitch;
+import com.cgreen.pitchconverter.datastore.pitch.PitchCreator;
 
 public class CharTranslator {
 

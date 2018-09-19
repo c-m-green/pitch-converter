@@ -1,4 +1,4 @@
-package com.cgreen.pitchconverter.pitch;
+package com.cgreen.pitchconverter.datastore.pitch;
 
 /**
  * The Pitch class represents a musical pitch.
@@ -15,12 +15,12 @@ public class Pitch {
 	private char pitchClass;
 	private String register;
 
-	protected Pitch(char pitchClass) {
+	Pitch(char pitchClass) {
 		this.pitchClass = pitchClass;
 		this.register = "?";
 	}
 
-	protected Pitch(char pitchClass, int register) {
+	Pitch(char pitchClass, int register) {
 		this.pitchClass = pitchClass;
 		this.register = String.valueOf(register);
 	}

@@ -1,10 +1,10 @@
-package com.cgreen.pitchconverter;
+package com.cgreen.pitchconverter.converter;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.cgreen.pitchconverter.pitch.Pitch;
+import com.cgreen.pitchconverter.datastore.pitch.Pitch;
 
 public class StringConverter {
 	/**

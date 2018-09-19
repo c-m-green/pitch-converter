@@ -6,7 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import com.cgreen.pitchconverter.pitch.Pitch;
+import com.cgreen.pitchconverter.converter.PitchDecoder;
+import com.cgreen.pitchconverter.converter.StringConverter;
+import com.cgreen.pitchconverter.datastore.WordCollection;
+import com.cgreen.pitchconverter.datastore.pitch.Pitch;
 
 public class TempMain {
 	public static void main(String[] args) {
