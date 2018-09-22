@@ -28,12 +28,16 @@ public class PitchConverter implements Runnable {
 	@Parameters(arity = "0..*", paramLabel = "WORD-LISTS", description = "File(s) each containing a list of valid words to reference when decoding.")
 	private File[] wordCollections;
 
-	@Option(names = { "--m", "--mode" }, required = true, description = "Select mode to run application. "
-			+ "Options: encode, decode")
+	@Option(names = { "--m", "--mode" }, required = true, description = "Select mode to run application."
+			+ "\nOptions: encode, decode")
 	private String mode;
 
 	@Option(names = { "-v", "--verbose" }, description = "Verbose mode. Helpful for troubleshooting.")
 	private boolean verbose;
+	
+	// TODO: Output MIDI
+	@Option(names = { "-o", "--outputFormat"}, description = "Output format of music when encoding." + "\nOptions: text (default)")
+	private String outputFormat;
 
 	public void run() {
 		if (mode == null) {
