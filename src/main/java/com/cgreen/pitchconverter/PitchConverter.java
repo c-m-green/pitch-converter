@@ -16,7 +16,7 @@ import picocli.CommandLine.*;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
-@Command(name = "PitchConverter", mixinStandardHelpOptions = true, version = "trial 0.3.1")
+@Command(name = "PitchConverter", mixinStandardHelpOptions = true, version = "0.5.0")
 public class PitchConverter implements Runnable {
 
 	@Parameters(arity = "1", paramLabel = "INPUT-FILE", description = "File to process.")
