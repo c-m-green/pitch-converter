@@ -8,8 +8,8 @@ import java.util.List;
 import com.cgreen.pitchconverter.converter.PitchDecoder;
 import com.cgreen.pitchconverter.datastore.pitch.Pitch;
 
-public class FileWriter {
-	public void writeMusicToFile(List<Pitch> musicOut, File outputFile) {
+public final class FileWriter {
+	public static void writeMusicToFile(List<Pitch> musicOut, File outputFile) {
 		try {
 			PrintWriter pw = new PrintWriter("music.txt");
 			for (Pitch p : musicOut) {
