@@ -16,6 +16,7 @@ public final class Encoder {
 			break;
 		case DEGREE:
 			music = StringConverter.byDegree(FileReader.getText(p.getInFile()), 3, p.isChromatic());
+			break;
 		}
 		return music;
 	}
