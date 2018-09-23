@@ -64,7 +64,7 @@ public class PitchConverter implements Runnable {
 				m = Mode.ENCODE;
 				p.init(input, m, em, outputFormat, verbose, useGermanH, chromatic, stripNonPitchLetters);
 				FileWriter.writeMusicToFile(Encoder.encodeMessage(p), output);
-				System.exit(0);
+				break;
 			case "decode":
 				m = Mode.DECODE;
 				if (wordCollections.length < 1) {
@@ -72,12 +72,13 @@ public class PitchConverter implements Runnable {
 				} else {
 					promptDecode(wordCollections);
 				}
-				System.exit(0);
+				break;
 			default:
 				System.out.println("Error: Invalid mode given.");
 				System.exit(1);
 			}
 		}
+		System.exit(0);
 	}
 
 	private Method getEncodeMethod() {
