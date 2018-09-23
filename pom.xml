@@ -4,7 +4,7 @@
   <groupId>com.cgreen.pitchconverter</groupId>
   <artifactId>pitch-converter</artifactId>
   <packaging>jar</packaging>
-  <version>0.5-SNAPSHOT</version>
+  <version>0.5.1-SNAPSHOT</version>
   <name>pitch-converter</name>
   <url>http://maven.apache.org</url>
     <properties>

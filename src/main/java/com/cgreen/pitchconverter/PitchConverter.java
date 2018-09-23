@@ -14,7 +14,7 @@ import picocli.CommandLine.*;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
-@Command(name = "PitchConverter", mixinStandardHelpOptions = true, version = "0.5.0")
+@Command(name = "PitchConverter", mixinStandardHelpOptions = true, version = "0.5.1")
 public class PitchConverter implements Runnable {
 
 	@Parameters(arity = "1", paramLabel = "INPUT-FILE", description = "File to process.")
@@ -62,8 +62,7 @@ public class PitchConverter implements Runnable {
 			switch (mode) {
 			case "encode":
 				m = Mode.ENCODE;
-				p.init(input, m, em, outputFormat, verbose, useGermanH, chromatic, stripNonPitchLetters);
-				FileWriter.writeMusicToFile(Encoder.encodeMessage(p), output);
+				callEncode(p, m, em);
 				break;
 			case "decode":
 				m = Mode.DECODE;
@@ -79,6 +78,11 @@ public class PitchConverter implements Runnable {
 			}
 		}
 		System.exit(0);
+	}
+	
+	private void callEncode(Params p, Mode m, Method em) {
+		p.init(input, m, em, outputFormat, verbose, useGermanH, chromatic, stripNonPitchLetters);
+		FileWriter.writeMusicToFile(Encoder.encodeMessage(p), output);
 	}
 
 	private Method getEncodeMethod() {
