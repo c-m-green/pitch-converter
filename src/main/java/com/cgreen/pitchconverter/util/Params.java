@@ -4,8 +4,7 @@ import java.io.File;
 
 public class Params {
 	private static Params instance = null;
-	private File inFile;
-	private File[] wordCollections;
+	private File inFile, wordCollectionFile;
 	private Mode mode;
 	private Method method;
 	private String outputFormat;
@@ -33,15 +32,15 @@ public class Params {
 	}
 	
 	// for decoding
-	public void init(File inFile, File outFile, File[] wordCollections, Mode mode, String outputFormat, boolean verbose) {
+	public void init(File inFile, Mode mode, Method method, File wordCollectionFile, boolean verbose, boolean useGermanH, boolean useChromatic, boolean stripNonPitchLetters) {
 		this.inFile = inFile;
-		this.wordCollections = new File[wordCollections.length];
 		this.mode = mode;
-		this.outputFormat = outputFormat;
-		for (int i = 0; i < wordCollections.length; i++) {
-			this.wordCollections[i] = wordCollections[i];
-		}
+		this.method = method;
+		this.wordCollectionFile = wordCollectionFile;
 		this.verbose = verbose;
+		this.useGermanH = useGermanH;
+		this.useChromatic = useChromatic;
+		this.stripNonPitchLetters = stripNonPitchLetters;
 	}
 	
 	public Mode getMode() {
@@ -60,8 +59,8 @@ public class Params {
 		return inFile;
 	}
 	
-	public File[] getWordLists() {
-		return wordCollections.clone();
+	public File getWordCollectionFile() {
+		return wordCollectionFile;
 	}
 	
 	public String getOutputFormat() {

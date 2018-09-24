@@ -1,8 +1,8 @@
 package com.cgreen.pitchconverter;
 
 import java.io.File;
-import java.util.Scanner;
 
+import com.cgreen.pitchconverter.converter.Decoder;
 import com.cgreen.pitchconverter.converter.Encoder;
 import com.cgreen.pitchconverter.util.FileWriter;
 import com.cgreen.pitchconverter.util.Method;
@@ -19,14 +19,14 @@ public class PitchConverter implements Runnable {
 	
 	// Parameters
 	
-	@Parameters(arity = "1", paramLabel = "INPUT-FILE", description = "File to process.")
+	@Parameters(arity = "1", paramLabel = "INPUT-FILE", description = "File to process. Accepts .txt files.")
 	private File input;
 
 	@Parameters(arity = "1", paramLabel = "OUTPUT-FILE", description = "Path of output file.")
 	private File output;
 	
-	@Parameters(arity = "0..*", paramLabel = "WORD-LISTS", description = "File(s) each containing a list of valid words to reference when decoding.")
-	private File[] wordCollections;
+	@Parameters(arity = "0..1", paramLabel = "WORD-LIST", description = "File containing a list of valid words to reference when decoding.")
+	private File wordCollection;
 	
 	// Required options
 	
@@ -46,7 +46,7 @@ public class PitchConverter implements Runnable {
 	@Option(names = {"-g", "--germanH"}, description = "If true, use German H when encoding or decoding by letter." + "\ndefault: false")
 	private boolean useGermanH;
 	
-	@Option(names = {"-e", "--encodingMethod"}, description = "Method of encoding to use for encoding or decoding purposes." + "\nOptions: letter (default), degree")
+	@Option(names = {"-e", "--encodingMethod"}, description = "Method of encoding to use for encoding, or to investigate when decoding." + "\nOptions: letter (default), degree")
 	private String encodeMethod;
 	
 	@Option(names = {"-c", "--chromatic"}, description = "If true, use chromatic notes when encoding or decoding by degree." + "\ndefault: false")
@@ -57,38 +57,48 @@ public class PitchConverter implements Runnable {
 
 	public void run() {
 		// TODO: Handle FileNotFoundException here
+		if (mode == null) {
+			System.out.println("Error: Please select a mode to run the application.");
+		} else {
+			if (performOperation()) {
+				System.exit(0);
+			}
+		}
+		System.out.println("An error occurred.");
+		System.exit(1);
+	}
+	
+	private boolean performOperation() {
 		Params p = Params.getInstance();
 		Mode m;
 		Method em = getEncodeMethod();
-		
-		if (mode == null) {
-			System.out.println("Error: Please select a mode to run the application.");
-			System.exit(1);
-		} else {
-			switch (mode) {
-			case "encode":
-				m = Mode.ENCODE;
-				callEncode(p, m, em);
+		switch (mode) {
+		case "encode":
+			m = Mode.ENCODE;
+			return callEncode(p, m, em);
+		case "decode":
+			m = Mode.DECODE;
+			if (wordCollection == null) {
+				System.out.println("Error: No word collection provided.");
 				break;
-			case "decode":
-				m = Mode.DECODE;
-				if (wordCollections.length < 1) {
-					System.out.println("Error: No word collection provided.");
-				} else {
-					promptDecode(wordCollections);
-				}
-				break;
-			default:
-				System.out.println("Error: Invalid mode given.");
-				System.exit(1);
+			} else {
+				return callDecode(p, m, em, wordCollection);
 			}
+		default:
+			System.out.println("Error: Invalid mode given.");
+			break;
 		}
-		System.exit(0);
+		return false;
 	}
 	
-	private void callEncode(Params p, Mode m, Method em) {
+	private boolean callEncode(Params p, Mode m, Method em) {
 		p.init(input, m, em, outputFormat, verbose, useGermanH, chromatic, stripNonPitchLetters);
-		FileWriter.writeMusicToFile(Encoder.encodeMessage(p), output);
+		return FileWriter.writeMusicToFile(Encoder.encodeMessage(p), output);
+	}
+	
+	private boolean callDecode(Params p, Mode m, Method em, File wcFile) {
+		p.init(input, m, em, wcFile, verbose, useGermanH, chromatic, stripNonPitchLetters);
+		return FileWriter.writeMessagesToFile(Decoder.decodeMessage(p), output);
 	}
 
 	private Method getEncodeMethod() {
@@ -107,12 +117,6 @@ public class PitchConverter implements Runnable {
 		}
 	}
 	
-	private static void promptDecode(File[] wordCollections) {
-		Scanner s = new Scanner(System.in);
-		System.out.println("Sorry, this feature is not quite available yet! Try again later!");
-		s.close();
-	}
-
 	public static void main(String[] args) {
 		CommandLine.run(new PitchConverter(), System.out, args);
 	}
