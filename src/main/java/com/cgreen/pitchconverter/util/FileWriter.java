@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.List;
 
-import com.cgreen.pitchconverter.converter.PitchDecoder;
+import com.cgreen.pitchconverter.converter.PitchTranslator;
 import com.cgreen.pitchconverter.datastore.pitch.Pitch;
 
 public final class FileWriter {
@@ -13,7 +13,7 @@ public final class FileWriter {
 		try {
 			PrintWriter pw = new PrintWriter("music.txt");
 			for (Pitch p : musicOut) {
-				pw.println(p.toString() + " " + PitchDecoder.getLabel(p));
+				pw.println(p.toString() + " " + PitchTranslator.getLabel(p));
 			}
 			pw.close();
 		} catch (FileNotFoundException e) {

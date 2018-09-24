@@ -5,7 +5,7 @@ import java.text.Normalizer;
 import com.cgreen.pitchconverter.datastore.pitch.Pitch;
 import com.cgreen.pitchconverter.datastore.pitch.PitchCreator;
 
-public class CharTranslator {
+public class CharConverter {
 
 	/**
 	 * Converts a letter into a musical pitch by direct letter association (e.g., A

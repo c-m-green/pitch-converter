@@ -32,7 +32,7 @@ public class StringConverter {
 		}
 		for (int i = 0; i < s.length(); i++) {
 			char ch = s.charAt(i);
-			Pitch p = CharTranslator.letterToPitchLiteral(ch, useGermanH);
+			Pitch p = CharConverter.letterToPitchLiteral(ch, useGermanH);
 			out.add(p);
 		}
 		return out;
@@ -55,7 +55,7 @@ public class StringConverter {
 		List<Pitch> out = new ArrayList<Pitch>();
 		for (int i = 0; i < input.length(); i++) {
 			char ch = input.charAt(i);
-			Pitch p = CharTranslator.alphaNumToPitchDegree(ch, startOctave, isChromatic);
+			Pitch p = CharConverter.alphaNumToPitchDegree(ch, startOctave, isChromatic);
 			out.add(p);
 		}
 		return out;

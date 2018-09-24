@@ -8,7 +8,7 @@ import java.util.Set;
 import com.cgreen.pitchconverter.datastore.WordCollection;
 import com.cgreen.pitchconverter.datastore.pitch.Pitch;
 
-public class PitchDecoder {
+public class PitchTranslator {
 
 	/**
 	 * Allows for English representation of pitches.
@@ -149,11 +149,7 @@ public class PitchDecoder {
 		} else {
 			if (p.isNatural()) {
 				int pc = p.getPitchClassAsInteger();
-				if (pc < 5) {
-					index = bottomIndex + pc / 2;
-				} else {
-					index = bottomIndex + pc / 2 + 1;
-				}
+				index = (pc < 5) ? bottomIndex + pc / 2 : bottomIndex + pc / 2 + 1;
 			} else {
 				return "";
 			}
