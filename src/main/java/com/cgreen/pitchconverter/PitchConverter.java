@@ -16,7 +16,9 @@ import picocli.CommandLine.Parameters;
 
 @Command(name = "PitchConverter", mixinStandardHelpOptions = true, version = "0.5.1")
 public class PitchConverter implements Runnable {
-
+	
+	// Parameters
+	
 	@Parameters(arity = "1", paramLabel = "INPUT-FILE", description = "File to process.")
 	private File input;
 
@@ -25,10 +27,14 @@ public class PitchConverter implements Runnable {
 	
 	@Parameters(arity = "0..*", paramLabel = "WORD-LISTS", description = "File(s) each containing a list of valid words to reference when decoding.")
 	private File[] wordCollections;
-
+	
+	// Required options
+	
 	@Option(names = { "--m", "--mode" }, required = true, description = "Select mode to run application."
 			+ "\nOptions: encode, decode")
 	private String mode;
+	
+	// Options
 
 	@Option(names = { "-v", "--verbose" }, description = "Verbose mode. Helpful for troubleshooting.")
 	private boolean verbose;
@@ -100,15 +106,15 @@ public class PitchConverter implements Runnable {
 			}
 		}
 	}
-
-	public static void main(String[] args) {
-		CommandLine.run(new PitchConverter(), System.out, args);
-	}
 	
 	private static void promptDecode(File[] wordCollections) {
 		Scanner s = new Scanner(System.in);
 		System.out.println("Sorry, this feature is not quite available yet! Try again later!");
 		s.close();
+	}
+
+	public static void main(String[] args) {
+		CommandLine.run(new PitchConverter(), System.out, args);
 	}
 
 }
