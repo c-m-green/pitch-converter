@@ -2,7 +2,11 @@ package com.cgreen.pitchconverter.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+
+import com.cgreen.pitchconverter.datastore.pitch.Pitch;
 
 public final class FileReader {
 	public static String getText(File file) {
@@ -18,5 +22,10 @@ public final class FileReader {
 			e.printStackTrace();
 		}
 		return textLines;
+	}
+	
+	public static List<Pitch> getMusic(File file) {
+		List<Pitch> music = new ArrayList<Pitch>();
+		return music;
 	}
 }
