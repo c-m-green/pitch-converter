@@ -56,7 +56,6 @@ public class PitchConverter implements Runnable {
 	private boolean stripNonPitchLetters;
 
 	public void run() {
-		// TODO: Handle FileNotFoundException here
 		if (mode == null) {
 			System.out.println("Error: Please select a mode to run the application.");
 		} else {
