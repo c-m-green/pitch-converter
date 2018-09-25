@@ -2,15 +2,15 @@
 
 Ever wanted to encode a message in music and then decipher it? Want to store snarky messages in your songs? Feel like taking a random bunch of numbers and seeing what they sound like?
 
-Hey! That's cool, I guess!
-
-Anyway, here's a app I'm creating that will hopefully let you do such things.
+Here's a app I'm creating that will hopefully let you do such things!
 
 <hr>
 
-usage: `java -jar <jar-filename> --mode=<encode|decode> <input-file> <output-file>`
+usage: `java -jar <app-name.jar> --mode=<encode|decode> <input-file> <output-file> <word-list>`
 
-Currently outputs to `music.txt`
+(word list only necessary when decoding)
+
+Currently outputs music to `music.txt` and decoded strings to `matches.txt` in current directory.
 
 <hr>
 
