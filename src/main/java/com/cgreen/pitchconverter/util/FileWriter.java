@@ -28,6 +28,19 @@ public final class FileWriter {
 	}
 	
 	public static boolean writeMessagesToFile(Set<String> strs, File outputFile) {
+		try {
+			PrintWriter pw = new PrintWriter("matches.txt");
+			for (String s : strs) {
+				pw.println(s);
+			}
+			pw.close();
+			return true;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println("File not found");
+			e.printStackTrace();
+		}
 		return false;
+		
 	}
 }

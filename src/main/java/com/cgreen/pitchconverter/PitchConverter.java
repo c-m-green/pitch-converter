@@ -14,18 +14,18 @@ import picocli.CommandLine.*;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
-@Command(name = "PitchConverter", mixinStandardHelpOptions = true, version = "0.5.1")
+@Command(name = "PitchConverter", mixinStandardHelpOptions = true, version = "0.5.7")
 public class PitchConverter implements Runnable {
 	
 	// Parameters
 	
-	@Parameters(arity = "1", paramLabel = "INPUT-FILE", description = "File to process. Accepts .txt files.")
+	@Parameters(arity = "1", index = "0", paramLabel = "INPUT-FILE", description = "File to process. Accepts .txt files.")
 	private File input;
 
-	@Parameters(arity = "1", paramLabel = "OUTPUT-FILE", description = "Path of output file.")
+	@Parameters(arity = "1", index = "1", paramLabel = "OUTPUT-FILE", description = "Path of output file.")
 	private File output;
 	
-	@Parameters(arity = "0..1", paramLabel = "WORD-LIST", description = "File containing a list of valid words to reference when decoding.")
+	@Parameters(arity = "0..1", index = "2", paramLabel = "WORD-LIST", description = "File containing a list of valid words to reference when decoding.")
 	private File wordCollection;
 	
 	// Required options

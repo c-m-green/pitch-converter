@@ -1,5 +1,6 @@
 package com.cgreen.pitchconverter.converter;
 
+import java.io.FileNotFoundException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,7 +16,14 @@ public final class Decoder {
 			return null;
 		case DEGREE:
 			Set<String> matches = new HashSet<String>();
-			matches = PitchTranslator.decodeByDegree(FileReader.getMusic(p.getInFile()), new WordCollection(p.getWordCollectionFile().getAbsolutePath()), p.isChromatic());
+			WordCollection wc = new WordCollection(p.getWordCollectionFile().getAbsolutePath());
+			try {
+				wc.buildWordCollection();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			matches = PitchTranslator.decodeByDegree(FileReader.getMusic(p.getInFile()), wc, p.isChromatic());
 			return matches;
 		default:
 			return null;
