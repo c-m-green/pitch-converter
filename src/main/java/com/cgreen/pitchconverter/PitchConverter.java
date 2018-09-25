@@ -30,7 +30,7 @@ public class PitchConverter implements Runnable {
 	
 	// Required options
 	
-	@Option(names = { "--m", "--mode" }, required = true, description = "Select mode to run application."
+	@Option(names = { "-m", "--mode" }, required = true, description = "Select mode to run application."
 			+ "\nOptions: encode, decode")
 	private String mode;
 	
