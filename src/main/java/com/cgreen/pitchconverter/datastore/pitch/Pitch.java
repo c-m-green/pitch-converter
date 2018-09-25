@@ -10,7 +10,7 @@ package com.cgreen.pitchconverter.datastore.pitch;
  * @author c_m_g
  *
  */
-public class Pitch {
+public class Pitch implements Notatable {
 
 	private char pitchClass;
 	private String register;
