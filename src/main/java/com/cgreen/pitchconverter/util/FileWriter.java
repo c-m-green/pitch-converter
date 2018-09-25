@@ -12,9 +12,9 @@ import com.cgreen.pitchconverter.datastore.pitch.Pitch;
 public final class FileWriter {
 	public static boolean writeMusicToFile(List<Pitch> musicOut, File outputFile) {
 		try {
-			PrintWriter pw = new PrintWriter("music.txt");
+			PrintWriter pw = new PrintWriter(outputFile.getAbsolutePath());
 			for (Pitch p : musicOut) {
-				pw.println(p.toString() + " " + PitchTranslator.getLabel(p));
+				pw.println(p + " " + PitchTranslator.getLabel(p));
 			}
 			pw.close();
 			return true;
@@ -29,7 +29,7 @@ public final class FileWriter {
 	
 	public static boolean writeMessagesToFile(Set<String> strs, File outputFile) {
 		try {
-			PrintWriter pw = new PrintWriter("matches.txt");
+			PrintWriter pw = new PrintWriter(outputFile.getAbsolutePath());
 			for (String s : strs) {
 				pw.println(s);
 			}
