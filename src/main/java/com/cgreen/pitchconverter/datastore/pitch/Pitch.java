@@ -10,7 +10,7 @@ package com.cgreen.pitchconverter.datastore.pitch;
  * @author c_m_g
  *
  */
-public class Pitch implements Notatable {
+public class Pitch extends MusicSymbol {
 
 	private char pitchClass;
 	private String register;
