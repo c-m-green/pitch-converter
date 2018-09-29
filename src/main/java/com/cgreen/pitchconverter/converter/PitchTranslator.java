@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.cgreen.pitchconverter.datastore.WordCollection;
+import com.cgreen.pitchconverter.datastore.pitch.MusicSymbol;
 import com.cgreen.pitchconverter.datastore.pitch.Pitch;
 
 public class PitchTranslator {
@@ -16,10 +17,6 @@ public class PitchTranslator {
 	private static final String[] PITCH_CLASS_LABELS = { "C-natural", "C-sharp/D-flat", "D-natural", "D-sharp/E-flat",
 			"E-natural", "F-natural", "F-sharp/G-flat", "G-natural", "G-sharp/A-flat", "A-natural", "A-sharp/B-flat",
 			"B-natural" };
-	/**
-	 * Used for English representation of indeterminate pitches.
-	 */
-	private static final String BLANK = "???";
 
 	// TODO
 	/*
@@ -29,21 +26,22 @@ public class PitchTranslator {
 	 */
 
 	/**
-	 * Given a sequence of pitches, attempts to decode a message that was encoded by
+	 * Given a sequence of musical symbols, attempts to decode a message that was encoded by
 	 * degree.
 	 * 
-	 * @param input          - List of Pitches to be decoded
+	 * @param input          - List of symbols to be decoded
 	 * @param wc             - WordCollection
 	 * @param checkChromatic - If true, assume message was encoded using all twelve
 	 *                       notes of a chromatic scale
 	 * @return a Set of potential messages
 	 */
 	// TODO Account for transposition
-	public static Set<String> decodeByDegree(List<Pitch> music, WordCollection wc, boolean checkChromatic) {
+	public static Set<String> decodeByDegree(List<MusicSymbol> music, WordCollection wc, boolean checkChromatic) {
 		List<Pitch> in = new ArrayList<Pitch>();
-		for (Pitch p : music) {
-			if (p.getPitchClassAsInteger() != -1) {
-				in.add(p);
+		for (MusicSymbol ms : music) {
+			// If music symbol isn't a rest, add it to our list as a pitch
+			if (ms.getPitchClass() != '?') {
+				in.add((Pitch) ms);
 			}
 		}
 		String[] charConversions = new String[in.size()];
@@ -142,13 +140,16 @@ public class PitchTranslator {
 	 * @return String of potential characters
 	 */
 	private static String getPossibleCharsByDegree(Pitch p, boolean isChromatic) {
+		if (p.getPitchClass() == '?') {
+			return "";
+		}
 		int bottomIndex = 97; // 'a'
 		int index;
 		if (isChromatic) {
-			index = bottomIndex + p.getPitchClassAsInteger();
+			index = bottomIndex + p.getPitchClassAsInt();
 		} else {
 			if (p.isNatural()) {
-				int pc = p.getPitchClassAsInteger();
+				int pc = p.getPitchClassAsInt();
 				index = (pc < 5) ? bottomIndex + pc / 2 : bottomIndex + pc / 2 + 1;
 			} else {
 				return "";
@@ -164,19 +165,17 @@ public class PitchTranslator {
 	}
 
 	/**
-	 * Represent a musical pitch in text.
+	 * Represent a musical symbol in text.
 	 * 
-	 * @param p - Input pitch
-	 * @return Pitch name in English
+	 * @param ms - Input symbol
+	 * @return Pitch name or rest
 	 */
-	public static String getLabel(Pitch p) {
-		int pitchIndex = p.getPitchClassAsInteger();
+	public static String getLabel(MusicSymbol ms) {
 		try {
-			String out = PITCH_CLASS_LABELS[pitchIndex];
+			String out = PITCH_CLASS_LABELS[ms.getPitchClass()];
 			return out;
 		} catch (ArrayIndexOutOfBoundsException aioobe) {
-			// System.out.println("Got symbol: " + p.getPitchClass());
-			return BLANK;
+			return ms.toString();
 		}
 	}
 }

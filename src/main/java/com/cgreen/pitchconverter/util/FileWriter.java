@@ -7,14 +7,14 @@ import java.util.List;
 import java.util.Set;
 
 import com.cgreen.pitchconverter.converter.PitchTranslator;
-import com.cgreen.pitchconverter.datastore.pitch.Pitch;
+import com.cgreen.pitchconverter.datastore.pitch.MusicSymbol;
 
 public final class FileWriter {
-	public static boolean writeMusicToFile(List<Pitch> musicOut, File outputFile) {
+	public static boolean writeMusicToFile(List<MusicSymbol> musicOut, File outputFile) {
 		try {
-			PrintWriter pw = new PrintWriter(outputFile.getAbsolutePath());
-			for (Pitch p : musicOut) {
-				pw.println(p + " " + PitchTranslator.getLabel(p));
+			PrintWriter pw = new PrintWriter("music.txt");
+			for (MusicSymbol p : musicOut) {
+				pw.println(p.toString() + " " + PitchTranslator.getLabel(p));
 			}
 			pw.close();
 			return true;

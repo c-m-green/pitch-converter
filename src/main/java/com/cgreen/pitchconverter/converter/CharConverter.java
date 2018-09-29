@@ -2,8 +2,8 @@ package com.cgreen.pitchconverter.converter;
 
 import java.text.Normalizer;
 
-import com.cgreen.pitchconverter.datastore.pitch.Pitch;
-import com.cgreen.pitchconverter.datastore.pitch.PitchCreator;
+import com.cgreen.pitchconverter.datastore.pitch.MusicSymbol;
+import com.cgreen.pitchconverter.datastore.pitch.SymbolFactory;
 
 public class CharConverter {
 
@@ -18,20 +18,19 @@ public class CharConverter {
 	 * @param useGermanH - Option to include H as a viable base letter. In the
 	 *                   German naming scheme, 'H' represents B-natural ('B' then
 	 *                   represents B-flat).
-	 * @return - the converted Pitch object. Returns a blank pitch if input
+	 * @return - the converted pitch, or a rest if input
 	 *         character is not a letter.
 	 */
-	public static Pitch letterToPitchLiteral(char ch, boolean useGermanH) {
-		int register = 4;
+	public static MusicSymbol letterToPitchLiteral(char ch, boolean useGermanH) {
 		if (!Character.isLetter(ch)) { // if non-letter is passed in
-			Pitch blank = PitchCreator.createPitch('?');
-			return blank;
+			return SymbolFactory.createSymbol('z');
 		} else {
+			int register = 4;
 			char in = Normalizer.normalize(ch + "", Normalizer.Form.NFD).toUpperCase().charAt(0);
 			char[] pitchClasses = useGermanH ? new char[] { '9', 't', '0', '2', '4', '5', '7', 'e' }
 					: new char[] { '9', 'e', '0', '2', '4', '5', '7' };
 			int charValue = findCharValue(in);
-			Pitch out = obtainPitch(pitchClasses, charValue, register);
+			MusicSymbol out = obtainPitch(pitchClasses, charValue, register);
 			return out;
 		}
 	}
@@ -48,13 +47,12 @@ public class CharConverter {
 	 *                    example: if 4, then input char 'A' would map to C4.
 	 * @param isChromatic - toggle the use of accidentals when advancing up through
 	 *                    the alphabet
-	 * @return The converted pitch object. Returns a blank pitch if input character
+	 * @return The converted pitch object, or a rest if input character
 	 *         is not a letter nor number.
 	 */
-	public static Pitch alphaNumToPitchDegree(char ch, int octaveStart, boolean isChromatic) {
+	public static MusicSymbol alphaNumToPitchDegree(char ch, int octaveStart, boolean isChromatic) {
 		if (!Character.isLetterOrDigit(ch)) { // if non-alphanumeric character is passed in
-			Pitch blank = PitchCreator.createPitch('?');
-			return blank;
+			return SymbolFactory.createSymbol('z');
 		} else {
 			char in = Normalizer.normalize(ch + "", Normalizer.Form.NFD).toUpperCase().charAt(0);
 			char[] pitchClasses;
@@ -69,7 +67,7 @@ public class CharConverter {
 				pitchClasses = new char[] { '0', '2', '4', '5', '7', '9', 'e' };
 			}
 			int charValue = findCharValue(in);
-			Pitch out = obtainPitch(pitchClasses, charValue, octaveStart);
+			MusicSymbol out = obtainPitch(pitchClasses, charValue, octaveStart);
 			return out;
 		}
 	}
@@ -82,10 +80,10 @@ public class CharConverter {
 	 * integers will convert to their int value.
 	 * 
 	 * @param c - Input character.
-	 * @return Char value. Defaults to 2 ("C")
+	 * @return Char value as int
 	 */
 	private static int findCharValue(char c) {
-		int charValue = 2; // default to C, because why not?
+		int charValue = -1;
 		if (Character.isLetter(c)) {
 			charValue = (int) c - 65; // Bring down to 0-25 range
 		} else if (Character.isDigit(c)) {
@@ -95,7 +93,7 @@ public class CharConverter {
 	}
 
 	/**
-	 * Create a Pitch.
+	 * Get a pitch based on input values.
 	 * 
 	 * @param pitchClasses  - set of possible pitch classes
 	 * @param charValue     - the index at which the pitch class will be derived
@@ -103,13 +101,17 @@ public class CharConverter {
 	 *                      the length of the set of pitch classes will be reduced
 	 *                      using modular arithmetic.
 	 * @param registerStart - the lowest octave at which a pitch will be created
-	 * @return Pitch object
+	 * @return a musical symbol
 	 */
-	private static Pitch obtainPitch(char[] pitchClasses, int charValue, int registerStart) {
-		int pitchIndex = charValue % pitchClasses.length;
-		int register = charValue / pitchClasses.length + registerStart;
-		Pitch out = PitchCreator.createPitch(pitchClasses[pitchIndex], register);
-		return out;
+	private static MusicSymbol obtainPitch(char[] pitchClasses, int charValue, int registerStart) {
+		if (charValue == -1) {
+			return SymbolFactory.createSymbol('z');
+		} else {
+			int pitchIndex = charValue % pitchClasses.length;
+			int register = charValue / pitchClasses.length + registerStart;
+			MusicSymbol out = SymbolFactory.createSymbol(pitchClasses[pitchIndex], register);
+			return out;
+		}
 	}
 
 }

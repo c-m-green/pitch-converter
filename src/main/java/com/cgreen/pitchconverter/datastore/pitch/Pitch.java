@@ -34,7 +34,7 @@ public class Pitch extends MusicSymbol {
 	 * 
 	 * @return -1 if not found
 	 */
-	public int getPitchClassAsInteger() {
+	public int getPitchClassAsInt() {
 		int pc;
 		try {
 			pc = Integer.parseInt(pitchClass + "");

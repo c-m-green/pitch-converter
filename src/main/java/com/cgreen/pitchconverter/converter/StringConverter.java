@@ -4,7 +4,7 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.cgreen.pitchconverter.datastore.pitch.Pitch;
+import com.cgreen.pitchconverter.datastore.pitch.MusicSymbol;
 
 public class StringConverter {
 	/**
@@ -23,8 +23,8 @@ public class StringConverter {
 	 *                     represents B-flat).
 	 * @return - a list of Pitch objects
 	 */
-	public static List<Pitch> byLetter(String input, boolean stripLetters, boolean useGermanH) {
-		List<Pitch> out = new ArrayList<Pitch>();
+	public static List<MusicSymbol> byLetter(String input, boolean stripLetters, boolean useGermanH) {
+		List<MusicSymbol> out = new ArrayList<MusicSymbol>();
 		String s = input;
 		if (stripLetters) {
 			String pitchLetters = useGermanH ? "ABCDEFGH" : "ABCDEFG";
@@ -32,8 +32,8 @@ public class StringConverter {
 		}
 		for (int i = 0; i < s.length(); i++) {
 			char ch = s.charAt(i);
-			Pitch p = CharConverter.letterToPitchLiteral(ch, useGermanH);
-			out.add(p);
+			MusicSymbol ms = CharConverter.letterToPitchLiteral(ch, useGermanH);
+			out.add(ms);
 		}
 		return out;
 	}
@@ -51,12 +51,12 @@ public class StringConverter {
 	 *                    will be part of a C Major scale.
 	 * @return
 	 */
-	public static List<Pitch> byDegree(String input, int startOctave, boolean isChromatic) {
-		List<Pitch> out = new ArrayList<Pitch>();
+	public static List<MusicSymbol> byDegree(String input, int startOctave, boolean isChromatic) {
+		List<MusicSymbol> out = new ArrayList<MusicSymbol>();
 		for (int i = 0; i < input.length(); i++) {
 			char ch = input.charAt(i);
-			Pitch p = CharConverter.alphaNumToPitchDegree(ch, startOctave, isChromatic);
-			out.add(p);
+			MusicSymbol ms = CharConverter.alphaNumToPitchDegree(ch, startOctave, isChromatic);
+			out.add(ms);
 		}
 		return out;
 	}

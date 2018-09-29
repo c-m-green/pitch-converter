@@ -12,6 +12,7 @@ public final class Decoder {
 	public static Set<String> decodeMessage(Params p) {
 		switch(p.getMethod()) {
 		case LETTER:
+			// TODO
 			System.out.println("Sorry, decoding by letter isn't done yet. :-( Try something else...");
 			return null;
 		case DEGREE:
