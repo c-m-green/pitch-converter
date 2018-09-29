@@ -20,8 +20,8 @@ public final class Decoder {
 			try {
 				wc.buildWordCollection();
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("Error: No word collection found at " + p.getWordCollectionFile().getAbsolutePath());
+				System.exit(1);
 			}
 			matches = PitchTranslator.decodeByDegree(FileReader.getMusic(p.getInFile()), wc, p.isChromatic());
 			return matches;

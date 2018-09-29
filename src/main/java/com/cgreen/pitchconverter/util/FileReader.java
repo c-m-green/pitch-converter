@@ -19,8 +19,8 @@ public final class FileReader {
 			}
 			s.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Error: The input file " + file.getAbsolutePath() + " was not found!");
+			System.exit(1);
 		}
 		return textLines;
 	}
@@ -40,7 +40,8 @@ public final class FileReader {
 			}
 			s.close();
 		} catch (FileNotFoundException e) {
-			
+			System.out.println("Error: The input file " + file.getAbsolutePath() + " was not found!");
+			System.exit(1);
 		}
 		return music;
 	}
