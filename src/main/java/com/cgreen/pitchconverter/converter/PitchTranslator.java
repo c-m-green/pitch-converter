@@ -37,6 +37,7 @@ public class PitchTranslator {
 	 */
 	// TODO Account for transposition
 	public static Set<String> decodeByDegree(List<MusicSymbol> music, WordCollection wc, boolean checkChromatic) {
+		// First, create list of Pitches, not Rests
 		List<Pitch> in = new ArrayList<Pitch>();
 		for (MusicSymbol ms : music) {
 			// If music symbol isn't a rest, add it to our list as a pitch
@@ -44,10 +45,15 @@ public class PitchTranslator {
 				in.add((Pitch) ms);
 			}
 		}
+		// Create array to store the potential characters for each pitch
 		String[] charConversions = new String[in.size()];
+		
+		// Keep track of the number of potential characters for each pitch
 		int[] conversionLengths = new int[in.size()];
 		Set<String> results = new HashSet<String>();
 		int iterations = 1;
+		
+		// For each pitch, get the possible chars it could represent
 		for (int i = 0; i < in.size(); i++) {
 			String possibleChars = getPossibleCharsByDegree(in.get(i), checkChromatic);
 			if (possibleChars.isEmpty()) {
@@ -62,6 +68,7 @@ public class PitchTranslator {
 		// System.out.println("There will be " + iterations + " combinations.");
 		for (int i = 0; i < iterations; i++) {
 			String combo = "";
+			// Build the string to examine for this iteration.
 			for (int j = 0; j < charConversions.length; j++) {
 				try {
 					combo += charConversions[j].charAt(comboIndices[j]);
@@ -69,12 +76,14 @@ public class PitchTranslator {
 					continue;
 				}
 			}
-			System.out.println("Current String: " + combo + " (" + (i + 1) + "/" + iterations + ")");
+			// TODO If verbose:
+			System.out.println("Current string: " + combo + " (" + (i + 1) + "/" + iterations + ")");
 			List<String> l = getPotentialStrings(combo, wc);
 			for (String s : l) {
 				results.add(s);
 			}
 			comboIndices[index] += 1;
+			// Advance the array that indicates which chars to use next time.
 			while (comboIndices[index] >= conversionLengths[index]) {
 				comboIndices[index] = 0;
 				index--;
@@ -171,11 +180,19 @@ public class PitchTranslator {
 	 * @return Pitch name or rest
 	 */
 	public static String getLabel(MusicSymbol ms) {
-		try {
-			String out = PITCH_CLASS_LABELS[ms.getPitchClass()];
-			return out;
-		} catch (ArrayIndexOutOfBoundsException aioobe) {
-			return ms.toString();
+		char pc = ms.getPitchClass();
+		if (pc != '?') {
+			try {
+				String out = PITCH_CLASS_LABELS[Integer.valueOf(ms.getPitchClass() + "")];
+				return out;
+			} catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
+				if (pc == 't') {
+					return PITCH_CLASS_LABELS[10];
+				} else if (pc == 'e') {
+					return PITCH_CLASS_LABELS[11];
+				}
+			}
 		}
+		return ms.toString();
 	}
 }
