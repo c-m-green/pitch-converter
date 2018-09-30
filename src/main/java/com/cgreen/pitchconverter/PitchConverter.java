@@ -14,7 +14,7 @@ import picocli.CommandLine.*;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
-@Command(name = "PitchConverter", mixinStandardHelpOptions = true, version = "0.5.7")
+@Command(name = "PitchConverter", mixinStandardHelpOptions = true, version = "0.5.8")
 public class PitchConverter implements Runnable {
 	
 	// Parameters
