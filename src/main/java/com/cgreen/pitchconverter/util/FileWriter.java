@@ -12,11 +12,12 @@ import com.cgreen.pitchconverter.datastore.pitch.MusicSymbol;
 public final class FileWriter {
 	public static boolean writeMusicToFile(List<MusicSymbol> musicOut, File outputFile) {
 		try {
-			PrintWriter pw = new PrintWriter("music.txt");
-			for (MusicSymbol p : musicOut) {
-				pw.println(p.toString() + " " + PitchTranslator.getLabel(p));
+			PrintWriter pw = new PrintWriter(outputFile);
+			for (MusicSymbol ms : musicOut) {
+				pw.println(ms.toString() + " " + PitchTranslator.getLabel(ms));
 			}
 			pw.close();
+			System.out.println("Wrote to " + outputFile.getAbsolutePath());
 			return true;
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -34,6 +35,7 @@ public final class FileWriter {
 				pw.println(s);
 			}
 			pw.close();
+			System.out.println("Wrote to " + outputFile.getAbsolutePath());
 			return true;
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
