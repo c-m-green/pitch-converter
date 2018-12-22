@@ -27,7 +27,7 @@ public class StringConverter {
 		List<MusicSymbol> out = new ArrayList<MusicSymbol>();
 		String s = input;
 		if (stripLetters) {
-			String pitchLetters = useGermanH ? "ABCDEFGH" : "ABCDEFG";
+			final String pitchLetters = useGermanH ? "ABCDEFGH" : "ABCDEFG";
 			s = stripNonPitchLetters(input, pitchLetters);
 		}
 		for (int i = 0; i < s.length(); i++) {

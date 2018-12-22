@@ -8,6 +8,7 @@ import java.util.Set;
 import com.cgreen.pitchconverter.datastore.WordCollection;
 import com.cgreen.pitchconverter.datastore.pitch.MusicSymbol;
 import com.cgreen.pitchconverter.datastore.pitch.Pitch;
+import com.cgreen.pitchconverter.util.Method;
 
 public class PitchTranslator {
 
@@ -17,13 +18,6 @@ public class PitchTranslator {
 	private static final String[] PITCH_CLASS_LABELS = { "C-natural", "C-sharp/D-flat", "D-natural", "D-sharp/E-flat",
 			"E-natural", "F-natural", "F-sharp/G-flat", "G-natural", "G-sharp/A-flat", "A-natural", "A-sharp/B-flat",
 			"B-natural" };
-
-	// TODO
-	/*
-	 * public static String[] decodeByLetter(List<Pitch> input, char key) { for
-	 * (Pitch pitch : input) { Pitch p = new Pitch(pitch.getPitchClass());
-	 * p.transpose(-(p.getIntRepresentation(key))); } return new String[]{}; }
-	 */
 
 	/**
 	 * Given a sequence of musical symbols, attempts to decode a message that was encoded by
@@ -36,7 +30,7 @@ public class PitchTranslator {
 	 * @return a Set of potential messages
 	 */
 	// TODO Account for transposition
-	public static Set<String> decodeByDegree(List<MusicSymbol> music, WordCollection wc, boolean checkChromatic) {
+	public static Set<String> decode(List<MusicSymbol> music, WordCollection wc, Method m, boolean useGermanH, boolean checkChromatic) {
 		// First, create list of Pitches, not Rests
 		List<Pitch> in = new ArrayList<Pitch>();
 		for (MusicSymbol ms : music) {
@@ -55,7 +49,15 @@ public class PitchTranslator {
 		
 		// For each pitch, get the possible chars it could represent
 		for (int i = 0; i < in.size(); i++) {
-			String possibleChars = getPossibleCharsByDegree(in.get(i), checkChromatic);
+			String possibleChars = "";
+			switch(m) {
+			case DEGREE:
+				possibleChars = getPossibleCharsByDegree(in.get(i), checkChromatic);
+				break;
+			case LETTER:
+				possibleChars = getPossibleCharsByLetter(in.get(i), useGermanH);
+				break;
+			}			
 			if (possibleChars.isEmpty()) {
 				continue;
 			}
@@ -164,13 +166,28 @@ public class PitchTranslator {
 				return "";
 			}
 		}
-		String glob = "";
+		String chars = "";
 		while (index < bottomIndex + 26) {
-			glob += (char) index + "";
+			chars += (char) index + "";
 			int increase = (isChromatic) ? 12 : 7;
 			index += increase;
 		}
-		return glob;
+		return chars;
+	}
+	
+	private static String getPossibleCharsByLetter(Pitch p, boolean useGermanH) {
+		if (p.getPitchClass() == '?') {
+			return "";
+		}
+		final String pitchClasses = useGermanH ? "9t02457e" : "9e02457";
+		int bottomIndex = 97; // 'a'
+		int index = pitchClasses.indexOf(p.getPitchClass()) + bottomIndex;
+		String chars = "";
+		while (index < bottomIndex + 26) {
+			chars += (char) index + "";
+			index += pitchClasses.length();
+		}
+		return chars;
 	}
 
 	/**
