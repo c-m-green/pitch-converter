@@ -2,7 +2,7 @@ package com.cgreen.pitchconverter.datastore.pitch;
 
 public final class SymbolFactory {
 	static final String PITCH_CLASS_INTS = "0123456789te";
-	
+	// TODO: @returns for these methods in the javadoc comments are inaccurate!!!
 	/**
 	 * Create a Pitch.
 	 * 
