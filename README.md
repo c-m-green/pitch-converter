@@ -2,7 +2,7 @@
 
 Ever wanted to encode a message in music and then decipher it? Want to store snarky messages in your songs? Feel like taking a random bunch of numbers and seeing what they sound like?
 
-Here's a app I'm creating that will hopefully let you do such things!
+Here's an app I'm working on that lets you do just that!
 
 <hr>
 
@@ -10,7 +10,7 @@ usage: `java -jar <app-name.jar> --mode=<encode|decode> <input-file> <output-fil
 
 (word list only necessary when decoding)
 
-Currently outputs music to `music.txt` and decoded strings to `matches.txt` in current directory.
+Still working out the Maven bit -- you may get the correct .jar along with a janky .jar
 
 <hr>
 
