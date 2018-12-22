@@ -37,7 +37,7 @@ public class WordCollection {
 			s = new Scanner(file);
 			seedMap();
 			while (s.hasNextLine()) {
-				String word = s.nextLine();
+				String word = s.nextLine().toLowerCase();
 				if (word.length() > 1 || word.equalsIgnoreCase("a") || word.equalsIgnoreCase("i")) {
 					words.get(word.charAt(0) + "").add(word);
 				}
