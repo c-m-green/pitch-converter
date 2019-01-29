@@ -7,7 +7,7 @@ package com.cgreen.pitchconverter.datastore.pitch;
  * frequency. Pitches can be created with or without a register. Pitches use a
  * question mark for invalid pitch frequencies and/or unknown ranges.
  * 
- * @author c_m_g
+ * @author Christopher Green
  *
  */
 public class Pitch extends MusicSymbol {

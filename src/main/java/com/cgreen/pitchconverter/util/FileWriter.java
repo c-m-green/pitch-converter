@@ -3,6 +3,7 @@ package com.cgreen.pitchconverter.util;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -31,8 +32,9 @@ public final class FileWriter {
 	public static boolean writeMessagesToFile(Set<String> strs, File outputFile) {
 		try {
 			PrintWriter pw = new PrintWriter(outputFile.getAbsolutePath());
-			for (String s : strs) {
-				pw.println(s);
+			List<String> perfects = cleanDecodeOutput(strs);
+			for (String p : perfects) {
+				pw.println(p);
 			}
 			pw.close();
 			System.out.println("Wrote to " + outputFile.getAbsolutePath());
@@ -44,5 +46,16 @@ public final class FileWriter {
 		}
 		return false;
 		
+	}
+	
+	private static List<String> cleanDecodeOutput(Set<String> msgSet) {
+		List<String> sortedMsgs = new ArrayList<String>();
+		for (String s : msgSet) {
+			if (!s.contains("?")) {
+				sortedMsgs.add(s);
+			}
+		}
+		sortedMsgs.sort((s1, s2) -> (s1.split(" ").length - s2.split(" ").length));
+		return sortedMsgs;
 	}
 }
