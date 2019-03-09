@@ -5,7 +5,7 @@ package com.cgreen.pitchconverter.datastore.pitch;
  * 
  * Pitches use the integer representation of pitch classes to track their
  * frequency. Pitches can be created with or without a register. Pitches use a
- * question mark for invalid pitch frequencies and/or unknown ranges.
+ * question mark for unknown registers.
  * 
  * @author Christopher Green
  *
