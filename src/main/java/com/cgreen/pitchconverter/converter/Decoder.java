@@ -14,9 +14,7 @@ public final class Decoder {
     public static Set<String> decodeMessage(Params p) {
         Set<String> matches = new HashSet<String>();
         WordCollection wc = new WordCollection(p.getWordCollectionFile().getAbsolutePath());
-        try {
-            wc.buildWordCollection();
-        } catch (FileNotFoundException e) {
+        if (!wc.buildWordCollection()) {
             System.out.println("ERROR: No word collection found at " + p.getWordCollectionFile().getAbsolutePath());
             System.exit(1);
         }

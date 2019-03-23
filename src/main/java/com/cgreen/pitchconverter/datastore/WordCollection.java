@@ -30,20 +30,24 @@ public class WordCollection {
      * @return whether the collection was built
      * @throws FileNotFoundException
      */
-    public boolean buildWordCollection() throws FileNotFoundException {
+    public boolean buildWordCollection() {
         if (words.isEmpty()) {
             Scanner s;
-            File file = new File(filePath);
-            s = new Scanner(file);
-            seedMap();
-            while (s.hasNextLine()) {
-                String word = s.nextLine().toLowerCase();
-                if (word.length() > 1 || word.equalsIgnoreCase("a") || word.equalsIgnoreCase("i")) {
-                    words.get(word.charAt(0) + "").add(word);
+            try {
+                File file = new File(filePath);
+                s = new Scanner(file);
+                seedMap();
+                while (s.hasNextLine()) {
+                    String word = s.nextLine().toLowerCase();
+                    if (word.length() > 1 || word.equalsIgnoreCase("a") || word.equalsIgnoreCase("i")) {
+                        words.get(word.charAt(0) + "").add(word);
+                    }
                 }
+                s.close();
+                return true;
+            } catch (FileNotFoundException fnfe) {
+                return false;
             }
-            s.close();
-            return true;
         } else {
             return false;
         }
