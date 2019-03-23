@@ -31,6 +31,8 @@ public class PitchTranslator {
      */
     // TODO Account for transposition
     protected static Set<String> decode(List<MusicSymbol> music, WordCollection wc, Method m, boolean useGermanH, boolean checkChromatic) {
+        Set<String> results = new HashSet<String>();
+
         // First, create list of Pitches, not Rests
         List<Pitch> in = new ArrayList<Pitch>();
         for (MusicSymbol ms : music) {
@@ -39,12 +41,17 @@ public class PitchTranslator {
                 in.add((Pitch) ms);
             }
         }
+        
+        // If there are no pitches to look at, leave now.
+        if (in.isEmpty()) {
+            return results;
+        }
+        
         // Create array to store the potential characters for each pitch
         String[] charConversions = new String[in.size()];
         
         // Keep track of the number of potential characters for each pitch
         int[] conversionLengths = new int[in.size()];
-        Set<String> results = new HashSet<String>();
         int iterations = 1;
         
         // For each pitch, get the possible chars it could represent
