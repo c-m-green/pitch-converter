@@ -21,7 +21,7 @@ public class CharConverter {
      * @return - the converted pitch, or a rest if input
      *         character is not a letter.
      */
-    public static MusicSymbol letterToPitchLiteral(char ch, boolean useGermanH) {
+    protected static MusicSymbol letterToPitchLiteral(char ch, boolean useGermanH) {
         if (!Character.isLetter(ch)) { // if non-letter is passed in
             return SymbolFactory.createSymbol('z');
         } else {
@@ -50,7 +50,7 @@ public class CharConverter {
      * @return The converted pitch object, or a rest if input character
      *         is not a letter nor number.
      */
-    public static MusicSymbol alphaNumToPitchDegree(char ch, int octaveStart, boolean isChromatic) {
+    protected static MusicSymbol alphaNumToPitchDegree(char ch, int octaveStart, boolean isChromatic) {
         if (!Character.isLetterOrDigit(ch)) { // if non-alphanumeric character is passed in
             return SymbolFactory.createSymbol('z');
         } else {
@@ -82,7 +82,8 @@ public class CharConverter {
      * @param c - Input character.
      * @return Char value as int
      */
-    private static int findCharValue(char c) {
+    static int findCharValue(char c) {
+        // TODO: Log warning if a char outside of 0-25 range is passed to this method.
         int charValue = -1;
         if (Character.isLetter(c)) {
             charValue = (int) c - 65; // Bring down to 0-25 range
@@ -103,7 +104,7 @@ public class CharConverter {
      * @param registerStart - the lowest octave at which a pitch will be created
      * @return a musical symbol
      */
-    private static MusicSymbol obtainPitch(char[] pitchClasses, int charValue, int registerStart) {
+    static MusicSymbol obtainPitch(char[] pitchClasses, int charValue, int registerStart) {
         if (charValue == -1) {
             return SymbolFactory.createSymbol('z');
         } else {

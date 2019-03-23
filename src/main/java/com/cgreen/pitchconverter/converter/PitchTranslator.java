@@ -30,7 +30,7 @@ public class PitchTranslator {
      * @return a Set of potential messages
      */
     // TODO Account for transposition
-    public static Set<String> decode(List<MusicSymbol> music, WordCollection wc, Method m, boolean useGermanH, boolean checkChromatic) {
+    protected static Set<String> decode(List<MusicSymbol> music, WordCollection wc, Method m, boolean useGermanH, boolean checkChromatic) {
         // First, create list of Pitches, not Rests
         List<Pitch> in = new ArrayList<Pitch>();
         for (MusicSymbol ms : music) {
