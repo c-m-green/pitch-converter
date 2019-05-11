@@ -14,7 +14,7 @@ import com.cgreen.pitchconverter.datastore.pitch.MusicSymbol;
 import com.cgreen.pitchconverter.datastore.pitch.SymbolFactory;
 import com.cgreen.pitchconverter.util.Method;
 
-public class PitchTranslatorTest {
+class PitchTranslatorTest {
     
     private static List<MusicSymbol> bunchOfRests;
     private static WordCollection wc;
