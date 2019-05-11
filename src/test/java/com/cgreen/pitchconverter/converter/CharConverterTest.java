@@ -60,6 +60,7 @@ class CharConverterTest {
         assertEquals(-1, CharConverter.findCharValue(' '));
     }
     
+    @Test
     void obtainPitchShouldReturnAppropriateSymbol() {
         MusicSymbol pitch = CharConverter.obtainPitch(new char[] { '9', 'e', '0', '2', '4', '5', '7' }, 2, 4);
         assertEquals('0', pitch.getPitchClass());
