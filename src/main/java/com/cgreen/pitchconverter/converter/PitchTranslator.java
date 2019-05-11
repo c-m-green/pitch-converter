@@ -182,6 +182,14 @@ public class PitchTranslator {
         return chars;
     }
     
+    /**
+     * Derive all possible characters that could have converted by letter to the
+     * input Pitch.
+     * 
+     * @param p
+     * @param useGermanH
+     * @return String of potential characters
+     */
     private static String getPossibleCharsByLetter(Pitch p, boolean useGermanH) {
         if (p.getPitchClass() == '?') {
             return "";
