@@ -20,8 +20,7 @@ public class PitchTranslator {
             "B-natural" };
 
     /**
-     * Given a sequence of musical symbols, attempts to decode a message that was encoded by
-     * degree.
+     * Given a sequence of musical symbols, attempts to decode a message.
      * 
      * @param input          - List of symbols to be decoded
      * @param wc             - WordCollection
