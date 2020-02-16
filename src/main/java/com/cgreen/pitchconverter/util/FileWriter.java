@@ -13,7 +13,7 @@ import com.cgreen.pitchconverter.datastore.pitch.MusicSymbol;
 public final class FileWriter {
     public static boolean writeMusicToFile(List<MusicSymbol> musicOut, File outputFile) {
         try {
-            PrintWriter pw = new PrintWriter(outputFile);
+            PrintWriter pw = new PrintWriter(outputFile.getAbsolutePath());
             for (MusicSymbol ms : musicOut) {
                 pw.println(ms.toString() + " " + PitchTranslator.getLabel(ms));
             }
