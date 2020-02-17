@@ -32,7 +32,7 @@ class PitchTranslatorTest {
     
     @Test
     void decodeShouldStripRests() {
-        Set<String> empty = PitchTranslator.decode(bunchOfRests, wc, Method.DEGREE, true, true);
+        Set<String> empty = PitchTranslator.decode(bunchOfRests, wc, Method.DEGREE, true, true, false);
         assertEquals(0, empty.size());
     }
 }

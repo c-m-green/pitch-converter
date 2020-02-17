@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.cgreen.pitchconverter.datastore.WordCollection;
 import com.cgreen.pitchconverter.datastore.pitch.MusicSymbol;
 import com.cgreen.pitchconverter.datastore.pitch.Pitch;
@@ -18,6 +21,8 @@ public class PitchTranslator {
     private static final String[] PITCH_CLASS_LABELS = { "C-natural", "C-sharp/D-flat", "D-natural", "D-sharp/E-flat",
             "E-natural", "F-natural", "F-sharp/G-flat", "G-natural", "G-sharp/A-flat", "A-natural", "A-sharp/B-flat",
             "B-natural" };
+    
+    private static final Logger LOGGER = LogManager.getLogger();
 
     /**
      * Given a sequence of musical symbols, attempts to decode a message.
@@ -29,7 +34,7 @@ public class PitchTranslator {
      * @return a Set of potential messages
      */
     // TODO Account for transposition
-    protected static Set<String> decode(List<MusicSymbol> music, WordCollection wc, Method m, boolean useGermanH, boolean checkChromatic) {
+    protected static Set<String> decode(List<MusicSymbol> music, WordCollection wc, Method m, boolean useGermanH, boolean checkChromatic, boolean verbose) {
         Set<String> results = new HashSet<String>();
 
         // First, create list of Pitches, not Rests
@@ -84,8 +89,9 @@ public class PitchTranslator {
                     continue;
                 }
             }
-            // TODO If verbose:
-            System.out.println("Current string: " + combo + " (" + (i + 1) + "/" + iterations + ")");
+            if (verbose) {
+                LOGGER.info("Current string: " + combo + " (" + (i + 1) + "/" + iterations + ")");
+            }
             List<String> l = getPotentialStrings(combo, wc);
             for (String s : l) {
                 results.add(s);

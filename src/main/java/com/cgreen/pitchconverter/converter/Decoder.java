@@ -19,7 +19,7 @@ public final class Decoder {
         if (music == null) {
             return null;
         }
-        Set<String> matches = PitchTranslator.decode(music, wc, p.getMethod(), p.getUseGermanH(), p.isChromatic());
+        Set<String> matches = PitchTranslator.decode(music, wc, p.getMethod(), p.getUseGermanH(), p.isChromatic(), p.getVerbose());
         return matches;
     }
 }
