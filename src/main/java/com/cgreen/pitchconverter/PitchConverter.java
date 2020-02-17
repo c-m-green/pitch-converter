@@ -2,6 +2,9 @@ package com.cgreen.pitchconverter;
 
 import java.io.File;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.cgreen.pitchconverter.converter.Decoder;
 import com.cgreen.pitchconverter.converter.Encoder;
 import com.cgreen.pitchconverter.util.FileWriter;
@@ -15,6 +18,8 @@ import picocli.CommandLine.*;
 @Command(name = "PitchConverter", mixinStandardHelpOptions = true, version = "0.5.8")
 public class PitchConverter implements Runnable {
     
+    private static final Logger LOGGER = LogManager.getLogger();
+
     // Parameters
     
     @Parameters(arity = "1", index = "0", paramLabel = "INPUT-FILE", description = "File to process. Accepts .txt files.")
@@ -55,13 +60,17 @@ public class PitchConverter implements Runnable {
 
     public void run() {
         if (mode == null) {
-            System.out.println("Error: Please select a mode to run the application.");
+            LOGGER.fatal("No mode selected.");
         } else {
+            LOGGER.debug("Performing operation...");
             if (performOperation()) {
+                LOGGER.info("Operation successful.");
+                LOGGER.debug("Returning status code 0...");
                 System.exit(0);
             }
         }
-        System.out.println("An error occurred.");
+        LOGGER.fatal("An error occurred. No output produced.");
+        LOGGER.debug("Returning status code 1...");
         System.exit(1);
     }
     
@@ -72,19 +81,22 @@ public class PitchConverter implements Runnable {
         switch (mode) {
         case "encode":
             m = Mode.ENCODE;
+            LOGGER.debug("Calling Encoder");
             return callEncode(p, m, em);
         case "decode":
             m = Mode.DECODE;
             if (wordCollection == null) {
-                System.out.println("Error: No word collection provided.");
+                LOGGER.fatal("No word collection supplied for decoding.");
                 break;
             } else {
+                LOGGER.debug("Calling Decoder");
                 return callDecode(p, m, em, wordCollection);
             }
         default:
-            System.out.println("Error: Invalid mode given.");
+            LOGGER.fatal("Invalid mode supplied.");
             break;
         }
+        LOGGER.debug("Operation failed.");
         return false;
     }
     
@@ -108,7 +120,7 @@ public class PitchConverter implements Runnable {
             case "degree":
                 return Method.DEGREE;
             default:
-                System.out.println("Encoding method not recognized. Defaulting to \"letter\"...");
+                LOGGER.warn("Encoding method not recognized. Defaulting to \"letter.\"");
                 return Method.LETTER;
             }
         }
