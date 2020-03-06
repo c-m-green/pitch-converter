@@ -78,6 +78,7 @@ public class PitchConverter implements Runnable {
         Params p = Params.getInstance();
         Mode m;
         Method em = getEncodeMethod();
+        mode = mode.toLowerCase();
         switch (mode) {
         case "encode":
             m = Mode.ENCODE;
@@ -114,6 +115,7 @@ public class PitchConverter implements Runnable {
         if (encodeMethod == null || encodeMethod.isEmpty()) {
             return Method.LETTER;
         } else {
+            encodeMethod = encodeMethod.toLowerCase();
             switch(encodeMethod) {
             case "letter":
                 return Method.LETTER;
