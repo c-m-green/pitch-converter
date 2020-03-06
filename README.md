@@ -12,4 +12,6 @@ usage: `java -jar <app-name.jar> --mode=<encode|decode> <input-file> <output-fil
 
 <hr>
 
+This is my first Java application created for fun. It was conceived around mid-2016 and receives attention from me every now and then. The goal is to make this a viable tool for composers and other curious people by adding multiple input and output formats.
+
 Thanks are in order to https://github.com/dwyl/english-words for the large text file of words.
