@@ -7,7 +7,6 @@ public class Params {
     private File inFile, wordCollectionFile;
     private Mode mode;
     private Method method;
-    private String outputFormat;
     private boolean verbose, useGermanH, useChromatic, stripNonPitchLetters;
     
     private Params() { }
@@ -20,11 +19,10 @@ public class Params {
     }
     
     // for encoding
-    public void init(File inFile, Mode mode, Method method, String outputFormat, boolean verbose, boolean useGermanH, boolean useChromatic, boolean stripNonPitchLetters) {
+    public void init(File inFile, Mode mode, Method method, boolean verbose, boolean useGermanH, boolean useChromatic, boolean stripNonPitchLetters) {
         this.inFile = inFile;
         this.mode = mode;
         this.method = method;
-        this.outputFormat = outputFormat;
         this.verbose = verbose;
         this.useGermanH = useGermanH;
         this.useChromatic = useChromatic;
@@ -61,10 +59,6 @@ public class Params {
     
     public File getWordCollectionFile() {
         return wordCollectionFile;
-    }
-    
-    public String getOutputFormat() {
-        return outputFormat;
     }
     
     public boolean getUseGermanH() {

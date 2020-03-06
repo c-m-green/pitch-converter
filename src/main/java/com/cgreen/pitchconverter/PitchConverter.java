@@ -26,7 +26,7 @@ public class PitchConverter implements Runnable {
     private File input;
 
     @Parameters(arity = "1", index = "1", paramLabel = "OUTPUT-FILE", description = "Path of output file.")
-    private File output;
+    private File outputPath;
     
     @Parameters(arity = "0..1", index = "2", paramLabel = "WORD-LIST", description = "File containing a list of valid words to reference when decoding.")
     private File wordCollection;
@@ -43,7 +43,7 @@ public class PitchConverter implements Runnable {
     private boolean verbose;
     
     // TODO: Output MIDI
-    @Option(names = { "-o", "--outputFormat"}, description = "Output format of music when encoding." + "\nOptions: text (default)")
+    @Option(names = { "-o", "--outputFormat"}, description = "Output format of music when encoding." + "\nOptions: text (default), musicxml")
     private String outputFormat;
     
     @Option(names = {"-g", "--germanH"}, description = "If true, use German H when encoding or decoding by letter." + "\ndefault: false")
@@ -101,13 +101,13 @@ public class PitchConverter implements Runnable {
     }
     
     private boolean callEncode(Params p, Mode m, Method em) {
-        p.init(input, m, em, outputFormat, verbose, useGermanH, chromatic, stripNonPitchLetters);
-        return FileWriter.writeMusicToFile(Encoder.encodeMessage(p), output);
+        p.init(input, m, em, verbose, useGermanH, chromatic, stripNonPitchLetters);
+        return FileWriter.writeMusicToFile(Encoder.encodeMessage(p), outputPath, outputFormat);
     }
     
     private boolean callDecode(Params p, Mode m, Method em, File wcFile) {
         p.init(input, m, em, wcFile, verbose, useGermanH, chromatic, stripNonPitchLetters);
-        return FileWriter.writeMessagesToFile(Decoder.decodeMessage(p), output);
+        return FileWriter.writeMessagesToFile(Decoder.decodeMessage(p), outputPath);
     }
 
     private Method getEncodeMethod() {
