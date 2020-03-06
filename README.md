@@ -10,8 +10,6 @@ usage: `java -jar <app-name.jar> --mode=<encode|decode> <input-file> <output-fil
 
 (word list only necessary when decoding)
 
-Still working out the Maven bit -- you may get the correct .jar along with a janky .jar
-
 <hr>
 
 Thanks are in order to https://github.com/dwyl/english-words for the large text file of words.
