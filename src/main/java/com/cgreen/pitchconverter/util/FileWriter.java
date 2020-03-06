@@ -17,6 +17,7 @@ public final class FileWriter {
     private static final Logger LOGGER = LogManager.getLogger();
     
     public static boolean writeMusicToFile(List<MusicSymbol> musicOut, File outputFile, String outputFormat) {
+        outputFormat = outputFormat.toLowerCase();
         switch(outputFormat) {
         case "text":
             return writeMusicToTxt(musicOut, outputFile);
@@ -32,7 +33,7 @@ public final class FileWriter {
         
     }
     
-    public static boolean writeMusicToTxt(List<MusicSymbol> musicOut, File outputFile) {
+    private static boolean writeMusicToTxt(List<MusicSymbol> musicOut, File outputFile) {
         try {
             PrintWriter pw = new PrintWriter(outputFile.getAbsolutePath());
             for (MusicSymbol ms : musicOut) {
@@ -49,7 +50,7 @@ public final class FileWriter {
         return true;
     }
     
-    public static boolean writeMusicToMusicXml(List<MusicSymbol> musicOut, File outputFile) {
+    private static boolean writeMusicToMusicXml(List<MusicSymbol> musicOut, File outputFile) {
         return false;
     }
     
