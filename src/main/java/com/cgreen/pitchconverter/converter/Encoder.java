@@ -11,6 +11,7 @@ public final class Encoder {
     public static List<MusicSymbol> encodeMessage(Params p) {
         List<MusicSymbol> music = new ArrayList<MusicSymbol>();
         String message = FileReader.getText(p.getInFile());
+        // TODO: Unnecessary to exit here?
         if (message.isEmpty() || message.equals("")) {
             System.out.println("An error occurred while reading the input file.");
             System.exit(1);
