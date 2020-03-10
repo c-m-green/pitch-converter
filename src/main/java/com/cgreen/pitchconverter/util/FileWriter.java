@@ -2,6 +2,9 @@ package com.cgreen.pitchconverter.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,28 +12,36 @@ import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.audiveris.proxymusic.ScorePartwise;
+import org.audiveris.proxymusic.util.Marshalling;
+import org.audiveris.proxymusic.util.Marshalling.MarshallingException;
 
 import com.cgreen.pitchconverter.converter.PitchTranslator;
 import com.cgreen.pitchconverter.datastore.pitch.MusicSymbol;
+import com.cgreen.pitchconverter.util.musicxml.PartwiseBuilder;
 
 public final class FileWriter {
     private static final Logger LOGGER = LogManager.getLogger();
     
-    public static boolean writeMusicToFile(List<MusicSymbol> musicOut, File outputFile, String outputFormat) {
+    //TODO: Don't create a file in multiple places. Do that in one place and get the contents to output depending on outputFormat
+    public static boolean writeMusicToFile(List<MusicSymbol> musicOut, File outputFile, String outputFormat) throws IOException {
+        boolean isSuccess = false;
         outputFormat = outputFormat.toLowerCase();
         switch(outputFormat) {
         case "text":
-            return writeMusicToTxt(musicOut, outputFile);
+            isSuccess = writeMusicToTxt(musicOut, outputFile);
+            break;
         case "musicxml":
-            // Do the musicxml thing
-            return writeMusicToMusicXml(musicOut, outputFile);
+            isSuccess = writeMusicToMusicXml(musicOut, outputFile);
+            break;
         case "midi":
-            // Do the MIDI thing
+            //isSuccess = writeMusicToMidi(musicOut, outputFile);
+            //break;
         default:
-            LOGGER.warn("Output format \"{}\" is invalid. Defaulting to .txt output.", outputFormat);
-            return writeMusicToTxt(musicOut, outputFile);
+            LOGGER.warn("Output format \"{}\" is invalid. Defaulting to text output.", outputFormat);
+            isSuccess = writeMusicToTxt(musicOut, outputFile);
         }
-        
+        return isSuccess;        
     }
     
     private static boolean writeMusicToTxt(List<MusicSymbol> musicOut, File outputFile) {
@@ -50,8 +61,21 @@ public final class FileWriter {
         return true;
     }
     
-    private static boolean writeMusicToMusicXml(List<MusicSymbol> musicOut, File outputFile) {
-        return false;
+    private static boolean writeMusicToMusicXml(List<MusicSymbol> musicOut, File outputFile) throws IOException {
+        try {
+            PartwiseBuilder pb = new PartwiseBuilder(musicOut);
+            ScorePartwise score = pb.buildScore(outputFile.getName());
+            OutputStream outputStream = new FileOutputStream(outputFile);
+            long start = System.currentTimeMillis();
+            Marshalling.marshal(score, outputStream, true, null);
+            LOGGER.debug("Marshalling done in {} ms", System.currentTimeMillis() - start);
+            LOGGER.info("Exported MusicXML score to {}", outputFile.getAbsolutePath());
+            outputStream.close();
+        } catch (FileNotFoundException | MarshallingException e) {
+            LOGGER.fatal("Something went wrong writing to {}", outputFile.getAbsolutePath());
+            return false;
+        }
+        return true;
     }
     
     public static boolean writeMessagesToFile(Set<String> strs, File outputFile) {

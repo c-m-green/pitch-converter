@@ -1,6 +1,7 @@
 package com.cgreen.pitchconverter;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -103,7 +104,17 @@ public class PitchConverter implements Runnable {
     
     private boolean callEncode(Params p, Mode m, Method em) {
         p.init(input, m, em, verbose, useGermanH, chromatic, stripNonPitchLetters);
-        return FileWriter.writeMusicToFile(Encoder.encodeMessage(p), outputPath, outputFormat);
+        if (outputFormat == null) {
+            // Default to txt
+            outputFormat = "text";
+        }
+        try {
+            return FileWriter.writeMusicToFile(Encoder.encodeMessage(p), outputPath, outputFormat);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return false;
+        }
     }
     
     private boolean callDecode(Params p, Mode m, Method em, File wcFile) {
