@@ -106,10 +106,18 @@ public class PartwiseBuilder {
         for (MusicSymbol ms : music) {
             // Create an appropriate object
             // Add to the score
-            
-            // TODO: Write Rests
-            
-            if (ms.getPitchClass() != '?') {
+                                    
+            if (ms.getPitchClass() == '?') {
+                Note note = factory.createNote();
+                measure.getNoteOrBackupOrForward().add(note);
+                org.audiveris.proxymusic.Rest rest = factory.createRest();
+                note.setRest(rest);
+                
+                // Type
+                NoteType type = factory.createNoteType();
+                type.setValue("quarter");
+                note.setType(type);
+            } else {
                 // Note
                 Note note = factory.createNote();
                 measure.getNoteOrBackupOrForward().add(note);
@@ -129,8 +137,6 @@ public class PartwiseBuilder {
                 NoteType type = factory.createNoteType();
                 type.setValue("quarter");
                 note.setType(type);
-            } else {
-                // Insert a Rest
             }
         }                
         return scorePartwise;
