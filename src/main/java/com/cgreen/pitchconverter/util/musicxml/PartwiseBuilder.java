@@ -72,14 +72,11 @@ public class PartwiseBuilder {
         ScorePartwise.Part part = factory.createScorePartwisePart();
         scorePartwise.getPart().add(part);
         part.setId(scorePart);
-        // Let's try inserting everything into a single measure as a first attempt.
-        Measure measure = factory.createScorePartwisePartMeasure();
-        part.getMeasure().add(measure);
-        measure.setNumber("1");
+
+        
 
         // Attributes
         Attributes attributes = factory.createAttributes();
-        measure.getNoteOrBackupOrForward().add(attributes);
 
         // Divisions
         attributes.setDivisions(new BigDecimal(1));
@@ -102,10 +99,24 @@ public class PartwiseBuilder {
         clef.setLine(new BigInteger("2"));
         
         Map<Integer, Step> pitchToStepMap = matchPitchesToSteps();
+        int beat = 0;
+        int barNumber = 1;
+        Measure measure = factory.createScorePartwisePartMeasure();
+        part.getMeasure().add(measure);
+        measure.setNumber(barNumber + "");
+        measure.getNoteOrBackupOrForward().add(attributes);
         
         for (MusicSymbol ms : music) {
             // Create an appropriate object
             // Add to the score
+            beat++;
+            if (beat > 4) {
+                beat = 1;
+                barNumber++;
+                measure = factory.createScorePartwisePartMeasure();
+                part.getMeasure().add(measure);
+                measure.setNumber(barNumber + "");
+            }
                                     
             if (ms.getPitchClass() == '?') {
                 Note note = factory.createNote();
