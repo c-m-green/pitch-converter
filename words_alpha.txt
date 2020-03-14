@@ -86200,6 +86200,7 @@ dinornithidae
 dinornithiformes
 dinornithine
 dinornithoid
+dino
 dinos
 dinosaur
 dinosauria
@@ -103130,6 +103131,7 @@ epsilon
 epsilons
 epsom
 epsomite
+epstein
 eptatretidae
 eptatretus
 epulary
@@ -109516,6 +109518,7 @@ falls
 falltime
 fallway
 falsary
+false
 falsedad
 falseface
 falsehearted
@@ -160701,7 +160704,6 @@ jealously
 jealousness
 jeames
 jean
-jean-christophe
 jeanette
 jeany
 jeanie
@@ -160709,7 +160711,6 @@ jeanne
 jeannette
 jeannie
 jeanpaulia
-jean-pierre
 jeans
 jear
 jebat
@@ -264399,7 +264400,7 @@ redrag
 redrape
 redraw
 redrawer
-redrawerredrawers
+redrawers
 redrawing
 redrawn
 redraws
@@ -298299,6 +298300,9 @@ spalls
 spalpeen
 spalpeens
 spalt
+spam
+spammed
+spamming
 span
 spanaemia
 spanaemic
@@ -327920,6 +327924,7 @@ transfusionist
 transfusions
 transfusive
 transfusively
+transgender
 transgeneration
 transgenerations
 transgredient
@@ -331509,6 +331514,7 @@ trudgers
 trudges
 trudging
 trudy
+true
 trueblue
 trueblues
 trueborn
@@ -369805,7 +369811,6 @@ zoographic
 zoographical
 zoographically
 zoographist
-zoogrpahy
 zooid
 zooidal
 zooidiophilous
