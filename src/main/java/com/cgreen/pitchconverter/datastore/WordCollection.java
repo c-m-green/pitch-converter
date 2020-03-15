@@ -16,12 +16,45 @@ import java.util.Scanner;
  *
  */
 public class WordCollection {
-    private Map<String, List<String>> words;
     private String filePath;
-
+    private static final int ALPHABET_SIZE = 26;
+    private static WordNode root;
+    
     public WordCollection(String filePath) {
-        words = new HashMap<String, List<String>>();
         this.filePath = filePath;
+        root = new WordNode();
+    }
+    
+    // trie node
+    private static class WordNode {
+        WordNode[] children = new WordNode[ALPHABET_SIZE];
+        
+        boolean isEndOfWord;
+        
+        WordNode() {
+            isEndOfWord = false;
+            for (int i = 0; i < ALPHABET_SIZE; i++) {
+                children[i] = null;
+            }
+        }
+    };
+    
+    private void insert(String word) {
+        int length = word.length();
+        int index;
+        
+        WordNode pCrawl = root;
+        
+        for (int level = 0; level < length; level++) {
+            index = word.charAt(level) - 'a';
+            if (pCrawl.children[index] == null) {
+                pCrawl.children[index] = new WordNode();
+            }
+            
+            pCrawl = pCrawl.children[index];
+        }
+        
+        pCrawl.isEndOfWord = true;
     }
 
     /**
@@ -31,44 +64,38 @@ public class WordCollection {
      * @throws FileNotFoundException
      */
     public boolean buildWordCollection() {
-        if (words.isEmpty()) {
-            Scanner s;
-            try {
-                File file = new File(filePath);
-                s = new Scanner(file);
-                seedMap();
-                while (s.hasNextLine()) {
-                    String word = s.nextLine().toLowerCase();
-                    if (word.length() > 1 || word.equalsIgnoreCase("a") || word.equalsIgnoreCase("i")) {
-                        words.get(word.charAt(0) + "").add(word);
-                    }
+        // TODO: Don't build again if already built
+        Scanner s;
+        try {
+            File file = new File(filePath);
+            s = new Scanner(file);
+            while (s.hasNextLine()) {
+                String word = s.nextLine().toLowerCase();
+                if (word.length() > 1 || word.equalsIgnoreCase("a") || word.equalsIgnoreCase("i")) {
+                    insert(word);
                 }
-                s.close();
-                return true;
-            } catch (FileNotFoundException fnfe) {
-                return false;
             }
-        } else {
+            s.close();
+            return true;
+        } catch (FileNotFoundException fnfe) {
             return false;
         }
     }
 
-    // Create a key for each letter and initialize ArrayLists in one pass.
-    private void seedMap() {
-        for (int unicode = 97; unicode < 123; unicode++) {
-            words.put((char) unicode + "", new ArrayList<String>());
-        }
-    }
-
     public boolean containsWord(String query) {
-        return words.get(query.charAt(0) + "").contains(query);
-    }
-
-    public int getWordCount() {
-        int count = 0;
-        for (int i = 97; i < 123; i++) {
-            count += words.get((char) i + "").size();
+        int length = query.length();
+        int index;
+        WordNode pCrawl = root;
+        
+        for (int level = 0; level < length; level++) {
+            index = query.charAt(level) - 'a';
+            
+            if (pCrawl.children[index] == null) {
+                return false;
+            }
+            
+            pCrawl = pCrawl.children[index];
         }
-        return count;
+        return (pCrawl != null && pCrawl.isEndOfWord);
     }
 }
