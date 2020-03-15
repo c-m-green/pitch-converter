@@ -25,7 +25,7 @@ public class CharConverter {
         if (!Character.isLetter(ch)) { // if non-letter is passed in
             return SymbolFactory.createSymbol('z');
         } else {
-            int register = 4;
+            int register = 3;
             char in = Normalizer.normalize(ch + "", Normalizer.Form.NFD).toUpperCase().charAt(0);
             char[] pitchClasses = useGermanH ? new char[] { '9', 't', '0', '2', '4', '5', '7', 'e' }
                     : new char[] { '9', 'e', '0', '2', '4', '5', '7' };

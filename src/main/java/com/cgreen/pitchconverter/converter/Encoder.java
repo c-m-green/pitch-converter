@@ -21,7 +21,8 @@ public final class Encoder {
             music = StringConverter.byLetter(message, p.getStripLetters(), p.getUseGermanH());
             break;
         case DEGREE:
-            music = StringConverter.byDegree(message, 3, p.isChromatic());
+            int startOctave = p.isChromatic() ? 4 : 3;
+            music = StringConverter.byDegree(message, startOctave, p.isChromatic());
             break;
         }
         return music;
