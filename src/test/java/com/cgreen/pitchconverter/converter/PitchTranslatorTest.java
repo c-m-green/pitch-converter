@@ -27,7 +27,7 @@ class PitchTranslatorTest {
         bunchOfRests.add(SymbolFactory.createSymbol('*'));
         
         wc = new WordCollection("words_alpha.txt");
-        assertTrue(wc.buildWordCollection());
+        wc.buildWordCollection();
     }
     
     @Test
