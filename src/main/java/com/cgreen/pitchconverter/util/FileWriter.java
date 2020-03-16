@@ -16,7 +16,7 @@ import org.audiveris.proxymusic.ScorePartwise;
 import org.audiveris.proxymusic.util.Marshalling;
 import org.audiveris.proxymusic.util.Marshalling.MarshallingException;
 
-import com.cgreen.pitchconverter.converter.PitchTranslator;
+import com.cgreen.pitchconverter.converter.PitchDecoder;
 import com.cgreen.pitchconverter.datastore.pitch.MusicSymbol;
 import com.cgreen.pitchconverter.util.musicxml.PartwiseBuilder;
 
@@ -48,7 +48,7 @@ public final class FileWriter {
         try {
             PrintWriter pw = new PrintWriter(outputFile.getAbsolutePath());
             for (MusicSymbol ms : musicOut) {
-                pw.println(ms.toString() + " " + PitchTranslator.getLabel(ms));
+                pw.println(ms.toString() + " " + PitchDecoder.getLabel(ms));
             }
             pw.close();
             LOGGER.info("Wrote to " + outputFile.getAbsolutePath());

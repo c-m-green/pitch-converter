@@ -14,7 +14,7 @@ import com.cgreen.pitchconverter.datastore.pitch.MusicSymbol;
 import com.cgreen.pitchconverter.datastore.pitch.SymbolFactory;
 import com.cgreen.pitchconverter.util.Method;
 
-class PitchTranslatorTest {
+class PitchDecoderTest {
     
     private static List<MusicSymbol> bunchOfRests;
     private static WordCollection wc;
@@ -32,7 +32,7 @@ class PitchTranslatorTest {
     
     @Test
     void decodeShouldStripRests() {
-        Set<String> empty = PitchTranslator.decode(bunchOfRests, wc, Method.DEGREE, true, true, false);
+        Set<String> empty = PitchDecoder.decode(bunchOfRests, wc, Method.DEGREE, true, true, false);
         assertEquals(0, empty.size());
     }
 }

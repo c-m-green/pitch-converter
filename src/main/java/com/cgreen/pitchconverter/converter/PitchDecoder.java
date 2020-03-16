@@ -13,7 +13,7 @@ import com.cgreen.pitchconverter.datastore.pitch.MusicSymbol;
 import com.cgreen.pitchconverter.datastore.pitch.Pitch;
 import com.cgreen.pitchconverter.util.Method;
 
-public class PitchTranslator {
+public class PitchDecoder {
 
     /**
      * Allows for English representation of pitches.
