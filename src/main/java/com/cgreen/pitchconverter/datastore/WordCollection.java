@@ -2,10 +2,6 @@ package com.cgreen.pitchconverter.datastore;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -47,10 +43,15 @@ public class WordCollection {
         
         for (int level = 0; level < length; level++) {
             index = word.charAt(level) - 'a';
-            if (pCrawl.children[index] == null) {
-                pCrawl.children[index] = new WordNode();
-            }
-            
+            try {
+                if (pCrawl.children[index] == null) {
+                    pCrawl.children[index] = new WordNode();
+                }
+            } catch (ArrayIndexOutOfBoundsException e) {
+                // There was a char found that was not a letter, so skip it.
+                // e.g., "topsy-turvy" becomes "topsyturvy"
+                continue;
+            }           
             pCrawl = pCrawl.children[index];
         }
         
@@ -65,6 +66,7 @@ public class WordCollection {
      */
     public boolean buildWordCollection() {
         // TODO: Don't build again if already built
+        // TODO: Don't assume each line in the input file contains only a single word.
         Scanner s;
         try {
             File file = new File(filePath);
