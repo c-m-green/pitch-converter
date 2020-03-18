@@ -74,7 +74,7 @@ public class StringConverter {
         for (int i = 0; i < input.length(); i++) {
             char ch = input.charAt(i);
             ch = Normalizer.normalize(ch + "", Normalizer.Form.NFD).toUpperCase().charAt(0);
-            if (pitchLetters.indexOf(ch) != -1) {
+            if (pitchLetters.indexOf(ch) != -1 || ch == ' ') {
                 output += ch;
             }
         }
