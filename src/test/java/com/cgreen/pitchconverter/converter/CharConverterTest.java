@@ -2,12 +2,19 @@ package com.cgreen.pitchconverter.converter;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import com.cgreen.pitchconverter.datastore.pitch.MusicSymbol;
 
 class CharConverterTest {
     // TODO: Add test to test octave based on certain params
+    private static char[] pitchClasses;
+    @BeforeAll
+    static void setUp() {
+        pitchClasses = new char[] { '9', 'e', '0', '2', '4', '5', '7' };
+    }
+    
     @Test
     void musicSymbolReturnedShouldBeLiteralConversion() {
         MusicSymbol literal = CharConverter.letterToPitchLiteral('C', 3, false);
