@@ -79,6 +79,9 @@ public class PitchConverter implements Runnable {
         Params p = Params.getInstance();
         Mode m;
         Method em = getEncodeMethod();
+        if (em == Method.INVALID) {
+            return false;
+        }
         mode = mode.toLowerCase();
         switch (mode) {
         case "encode":
@@ -124,6 +127,7 @@ public class PitchConverter implements Runnable {
 
     private Method getEncodeMethod() {
         if (encodeMethod == null || encodeMethod.isEmpty()) {
+            LOGGER.warn("Defaulting to \"letter\" encoding");
             return Method.LETTER;
         } else {
             encodeMethod = encodeMethod.toLowerCase();
@@ -133,8 +137,8 @@ public class PitchConverter implements Runnable {
             case "degree":
                 return Method.DEGREE;
             default:
-                LOGGER.warn("Encoding method not recognized. Defaulting to \"letter.\"");
-                return Method.LETTER;
+                LOGGER.warn("Invalid encoding method \"" + encodeMethod + "\" received.");
+                return Method.INVALID;
             }
         }
     }

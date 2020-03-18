@@ -38,8 +38,8 @@ public final class FileWriter {
             //isSuccess = writeMusicToMidi(musicOut, outputFile);
             //break;
         default:
-            LOGGER.warn("Output format \"{}\" is invalid. Defaulting to text output.", outputFormat);
-            isSuccess = writeMusicToTxt(musicOut, outputFile);
+            LOGGER.fatal("Output format \"{}\" is invalid.", outputFormat);
+            return false;
         }
         return isSuccess;        
     }
