@@ -16,12 +16,14 @@ public final class Encoder {
             System.out.println("An error occurred while reading the input file.");
             System.exit(1);
         }
+        int startOctave;
         switch(p.getMethod()) {
         case LETTER:
-            music = StringConverter.byLetter(message, p.getStripLetters(), p.getUseGermanH());
+            startOctave = p.getStripLetters() ? 4 : 3;
+            music = StringConverter.byLetter(message, startOctave, p.getStripLetters(), p.getUseGermanH());
             break;
         case DEGREE:
-            int startOctave = p.isChromatic() ? 4 : 3;
+            startOctave = p.isChromatic() ? 4 : 3;
             music = StringConverter.byDegree(message, startOctave, p.isChromatic());
             break;
         }

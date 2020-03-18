@@ -16,6 +16,7 @@ public class StringConverter {
      * alphabet.
      * 
      * @param input        - a String to convert
+     * @param startOctave  - the lowest octave in which a pitch will be created
      * @param stripLetters - Before converting, remove letters that do not exist as
      *                     pitch class names.
      * @param useGermanH   - option to include H as a viable base letter. In the
@@ -23,7 +24,7 @@ public class StringConverter {
      *                     represents B-flat).
      * @return - a list of Pitch objects
      */
-    public static List<MusicSymbol> byLetter(String input, boolean stripLetters, boolean useGermanH) {
+    public static List<MusicSymbol> byLetter(String input, int startOctave, boolean stripLetters, boolean useGermanH) {
         List<MusicSymbol> out = new ArrayList<MusicSymbol>();
         String s = input;
         if (stripLetters) {
@@ -32,7 +33,7 @@ public class StringConverter {
         }
         for (int i = 0; i < s.length(); i++) {
             char ch = s.charAt(i);
-            MusicSymbol ms = CharConverter.letterToPitchLiteral(ch, useGermanH);
+            MusicSymbol ms = CharConverter.letterToPitchLiteral(ch, startOctave, useGermanH);
             out.add(ms);
         }
         return out;

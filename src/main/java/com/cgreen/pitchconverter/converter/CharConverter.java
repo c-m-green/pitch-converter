@@ -14,23 +14,23 @@ public class CharConverter {
      * Letters that do not directly correspond to a pitch class (i.e., anything past
      * G or H) are converted through modular arithmetic.
      * 
-     * @param ch         - input character
-     * @param useGermanH - Option to include H as a viable base letter. In the
+     * @param ch          - input character
+     * @param octaveStart - the register in which to start the sequence
+     * @param useGermanH  - Option to include H as a viable base letter. In the
      *                   German naming scheme, 'H' represents B-natural ('B' then
      *                   represents B-flat).
      * @return - the converted pitch, or a rest if input
      *         character is not a letter.
      */
-    protected static MusicSymbol letterToPitchLiteral(char ch, boolean useGermanH) {
+    protected static MusicSymbol letterToPitchLiteral(char ch, int octaveStart, boolean useGermanH) {
         if (!Character.isLetter(ch)) { // if non-letter is passed in
             return SymbolFactory.createSymbol('z');
         } else {
-            int register = 3;
             char in = Normalizer.normalize(ch + "", Normalizer.Form.NFD).toUpperCase().charAt(0);
             char[] pitchClasses = useGermanH ? new char[] { '9', 't', '0', '2', '4', '5', '7', 'e' }
                     : new char[] { '9', 'e', '0', '2', '4', '5', '7' };
             int charValue = findCharValue(in);
-            MusicSymbol out = obtainPitch(pitchClasses, charValue, register);
+            MusicSymbol out = obtainPitch(pitchClasses, charValue, octaveStart);
             return out;
         }
     }
