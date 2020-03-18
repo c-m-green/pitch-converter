@@ -26,7 +26,9 @@ public final class Decoder {
         if (music == null) {
             return null;
         }
+        long start = System.currentTimeMillis();
         Set<String> matches = PitchDecoder.decode(music, wc, p.getMethod(), p.getUseGermanH(), p.isChromatic(), p.getVerbose());
+        LOGGER.debug("Decoded in " + (System.currentTimeMillis() - start) / 1000. + " s.");
         return matches;
     }
 }
