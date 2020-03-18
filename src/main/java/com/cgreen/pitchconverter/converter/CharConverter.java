@@ -80,7 +80,7 @@ public class CharConverter {
      * integers will convert to their int value.
      * 
      * @param c - Input character.
-     * @return Char value as int
+     * @return -1 if invalid char was passed in
      */
     static int findCharValue(char c) {
         // TODO: Log warning if a char outside of 0-25 range is passed to this method.
