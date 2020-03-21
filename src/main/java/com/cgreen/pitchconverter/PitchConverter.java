@@ -47,16 +47,16 @@ public class PitchConverter implements Runnable {
     @Option(names = { "-o", "--outputFormat"}, description = "Output format of music when encoding." + "\nOptions: text (default), musicxml")
     private String outputFormat;
     
-    @Option(names = {"-g", "--germanH"}, description = "If true, use German H when encoding or decoding by letter." + "\ndefault: false")
+    @Option(names = {"-g", "--germanH"}, description = "Use German H when encoding or decoding by letter." + "\nBy default, the letter B will convert to B-natural.")
     private boolean useGermanH;
     
     @Option(names = {"-e", "--encodingMethod"}, description = "Method of encoding to use for encoding, or to investigate when decoding." + "\nOptions: letter (default), degree")
     private String encodeMethod;
     
-    @Option(names = {"-c", "--chromatic"}, description = "If true, use chromatic notes when encoding or decoding by degree." + "\ndefault: false")
+    @Option(names = {"-c", "--chromatic"}, description = "Use chromatic notes when encoding or decoding by degree." + "\nThe notes of the C major scale are used by default.")
     private boolean chromatic;
     
-    @Option(names = {"-s", "--stripNonPitchLetters"}, description = "If true, leave out letters that are not pitch classes." + "\ndefault: false")
+    @Option(names = {"-s", "--stripNonPitchLetters"}, description = "Leave out letters that are not pitch classes." + "\nAll letters are converted by default.")
     private boolean stripNonPitchLetters;
     
     @Option(names = {"-r", "--includeRests"}, description = "Convert spaces, punctuation, and new lines to rests." + "\nAll spaces and non-alphanumeric characters are ignored by default.")
