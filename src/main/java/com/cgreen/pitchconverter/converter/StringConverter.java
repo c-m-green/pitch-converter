@@ -22,9 +22,10 @@ public class StringConverter {
      * @param useGermanH   - option to include H as a viable base letter. In the
      *                     German naming scheme, 'H' represents B-natural ('B' then
      *                     represents B-flat).
+     * @param writeRests   - option to include rests in output
      * @return - a list of Pitch objects
      */
-    public static List<MusicSymbol> byLetter(String input, int startOctave, boolean stripLetters, boolean useGermanH) {
+    public static List<MusicSymbol> byLetter(String input, int startOctave, boolean stripLetters, boolean useGermanH, boolean writeRests) {
         List<MusicSymbol> out = new ArrayList<MusicSymbol>();
         String s = input;
         if (stripLetters) {
@@ -34,7 +35,9 @@ public class StringConverter {
         for (int i = 0; i < s.length(); i++) {
             char ch = s.charAt(i);
             MusicSymbol ms = CharConverter.letterToPitchLiteral(ch, startOctave, useGermanH);
-            out.add(ms);
+            if (ms.getPitchClass() != '?' || writeRests) {
+                out.add(ms);
+            }
         }
         return out;
     }
@@ -50,14 +53,17 @@ public class StringConverter {
      * @param startOctave - the lowest register in which a pitch will be created
      * @param isChromatic - option to include chromatic notes. If false, all notes
      *                    will be part of a C Major scale.
+     * @param writeRests  - option to include rests in output
      * @return
      */
-    public static List<MusicSymbol> byDegree(String input, int startOctave, boolean isChromatic) {
+    public static List<MusicSymbol> byDegree(String input, int startOctave, boolean isChromatic, boolean writeRests) {
         List<MusicSymbol> out = new ArrayList<MusicSymbol>();
         for (int i = 0; i < input.length(); i++) {
             char ch = input.charAt(i);
             MusicSymbol ms = CharConverter.alphaNumToPitchDegree(ch, startOctave, isChromatic);
-            out.add(ms);
+            if (ms.getPitchClass() != '?' || writeRests) {
+                out.add(ms);
+            }
         }
         return out;
     }

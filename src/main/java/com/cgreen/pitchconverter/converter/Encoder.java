@@ -25,11 +25,11 @@ public final class Encoder {
         switch(p.getMethod()) {
         case LETTER:
             startOctave = p.getStripLetters() ? 4 : 3;
-            music = StringConverter.byLetter(message, startOctave, p.getStripLetters(), p.getUseGermanH());
+            music = StringConverter.byLetter(message, startOctave, p.getStripLetters(), p.getUseGermanH(), p.getIncludeRests());
             break;
         case DEGREE:
             startOctave = p.isChromatic() ? 4 : 3;
-            music = StringConverter.byDegree(message, startOctave, p.isChromatic());
+            music = StringConverter.byDegree(message, startOctave, p.isChromatic(), p.getIncludeRests());
             break;
         default:
             LOGGER.fatal("An error has occurred.");
