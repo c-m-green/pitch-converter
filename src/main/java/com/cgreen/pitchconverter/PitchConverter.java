@@ -58,6 +58,9 @@ public class PitchConverter implements Runnable {
     
     @Option(names = {"-s", "--stripNonPitchLetters"}, description = "If true, leave out letters that are not pitch classes." + "\ndefault: false")
     private boolean stripNonPitchLetters;
+    
+    @Option(names = {"-r", "--includeRests"}, description = "Convert spaces, punctuation, and new lines to rests." + "\nAll spaces and non-alphanumeric characters are ignored by default.")
+    private boolean includeRests;
 
     public void run() {
         if (mode == null) {
@@ -106,7 +109,7 @@ public class PitchConverter implements Runnable {
     }
     
     private boolean callEncode(Params p, Mode m, Method em) {
-        p.init(input, m, em, verbose, useGermanH, chromatic, stripNonPitchLetters);
+        p.init(input, m, em, verbose, useGermanH, chromatic, stripNonPitchLetters, includeRests);
         if (outputFormat == null) {
             // Default to txt
             outputFormat = "text";

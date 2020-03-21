@@ -7,7 +7,7 @@ public class Params {
     private File inFile, wordCollectionFile;
     private Mode mode;
     private Method method;
-    private boolean verbose, useGermanH, useChromatic, stripNonPitchLetters;
+    private boolean verbose, useGermanH, useChromatic, stripNonPitchLetters, includeRests;
     
     private Params() { }
     
@@ -19,7 +19,7 @@ public class Params {
     }
     
     // for encoding
-    public void init(File inFile, Mode mode, Method method, boolean verbose, boolean useGermanH, boolean useChromatic, boolean stripNonPitchLetters) {
+    public void init(File inFile, Mode mode, Method method, boolean verbose, boolean useGermanH, boolean useChromatic, boolean stripNonPitchLetters, boolean includeRests) {
         this.inFile = inFile;
         this.mode = mode;
         this.method = method;
@@ -27,6 +27,7 @@ public class Params {
         this.useGermanH = useGermanH;
         this.useChromatic = useChromatic;
         this.stripNonPitchLetters = stripNonPitchLetters;
+        this.includeRests = includeRests;
     }
     
     // for decoding
@@ -71,5 +72,9 @@ public class Params {
     
     public boolean getStripLetters() {
         return stripNonPitchLetters;
+    }
+    
+    public boolean getIncludeRests() {
+        return includeRests;
     }
 }
