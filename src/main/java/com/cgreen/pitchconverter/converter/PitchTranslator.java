@@ -68,6 +68,10 @@ public class PitchTranslator {
             case LETTER:
                 possibleChars = getPossibleCharsByLetter(in.get(i), useGermanH);
                 break;
+            default:
+                // Should be unreachable
+                LOGGER.fatal("An error has occurred.");
+                System.exit(1);
             }           
             if (possibleChars.isEmpty()) {
                 continue;
