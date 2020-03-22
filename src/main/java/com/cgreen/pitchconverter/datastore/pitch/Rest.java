@@ -5,7 +5,7 @@ public class Rest extends MusicSymbol {
 
     @Override
     public char getPitchClass() {
-        return '?';
+        return 'r';
     }
 
     @Override
