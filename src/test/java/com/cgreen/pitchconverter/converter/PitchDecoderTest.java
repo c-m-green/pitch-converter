@@ -22,9 +22,9 @@ class PitchDecoderTest {
     @BeforeAll
     static void setUp() {
         bunchOfRests = new ArrayList<MusicSymbol>();
-        bunchOfRests.add(SymbolFactory.createSymbol('!'));
-        bunchOfRests.add(SymbolFactory.createSymbol('^'));
-        bunchOfRests.add(SymbolFactory.createSymbol('*'));
+        bunchOfRests.add(SymbolFactory.createSymbol('!', 0));
+        bunchOfRests.add(SymbolFactory.createSymbol('^', 0));
+        bunchOfRests.add(SymbolFactory.createSymbol('*', 0));
         
         wc = new WordCollection("words_alpha.txt");
         wc.buildWordCollection();

@@ -24,7 +24,7 @@ public class CharConverter {
      */
     protected static MusicSymbol letterToPitchLiteral(char ch, int octaveStart, boolean useGermanH) {
         if (!Character.isLetter(ch)) { // if non-letter is passed in
-            return SymbolFactory.createSymbol('z');
+            return SymbolFactory.createSymbol('r', 0);
         } else {
             char in = Normalizer.normalize(ch + "", Normalizer.Form.NFD).toUpperCase().charAt(0);
             char[] pitchClasses = useGermanH ? new char[] { '9', 't', '0', '2', '4', '5', '7', 'e' }
@@ -52,7 +52,7 @@ public class CharConverter {
      */
     protected static MusicSymbol alphaNumToPitchDegree(char ch, int octaveStart, boolean isChromatic) {
         if (!Character.isLetterOrDigit(ch)) { // if non-alphanumeric character is passed in
-            return SymbolFactory.createSymbol('z');
+            return SymbolFactory.createSymbol('r', 0);
         } else {
             char in = Normalizer.normalize(ch + "", Normalizer.Form.NFD).toUpperCase().charAt(0);
             char[] pitchClasses;
@@ -106,7 +106,7 @@ public class CharConverter {
      */
     static MusicSymbol obtainPitch(char[] pitchClasses, int charValue, int registerStart) {
         if (charValue == -1) {
-            return SymbolFactory.createSymbol('z');
+            return SymbolFactory.createSymbol('r', 0);
         } else {
             int pitchIndex = charValue % pitchClasses.length;
             int register = charValue / pitchClasses.length + registerStart;

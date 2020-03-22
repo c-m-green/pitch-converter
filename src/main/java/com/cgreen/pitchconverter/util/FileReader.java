@@ -40,7 +40,7 @@ public final class FileReader {
             while(s.hasNextLine()) {
                 String line = s.nextLine();
                 if (line.contains("rest")) {
-                    music.add(SymbolFactory.createSymbol('z'));
+                    music.add(SymbolFactory.createSymbol('r', 0));
                 } else {
                     String pitchText = line.split(" ")[0];
                     MusicSymbol p = SymbolFactory.createSymbol(pitchText.split(":")[0].charAt(0), Integer.valueOf(pitchText.split(":")[1]));
