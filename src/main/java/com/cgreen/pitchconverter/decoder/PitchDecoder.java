@@ -26,10 +26,11 @@ public class PitchDecoder {
     /**
      * Given a sequence of musical symbols, attempts to decode a message.
      * 
-     * @param input          - List of symbols to be decoded
-     * @param wc             - WordCollection
-     * @param checkChromatic - If true, assume message was encoded using all twelve
-     *                       notes of a chromatic scale
+     * @param music          - music to decipher
+     * @param wc             - the dictionary of valid words to reference
+     * @param m              - the encoding method to investigate
+     * @param useGermanH     - assume German H was used at time of encoding
+     * @param checkChromatic - assume chromaticism was employed at time of encoding
      * @return a Set of potential messages
      */
     // TODO Account for transposition
