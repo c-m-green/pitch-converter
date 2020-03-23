@@ -1,4 +1,4 @@
-package com.cgreen.pitchconverter.util.musicxml;
+package com.cgreen.pitchconverter.encoder;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -27,11 +27,11 @@ import com.cgreen.pitchconverter.datastore.pitch.MusicSymbol;
 
 public class PartwiseBuilder {
     private List<MusicSymbol> music;
-    public PartwiseBuilder(List<MusicSymbol> music) {
+    PartwiseBuilder(List<MusicSymbol> music) {
         this.music = music;
     }
     
-    public ScorePartwise buildScore(String title) {
+    ScorePartwise buildScore(String title) {
         // https://github.com/Audiveris/proxymusic/blob/master/src/test/java/org/audiveris/proxymusic/util/HelloWorldTest.java#L344
         //TODO: Handle case of empty music
         ObjectFactory factory = new ObjectFactory();

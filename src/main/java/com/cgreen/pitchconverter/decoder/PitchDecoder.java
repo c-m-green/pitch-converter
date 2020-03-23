@@ -1,4 +1,4 @@
-package com.cgreen.pitchconverter.converter;
+package com.cgreen.pitchconverter.decoder;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -8,7 +8,6 @@ import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.cgreen.pitchconverter.datastore.WordCollection;
 import com.cgreen.pitchconverter.datastore.pitch.MusicSymbol;
 import com.cgreen.pitchconverter.datastore.pitch.Pitch;
 import com.cgreen.pitchconverter.util.Method;
@@ -34,7 +33,7 @@ public class PitchDecoder {
      * @return a Set of potential messages
      */
     // TODO Account for transposition
-    protected static Set<String> decode(List<MusicSymbol> music, WordCollection wc, Method m, boolean useGermanH, boolean checkChromatic, boolean verbose) {
+    static Set<String> decode(List<MusicSymbol> music, WordCollection wc, Method m, boolean useGermanH, boolean checkChromatic, boolean verbose) {
         Set<String> results = new HashSet<String>();
 
         // First, create list of Pitches, not Rests
@@ -213,7 +212,8 @@ public class PitchDecoder {
         }
         return chars;
     }
-
+    
+    // TODO: Move this somewhere else.
     /**
      * Represent a musical symbol in text.
      * 

@@ -1,4 +1,4 @@
-package com.cgreen.pitchconverter.util;
+package com.cgreen.pitchconverter.encoder;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -6,9 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import java.util.Scanner;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,15 +15,41 @@ import org.audiveris.proxymusic.ScorePartwise;
 import org.audiveris.proxymusic.util.Marshalling;
 import org.audiveris.proxymusic.util.Marshalling.MarshallingException;
 
-import com.cgreen.pitchconverter.converter.PitchDecoder;
 import com.cgreen.pitchconverter.datastore.pitch.MusicSymbol;
-import com.cgreen.pitchconverter.util.musicxml.PartwiseBuilder;
 
-public final class FileWriter {
+public final class EncoderUtils {
     private static final Logger LOGGER = LogManager.getLogger();
+
+    static String getText(File file) {
+        String textLines = "";
+        try {
+            if (!getFileExtension(file).equals("txt")) {
+                return "";
+            }
+            Scanner s = new Scanner(file);
+            while(s.hasNextLine()) {
+                textLines += s.nextLine();
+            }
+            s.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("ERROR: The input file " + file.getAbsolutePath() + " was not found!");
+            System.exit(1);
+        }
+        return textLines;
+    }
+    
+    private static String getFileExtension(File file) {
+        String extension = "";
+        String fileName = file.getAbsolutePath();
+        int i = fileName.lastIndexOf('.');
+        if (i > 0) {
+            extension = fileName.substring(i+1);
+        }
+        return extension;
+    }
     
     //TODO: Don't create a file in multiple places. Do that in one place and get the contents to output depending on outputFormat
-    public static boolean writeMusicToFile(List<MusicSymbol> musicOut, File outputFile, String outputFormat) throws IOException {
+    static boolean writeMusicToFile(List<MusicSymbol> musicOut, File outputFile, String outputFormat) {
         boolean isSuccess = false;
         outputFormat = outputFormat.toLowerCase();
         switch(outputFormat) {
@@ -48,7 +73,7 @@ public final class FileWriter {
         try {
             PrintWriter pw = new PrintWriter(outputFile.getAbsolutePath());
             for (MusicSymbol ms : musicOut) {
-                pw.println(ms.toString() + " " + PitchDecoder.getLabel(ms));
+                pw.println(ms);
             }
             pw.close();
             LOGGER.info("Wrote to " + outputFile.getAbsolutePath());
@@ -61,7 +86,7 @@ public final class FileWriter {
         return true;
     }
     
-    private static boolean writeMusicToMusicXml(List<MusicSymbol> musicOut, File outputFile) throws IOException {
+    private static boolean writeMusicToMusicXml(List<MusicSymbol> musicOut, File outputFile) {
         try {
             PartwiseBuilder pb = new PartwiseBuilder(musicOut);
             ScorePartwise score = pb.buildScore(outputFile.getName());
@@ -71,40 +96,13 @@ public final class FileWriter {
             LOGGER.debug("Marshalling done in {} ms", System.currentTimeMillis() - start);
             LOGGER.info("Exported MusicXML score to {}", outputFile.getAbsolutePath());
             outputStream.close();
-        } catch (FileNotFoundException | MarshallingException e) {
+        } catch (IOException ioe) {
             LOGGER.fatal("Something went wrong writing to {}", outputFile.getAbsolutePath());
+            return false;
+        } catch (MarshallingException me) {
+            LOGGER.fatal("Something went wrong marshalling into a score.");
             return false;
         }
         return true;
-    }
-    
-    public static boolean writeMessagesToFile(Set<String> strs, File outputFile) {
-        try {
-            PrintWriter pw = new PrintWriter(outputFile);
-            List<String> perfects = cleanDecodeOutput(strs);
-            for (String p : perfects) {
-                pw.println(p);
-            }
-            pw.close();
-            System.out.println("Wrote to " + outputFile.getAbsolutePath());
-            return true;
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            System.out.println("File not found");
-            e.printStackTrace();
-        }
-        return false;
-        
-    }
-    
-    private static List<String> cleanDecodeOutput(Set<String> msgSet) {
-        List<String> sortedMsgs = new ArrayList<String>();
-        for (String s : msgSet) {
-            if (!s.contains("?")) {
-                sortedMsgs.add(s);
-            }
-        }
-        sortedMsgs.sort((s1, s2) -> (s1.split(" ").length - s2.split(" ").length));
-        return sortedMsgs;
     }
 }

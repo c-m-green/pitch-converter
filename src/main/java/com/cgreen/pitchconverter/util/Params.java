@@ -19,6 +19,7 @@ public class Params {
     }
     
     // for encoding
+    // TODO: Write proper comment for this.
     public void init(File inFile, Mode mode, Method method, boolean verbose, boolean useGermanH, boolean useChromatic, boolean stripNonPitchLetters, boolean includeRests) {
         this.inFile = inFile;
         this.mode = mode;
@@ -31,6 +32,7 @@ public class Params {
     }
     
     // for decoding
+    // TODO: Write proper comment for this.
     public void init(File inFile, Mode mode, Method method, File wordCollectionFile, boolean verbose, boolean useGermanH, boolean useChromatic, boolean stripNonPitchLetters) {
         this.inFile = inFile;
         this.mode = mode;

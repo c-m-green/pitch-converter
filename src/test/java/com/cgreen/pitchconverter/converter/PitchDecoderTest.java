@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.cgreen.pitchconverter.datastore.WordCollection;
 import com.cgreen.pitchconverter.datastore.pitch.MusicSymbol;
 import com.cgreen.pitchconverter.datastore.pitch.SymbolFactory;
 import com.cgreen.pitchconverter.util.Method;

@@ -1,4 +1,4 @@
-package com.cgreen.pitchconverter.converter;
+package com.cgreen.pitchconverter.encoder;
 
 import java.text.Normalizer;
 
@@ -22,7 +22,7 @@ public class CharConverter {
      * @return - the converted pitch, or a rest if input
      *         character is not a letter.
      */
-    protected static MusicSymbol letterToPitchLiteral(char ch, int octaveStart, boolean useGermanH) {
+    static MusicSymbol letterToPitchLiteral(char ch, int octaveStart, boolean useGermanH) {
         if (!Character.isLetter(ch)) { // if non-letter is passed in
             return SymbolFactory.createSymbol('r', 0);
         } else {
@@ -50,7 +50,7 @@ public class CharConverter {
      * @return The converted pitch object, or a rest if input character
      *         is not a letter nor number.
      */
-    protected static MusicSymbol alphaNumToPitchDegree(char ch, int octaveStart, boolean isChromatic) {
+    static MusicSymbol alphaNumToPitchDegree(char ch, int octaveStart, boolean isChromatic) {
         if (!Character.isLetterOrDigit(ch)) { // if non-alphanumeric character is passed in
             return SymbolFactory.createSymbol('r', 0);
         } else {

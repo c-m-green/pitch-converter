@@ -1,34 +1,23 @@
-package com.cgreen.pitchconverter.util;
+package com.cgreen.pitchconverter.decoder;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.cgreen.pitchconverter.datastore.pitch.MusicSymbol;
 import com.cgreen.pitchconverter.datastore.pitch.SymbolFactory;
 
-public final class FileReader {
-    public static String getText(File file) {
-        String textLines = "";
-        try {
-            if (!getFileExtension(file).equals("txt")) {
-                return "";
-            }
-            Scanner s = new Scanner(file);
-            while(s.hasNextLine()) {
-                textLines += s.nextLine();
-            }
-            s.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("ERROR: The input file " + file.getAbsolutePath() + " was not found!");
-            System.exit(1);
-        }
-        return textLines;
-    }
-    
-    public static List<MusicSymbol> getMusic(File file) {
+public final class DecoderUtils {
+    private static final Logger LOGGER = LogManager.getLogger();
+
+    static List<MusicSymbol> getMusic(File file) {
         List<MusicSymbol> music = new ArrayList<MusicSymbol>();
         try {
             if (!getFileExtension(file).equals("txt")) {
@@ -55,6 +44,25 @@ public final class FileReader {
         return music;
     }
     
+    static boolean writeMessagesToFile(Set<String> strs, File outputFile) {
+        try {
+            PrintWriter pw = new PrintWriter(outputFile);
+            List<String> perfects = cleanDecodeOutput(strs);
+            for (String p : perfects) {
+                pw.println(p);
+            }
+            pw.close();
+            System.out.println("Wrote to " + outputFile.getAbsolutePath());
+            return true;
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            System.out.println("File not found");
+            e.printStackTrace();
+        }
+        return false;
+        
+    }
+    
     private static String getFileExtension(File file) {
         String extension = "";
         String fileName = file.getAbsolutePath();
@@ -63,5 +71,16 @@ public final class FileReader {
             extension = fileName.substring(i+1);
         }
         return extension;
+    }
+    
+    private static List<String> cleanDecodeOutput(Set<String> msgSet) {
+        List<String> sortedMsgs = new ArrayList<String>();
+        for (String s : msgSet) {
+            if (!s.contains("?")) {
+                sortedMsgs.add(s);
+            }
+        }
+        sortedMsgs.sort((s1, s2) -> (s1.split(" ").length - s2.split(" ").length));
+        return sortedMsgs;
     }
 }

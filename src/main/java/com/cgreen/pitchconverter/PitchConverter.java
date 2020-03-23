@@ -6,9 +6,8 @@ import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.cgreen.pitchconverter.converter.Decoder;
-import com.cgreen.pitchconverter.converter.Encoder;
-import com.cgreen.pitchconverter.util.FileWriter;
+import com.cgreen.pitchconverter.decoder.Decoder;
+import com.cgreen.pitchconverter.encoder.Encoder;
 import com.cgreen.pitchconverter.util.Method;
 import com.cgreen.pitchconverter.util.Mode;
 import com.cgreen.pitchconverter.util.Params;
@@ -114,18 +113,12 @@ public class PitchConverter implements Runnable {
             // Default to txt
             outputFormat = "text";
         }
-        try {
-            return FileWriter.writeMusicToFile(Encoder.encodeMessage(p), outputPath, outputFormat);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return false;
-        }
+        return Encoder.encodeMessage(p, outputPath, outputFormat);
     }
     
     private boolean callDecode(Params p, Mode m, Method em, File wcFile) {
         p.init(input, m, em, wcFile, verbose, useGermanH, chromatic, stripNonPitchLetters);
-        return FileWriter.writeMessagesToFile(Decoder.decodeMessage(p), outputPath);
+        return Decoder.decodeMessage(p, outputPath);
     }
 
     private Method getEncodeMethod() {

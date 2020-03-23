@@ -1,4 +1,4 @@
-package com.cgreen.pitchconverter.converter;
+package com.cgreen.pitchconverter.encoder;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class StringConverter {
      * @param writeRests   - option to include rests in output
      * @return - a list of Pitch objects
      */
-    public static List<MusicSymbol> byLetter(String input, int startOctave, boolean stripLetters, boolean useGermanH, boolean writeRests) {
+    static List<MusicSymbol> byLetter(String input, int startOctave, boolean stripLetters, boolean useGermanH, boolean writeRests) {
         List<MusicSymbol> out = new ArrayList<MusicSymbol>();
         String s = input;
         if (stripLetters) {
@@ -56,7 +56,7 @@ public class StringConverter {
      * @param writeRests  - option to include rests in output
      * @return
      */
-    public static List<MusicSymbol> byDegree(String input, int startOctave, boolean isChromatic, boolean writeRests) {
+    static List<MusicSymbol> byDegree(String input, int startOctave, boolean isChromatic, boolean writeRests) {
         List<MusicSymbol> out = new ArrayList<MusicSymbol>();
         for (int i = 0; i < input.length(); i++) {
             char ch = input.charAt(i);

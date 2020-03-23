@@ -1,5 +1,6 @@
-package com.cgreen.pitchconverter.converter;
+package com.cgreen.pitchconverter.encoder;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,19 +8,27 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.cgreen.pitchconverter.datastore.pitch.MusicSymbol;
-import com.cgreen.pitchconverter.util.FileReader;
 import com.cgreen.pitchconverter.util.Params;
 
 public final class Encoder {
     private static final Logger LOGGER = LogManager.getLogger();
+    // TODO: Javadoc comment
+    public static boolean encodeMessage(Params p, File outputPath, String outputFormat) {
+        List<MusicSymbol> music = getMusic(p);
+        if (music == null || music.size() == 0) {
+            LOGGER.debug("No music created.");
+            return false;
+        }
+        return EncoderUtils.writeMusicToFile(music, outputPath, outputFormat);
+    }
     
-    public static List<MusicSymbol> encodeMessage(Params p) {
+    private static List<MusicSymbol> getMusic(Params p) {
         List<MusicSymbol> music = new ArrayList<MusicSymbol>();
-        String message = FileReader.getText(p.getInFile());
+        String message = EncoderUtils.getText(p.getInFile());
         // TODO: Unnecessary to exit here?
         if (message.isEmpty() || message.equals("")) {
-            LOGGER.fatal("An error occurred while reading the input file.");
-            System.exit(1);
+            LOGGER.debug("The input file was empty.");
+            return music;
         }
         int startOctave;
         switch(p.getMethod()) {
@@ -32,7 +41,7 @@ public final class Encoder {
             music = StringConverter.byDegree(message, startOctave, p.isChromatic(), p.getIncludeRests());
             break;
         default:
-            LOGGER.fatal("An error has occurred.");
+            LOGGER.error("An error has occurred.");
             System.exit(1);
         }
         return music;

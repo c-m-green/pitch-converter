@@ -1,4 +1,4 @@
-package com.cgreen.pitchconverter.datastore;
+package com.cgreen.pitchconverter.decoder;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,7 +16,7 @@ public class WordCollection {
     private static final int ALPHABET_SIZE = 26;
     private static WordNode root;
     
-    public WordCollection(String filePath) {
+    WordCollection(String filePath) {
         this.filePath = filePath;
         root = new WordNode();
     }
@@ -64,7 +64,7 @@ public class WordCollection {
      * @return whether the collection was built
      * @throws FileNotFoundException
      */
-    public boolean buildWordCollection() {
+    boolean buildWordCollection() {
         // TODO: Don't build again if already built
         // TODO: Don't assume each line in the input file contains only a single word.
         Scanner s;
@@ -84,7 +84,7 @@ public class WordCollection {
         }
     }
 
-    public boolean containsWord(String query) {
+    boolean containsWord(String query) {
         int length = query.length();
         int index;
         WordNode pCrawl = root;
