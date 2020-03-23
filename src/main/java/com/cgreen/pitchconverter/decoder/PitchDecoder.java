@@ -40,7 +40,7 @@ public class PitchDecoder {
         List<Pitch> in = new ArrayList<Pitch>();
         for (MusicSymbol ms : music) {
             // If music symbol isn't a rest, add it to our list as a pitch
-            if (ms.getPitchClass() != '?') {
+            if (ms.getPitchClass() != 'r') {
                 in.add((Pitch) ms);
             }
         }

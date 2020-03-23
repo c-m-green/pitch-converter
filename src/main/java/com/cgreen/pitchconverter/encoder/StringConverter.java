@@ -35,7 +35,7 @@ public class StringConverter {
         for (int i = 0; i < s.length(); i++) {
             char ch = s.charAt(i);
             MusicSymbol ms = CharConverter.letterToPitchLiteral(ch, startOctave, useGermanH);
-            if (ms.getPitchClass() != '?' || writeRests) {
+            if (ms.getPitchClass() != 'r' || writeRests) {
                 out.add(ms);
             }
         }
@@ -61,7 +61,7 @@ public class StringConverter {
         for (int i = 0; i < input.length(); i++) {
             char ch = input.charAt(i);
             MusicSymbol ms = CharConverter.alphaNumToPitchDegree(ch, startOctave, isChromatic);
-            if (ms.getPitchClass() != '?' || writeRests) {
+            if (ms.getPitchClass() != 'r' || writeRests) {
                 out.add(ms);
             }
         }

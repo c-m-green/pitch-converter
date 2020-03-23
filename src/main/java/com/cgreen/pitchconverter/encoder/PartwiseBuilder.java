@@ -118,7 +118,7 @@ public class PartwiseBuilder {
                 measure.setNumber(barNumber + "");
             }
                                     
-            if (ms.getPitchClass() == '?') {
+            if (ms.getPitchClass() == 'r') {
                 Note note = factory.createNote();
                 measure.getNoteOrBackupOrForward().add(note);
                 org.audiveris.proxymusic.Rest rest = factory.createRest();
