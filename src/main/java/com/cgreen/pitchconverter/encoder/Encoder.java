@@ -48,7 +48,7 @@ public final class Encoder {
             music = StringConverter.byDegree(message, startOctave, p.isChromatic(), p.getIncludeRests());
             break;
         default:
-            LOGGER.error("An error has occurred.");
+            LOGGER.error("Invalid encoding method value. No conversion was performed.");
             System.exit(1);
         }
         return music;
