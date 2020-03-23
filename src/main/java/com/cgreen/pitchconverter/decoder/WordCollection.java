@@ -23,7 +23,11 @@ public class WordCollection {
     private boolean isBuilt;
     
     WordCollection(File file) {
-        this.file = file;
+        if (file == null) {
+            this.file = new File(getClass().getClassLoader().getResource("words_alpha.txt").getFile());
+        } else {
+            this.file = file;
+        }
         root = new WordNode();
         isBuilt = false;
     }

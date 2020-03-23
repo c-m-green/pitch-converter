@@ -14,15 +14,23 @@ public final class Decoder {
     private static final Logger LOGGER = LogManager.getLogger();
     
     public Decoder() { }
-    // TODO: Javadoc comment
+    
+    /**
+     * Attempts to decode a message that was encoded into music. Writes to file.
+     * 
+     * @param inputPath          - path to input .txt file
+     * @param outputPath         - path to output .txt file
+     * @param wordCollectionPath - optionally overwrite default word dictionary with path to .txt file (`null` to bypass)
+     * @param p                  - Params object
+     * @return                   - true, if successful
+     */
     public boolean decodeMessage(File inputPath, File outputPath, File wordCollectionPath, Params p) {
-        File wordCollection;
         if (wordCollectionPath == null) {
-            wordCollection = new File(getClass().getClassLoader().getResource("words_alpha.txt").getFile());
+            LOGGER.debug("Using internal dictionary.");
         } else {
-            wordCollection = wordCollectionPath;
+            LOGGER.debug("Using dictionary supplied by user.");
         }
-        WordCollection wc = new WordCollection(wordCollection);
+        WordCollection wc = new WordCollection(wordCollectionPath);
         if (wc.buildWordCollection()) {
             LOGGER.info("Words loaded successfully.");
         } else {            

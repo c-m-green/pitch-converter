@@ -1,4 +1,4 @@
-package com.cgreen.pitchconverter.converter;
+package com.cgreen.pitchconverter.decoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,13 +25,13 @@ class PitchDecoderTest {
         bunchOfRests.add(SymbolFactory.createSymbol('^', 0));
         bunchOfRests.add(SymbolFactory.createSymbol('*', 0));
         
-        wc = new WordCollection("words_alpha.txt");
+        wc = new WordCollection(null);
         wc.buildWordCollection();
     }
     
     @Test
     void decodeShouldStripRests() {
-        Set<String> empty = PitchDecoder.decode(bunchOfRests, wc, Method.DEGREE, true, true, false);
+        Set<String> empty = PitchDecoder.decode(bunchOfRests, wc, Method.DEGREE, true, true);
         assertEquals(0, empty.size());
     }
 }

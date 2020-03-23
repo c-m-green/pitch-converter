@@ -90,11 +90,6 @@ public class PitchConverter implements Runnable {
             return callEncode(m, p);
         case "decode":
             m = Mode.DECODE;
-            if (wordCollectionPath == null) {
-                LOGGER.debug("Using internal dictionary.");
-            } else {
-                LOGGER.debug("Using dictionary supplied by user.");
-            }
             LOGGER.debug("Calling Decoder");
             return callDecode(m, p, wordCollectionPath);
         default:

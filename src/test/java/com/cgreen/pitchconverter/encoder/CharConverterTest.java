@@ -1,4 +1,4 @@
-package com.cgreen.pitchconverter.converter;
+package com.cgreen.pitchconverter.encoder;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,7 +37,7 @@ class CharConverterTest {
         
         // Method should return a Rest here, with an indeterminable pitch.
         MusicSymbol invalid = CharConverter.letterToPitchLiteral('@', 4, true);
-        assertEquals('?', invalid.getPitchClass());
+        assertEquals('r', invalid.getPitchClass());
     }
     
     @Test
@@ -73,6 +73,6 @@ class CharConverterTest {
         assertEquals('0', pitch.getPitchClass());
         
         MusicSymbol rest = CharConverter.obtainPitch(pitchClasses, -1, 4);
-        assertEquals('?', rest.getPitchClass());
+        assertEquals('r', rest.getPitchClass());
     }
 }
