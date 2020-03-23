@@ -6,9 +6,9 @@ Here's an app I'm working on that lets you do just that!
 
 <hr>
 
-usage: `java -jar <app-name.jar> --mode=<encode|decode> <input-file> <output-file> <word-list>`
+basic usage: `java -jar <app-name.jar> --mode=<encode|decode> <input-file> <output-file>`
 
-(word list only necessary when decoding)
+(Use `-h` for full list of options.)
 
 <hr>
 
