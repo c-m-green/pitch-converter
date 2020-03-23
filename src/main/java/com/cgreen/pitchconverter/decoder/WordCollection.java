@@ -19,11 +19,11 @@ public class WordCollection {
     private static final int ALPHABET_SIZE = 26;
     private static WordNode root;
     
-    private String filePath;
+    private File file;
     private boolean isBuilt;
     
-    WordCollection(String filePath) {
-        this.filePath = filePath;
+    WordCollection(File file) {
+        this.file = file;
         root = new WordNode();
         isBuilt = false;
     }
@@ -41,29 +41,6 @@ public class WordCollection {
             }
         }
     };
-    
-    private void insert(String word) {
-        int length = word.length();
-        int index;
-        
-        WordNode pCrawl = root;
-        
-        for (int level = 0; level < length; level++) {
-            index = word.charAt(level) - 'a';
-            try {
-                if (pCrawl.children[index] == null) {
-                    pCrawl.children[index] = new WordNode();
-                }
-            } catch (ArrayIndexOutOfBoundsException e) {
-                // There was a char found that was not a letter, so skip it.
-                // e.g., "topsy-turvy" becomes "topsyturvy"
-                continue;
-            }           
-            pCrawl = pCrawl.children[index];
-        }
-        
-        pCrawl.isEndOfWord = true;
-    }
 
     /**
      * Read the text file to amass a collection of words.
@@ -73,13 +50,14 @@ public class WordCollection {
      */
     boolean buildWordCollection() {
         // TODO: Don't assume each line in the input file contains only a single word.
+        // TODO: Return a proper response if the input file is funky somehow.
         if (isBuilt) {
+            LOGGER.error("Tried to build the same word dictionary twice.");
             return false;
         }
         Scanner s;
         long start = System.currentTimeMillis();
         try {
-            File file = new File(filePath);
             s = new Scanner(file);
             while (s.hasNextLine()) {
                 String word = s.nextLine().toLowerCase();
@@ -111,5 +89,28 @@ public class WordCollection {
             pCrawl = pCrawl.children[index];
         }
         return (pCrawl != null && pCrawl.isEndOfWord);
+    }
+    
+    private void insert(String word) {
+        int length = word.length();
+        int index;
+        
+        WordNode pCrawl = root;
+        
+        for (int level = 0; level < length; level++) {
+            index = word.charAt(level) - 'a';
+            try {
+                if (pCrawl.children[index] == null) {
+                    pCrawl.children[index] = new WordNode();
+                }
+            } catch (ArrayIndexOutOfBoundsException e) {
+                // There was a char found that was not a letter, so skip it.
+                // e.g., "topsy-turvy" becomes "topsyturvy"
+                continue;
+            }           
+            pCrawl = pCrawl.children[index];
+        }
+        
+        pCrawl.isEndOfWord = true;
     }
 }

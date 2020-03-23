@@ -16,12 +16,18 @@ public final class Decoder {
     public Decoder() { }
     // TODO: Javadoc comment
     public boolean decodeMessage(File inputPath, File outputPath, File wordCollectionPath, Params p) {
-        WordCollection wc = new WordCollection(wordCollectionPath.getAbsolutePath());
+        File wordCollection;
+        if (wordCollectionPath == null) {
+            wordCollection = new File(getClass().getClassLoader().getResource("words_alpha.txt").getFile());
+        } else {
+            wordCollection = wordCollectionPath;
+        }
+        WordCollection wc = new WordCollection(wordCollection);
         if (wc.buildWordCollection()) {
             // TODO: Give time
-            LOGGER.info("Words loaded successfully");
+            LOGGER.info("Words loaded successfully.");
         } else {            
-            LOGGER.fatal("No word collection found at " + wordCollectionPath.getAbsolutePath());
+            LOGGER.fatal("Dictionary of valid words unsuccessfully built.");
             return false;
         }
         List<MusicSymbol> music = DecoderUtils.getMusic(inputPath);

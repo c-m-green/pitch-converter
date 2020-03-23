@@ -26,9 +26,6 @@ public class PitchConverter implements Runnable {
     @Parameters(arity = "1", index = "1", paramLabel = "OUTPUT-FILE", description = "Path of output file.")
     private File outputPath;
     
-    @Parameters(arity = "0..1", index = "2", paramLabel = "WORD-LIST", description = "File containing a list of valid words to reference when decoding.")
-    private File wordCollectionPath;
-    
     // Required options
     
     @Option(names = { "-m", "--mode" }, required = true, description = "Select mode to run application."
@@ -58,6 +55,9 @@ public class PitchConverter implements Runnable {
     
     @Option(names = {"-r", "--includeRests"}, description = "Convert spaces, punctuation, and new lines to rests." + "\nAll spaces and non-alphanumeric characters are ignored by default.")
     private boolean includeRests;
+    
+    @Option(names = {"-w", "--wordList"}, description = "Option to override the default English dictionary with a user-supplied text file.")
+    private File wordCollectionPath;
 
     public void run() {
         if (mode == null) {
@@ -91,12 +91,12 @@ public class PitchConverter implements Runnable {
         case "decode":
             m = Mode.DECODE;
             if (wordCollectionPath == null) {
-                LOGGER.fatal("No word collection supplied for decoding.");
-                break;
+                LOGGER.debug("Using internal dictionary.");
             } else {
-                LOGGER.debug("Calling Decoder");
-                return callDecode(m, p, wordCollectionPath);
+                LOGGER.debug("Using dictionary supplied by user.");
             }
+            LOGGER.debug("Calling Decoder");
+            return callDecode(m, p, wordCollectionPath);
         default:
             LOGGER.fatal("Invalid mode supplied.");
             break;
