@@ -17,6 +17,10 @@ public final class Encoder {
     // TODO: Javadoc comment
     // TODO: Farm argument checks out to EncoderHelper
     public boolean encodeMessage(File inputFile, File outputFile, String outputFormat, Params p) {
+        if (outputFormat == null || outputFormat.isEmpty()) {
+            // Default to "text"
+            outputFormat = "text";
+        }
         List<MusicSymbol> music = getMusic(inputFile, p);
         if (music == null || music.size() == 0) {
             LOGGER.debug("No music created.");
