@@ -24,7 +24,6 @@ public final class Decoder {
         }
         WordCollection wc = new WordCollection(wordCollection);
         if (wc.buildWordCollection()) {
-            // TODO: Give time
             LOGGER.info("Words loaded successfully.");
         } else {            
             LOGGER.fatal("Dictionary of valid words unsuccessfully built.");
