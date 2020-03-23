@@ -12,8 +12,10 @@ import com.cgreen.pitchconverter.util.Params;
 
 public final class Decoder {
     private static final Logger LOGGER = LogManager.getLogger();
+    
+    public Decoder() { }
     // TODO: Javadoc comment
-    public static boolean decodeMessage(Params p, File outputPath) {
+    public boolean decodeMessage(Params p, File outputPath) {
         WordCollection wc = new WordCollection(p.getWordCollectionFile().getAbsolutePath());
         if (wc.buildWordCollection()) {
             // TODO: Give time

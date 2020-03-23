@@ -113,12 +113,14 @@ public class PitchConverter implements Runnable {
             // Default to txt
             outputFormat = "text";
         }
-        return Encoder.encodeMessage(p, outputPath, outputFormat);
+        Encoder encoder = new Encoder();
+        return encoder.encodeMessage(p, outputPath, outputFormat);
     }
     
     private boolean callDecode(Params p, Mode m, Method em, File wcFile) {
         p.init(input, m, em, wcFile, verbose, useGermanH, chromatic, stripNonPitchLetters);
-        return Decoder.decodeMessage(p, outputPath);
+        Decoder decoder = new Decoder();
+        return decoder.decodeMessage(p, outputPath);
     }
 
     private Method getEncodeMethod() {

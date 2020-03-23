@@ -12,8 +12,10 @@ import com.cgreen.pitchconverter.util.Params;
 
 public final class Encoder {
     private static final Logger LOGGER = LogManager.getLogger();
+    
+    public Encoder() { }
     // TODO: Javadoc comment
-    public static boolean encodeMessage(Params p, File outputPath, String outputFormat) {
+    public boolean encodeMessage(Params p, File outputPath, String outputFormat) {
         List<MusicSymbol> music = getMusic(p);
         if (music == null || music.size() == 0) {
             LOGGER.debug("No music created.");
@@ -22,7 +24,7 @@ public final class Encoder {
         return EncoderUtils.writeMusicToFile(music, outputPath, outputFormat);
     }
     
-    private static List<MusicSymbol> getMusic(Params p) {
+    private List<MusicSymbol> getMusic(Params p) {
         List<MusicSymbol> music = new ArrayList<MusicSymbol>();
         String message = EncoderUtils.getText(p.getInFile());
         // TODO: Unnecessary to exit here?
