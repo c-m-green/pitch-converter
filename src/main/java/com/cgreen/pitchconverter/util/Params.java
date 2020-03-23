@@ -1,67 +1,27 @@
 package com.cgreen.pitchconverter.util;
 
-import java.io.File;
-
 public class Params {
-    private static Params instance = null;
-    private File inFile, wordCollectionFile;
-    private Mode mode;
     private Method method;
-    private boolean verbose, useGermanH, useChromatic, stripNonPitchLetters, includeRests;
+    private boolean useGermanH, useChromatic, stripNonPitchLetters, includeRests;
     
-    private Params() { }
-    
-    public static Params getInstance() {
-        if (instance == null) {
-            instance = new Params();
-        }
-        return instance;
-    }
-    
-    // for encoding
-    // TODO: Write proper comment for this.
-    public void init(File inFile, Mode mode, Method method, boolean verbose, boolean useGermanH, boolean useChromatic, boolean stripNonPitchLetters, boolean includeRests) {
-        this.inFile = inFile;
-        this.mode = mode;
+    /**
+     * 
+     * @param method
+     * @param useGermanH
+     * @param useChromatic
+     * @param stripNonPitchLetters
+     * @param includeRests
+     */
+    public Params(Method method, boolean useGermanH, boolean useChromatic, boolean stripNonPitchLetters, boolean includeRests) { 
         this.method = method;
-        this.verbose = verbose;
         this.useGermanH = useGermanH;
         this.useChromatic = useChromatic;
         this.stripNonPitchLetters = stripNonPitchLetters;
         this.includeRests = includeRests;
     }
     
-    // for decoding
-    // TODO: Write proper comment for this.
-    public void init(File inFile, Mode mode, Method method, File wordCollectionFile, boolean verbose, boolean useGermanH, boolean useChromatic, boolean stripNonPitchLetters) {
-        this.inFile = inFile;
-        this.mode = mode;
-        this.method = method;
-        this.wordCollectionFile = wordCollectionFile;
-        this.verbose = verbose;
-        this.useGermanH = useGermanH;
-        this.useChromatic = useChromatic;
-        this.stripNonPitchLetters = stripNonPitchLetters;
-    }
-    
-    public Mode getMode() {
-        return mode;
-    }
-    
     public Method getMethod() {
         return method;
-    }
-    
-    public boolean getVerbose() {
-        return verbose;
-    }
-    
-    public File getInFile() {
-        return inFile;
-    }
-    
-    public File getWordCollectionFile() {
-        return wordCollectionFile;
     }
     
     public boolean getUseGermanH() {

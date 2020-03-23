@@ -15,18 +15,18 @@ public final class Encoder {
     
     public Encoder() { }
     // TODO: Javadoc comment
-    public boolean encodeMessage(Params p, File outputPath, String outputFormat) {
-        List<MusicSymbol> music = getMusic(p);
+    public boolean encodeMessage(File inputFile, File outputFile, String outputFormat, Params p) {
+        List<MusicSymbol> music = getMusic(inputFile, p);
         if (music == null || music.size() == 0) {
             LOGGER.debug("No music created.");
             return false;
         }
-        return EncoderUtils.writeMusicToFile(music, outputPath, outputFormat);
+        return EncoderUtils.writeMusicToFile(music, outputFile, outputFormat);
     }
     
-    private List<MusicSymbol> getMusic(Params p) {
+    private List<MusicSymbol> getMusic(File inputFile, Params p) {
         List<MusicSymbol> music = new ArrayList<MusicSymbol>();
-        String message = EncoderUtils.getText(p.getInFile());
+        String message = EncoderUtils.getText(inputFile);
         // TODO: Unnecessary to exit here?
         if (message.isEmpty() || message.equals("")) {
             LOGGER.debug("The input file was empty.");

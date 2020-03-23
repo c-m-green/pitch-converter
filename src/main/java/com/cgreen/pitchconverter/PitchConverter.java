@@ -1,7 +1,6 @@
 package com.cgreen.pitchconverter;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,7 +8,6 @@ import org.apache.logging.log4j.Logger;
 import com.cgreen.pitchconverter.decoder.Decoder;
 import com.cgreen.pitchconverter.encoder.Encoder;
 import com.cgreen.pitchconverter.util.Method;
-import com.cgreen.pitchconverter.util.Mode;
 import com.cgreen.pitchconverter.util.Params;
 
 import picocli.CommandLine;
@@ -23,13 +21,13 @@ public class PitchConverter implements Runnable {
     // Parameters
     
     @Parameters(arity = "1", index = "0", paramLabel = "INPUT-FILE", description = "File to process. Accepts .txt files.")
-    private File input;
+    private File inputPath;
 
     @Parameters(arity = "1", index = "1", paramLabel = "OUTPUT-FILE", description = "Path of output file.")
     private File outputPath;
     
     @Parameters(arity = "0..1", index = "2", paramLabel = "WORD-LIST", description = "File containing a list of valid words to reference when decoding.")
-    private File wordCollection;
+    private File wordCollectionPath;
     
     // Required options
     
@@ -78,26 +76,26 @@ public class PitchConverter implements Runnable {
     }
     
     private boolean performOperation() {
-        Params p = Params.getInstance();
-        Mode m;
         Method em = getEncodeMethod();
         if (em == Method.INVALID) {
             return false;
         }
+        Params p = new Params(em, useGermanH, chromatic, stripNonPitchLetters, includeRests);
         mode = mode.toLowerCase();
+        Mode m;
         switch (mode) {
         case "encode":
             m = Mode.ENCODE;
             LOGGER.debug("Calling Encoder");
-            return callEncode(p, m, em);
+            return callEncode(m, p);
         case "decode":
             m = Mode.DECODE;
-            if (wordCollection == null) {
+            if (wordCollectionPath == null) {
                 LOGGER.fatal("No word collection supplied for decoding.");
                 break;
             } else {
                 LOGGER.debug("Calling Decoder");
-                return callDecode(p, m, em, wordCollection);
+                return callDecode(m, p, wordCollectionPath);
             }
         default:
             LOGGER.fatal("Invalid mode supplied.");
@@ -107,20 +105,18 @@ public class PitchConverter implements Runnable {
         return false;
     }
     
-    private boolean callEncode(Params p, Mode m, Method em) {
-        p.init(input, m, em, verbose, useGermanH, chromatic, stripNonPitchLetters, includeRests);
+    private boolean callEncode(Mode m, Params p) {
         if (outputFormat == null) {
             // Default to txt
             outputFormat = "text";
         }
         Encoder encoder = new Encoder();
-        return encoder.encodeMessage(p, outputPath, outputFormat);
+        return encoder.encodeMessage(inputPath, outputPath, outputFormat, p);
     }
     
-    private boolean callDecode(Params p, Mode m, Method em, File wcFile) {
-        p.init(input, m, em, wcFile, verbose, useGermanH, chromatic, stripNonPitchLetters);
+    private boolean callDecode(Mode m, Params p, File wcFile) {
         Decoder decoder = new Decoder();
-        return decoder.decodeMessage(p, outputPath);
+        return decoder.decodeMessage(inputPath, outputPath, wordCollectionPath, p);
     }
 
     private Method getEncodeMethod() {
@@ -143,6 +139,11 @@ public class PitchConverter implements Runnable {
     
     public static void main(String[] args) {
         CommandLine.run(new PitchConverter(), System.out, args);
+    }
+    
+    private enum Mode {
+        // TODO: toString()
+        ENCODE, DECODE
     }
 
 }

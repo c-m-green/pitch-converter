@@ -33,7 +33,7 @@ public class PitchDecoder {
      * @return a Set of potential messages
      */
     // TODO Account for transposition
-    static Set<String> decode(List<MusicSymbol> music, WordCollection wc, Method m, boolean useGermanH, boolean checkChromatic, boolean verbose) {
+    static Set<String> decode(List<MusicSymbol> music, WordCollection wc, Method m, boolean useGermanH, boolean checkChromatic) {
         Set<String> results = new HashSet<String>();
 
         // First, create list of Pitches, not Rests
@@ -92,9 +92,7 @@ public class PitchDecoder {
                     continue;
                 }
             }
-            if (verbose) {
-                LOGGER.info("Current string: " + combo + " (" + (i + 1) + "/" + iterations + ")");
-            }
+            //System.out.println("Current string: " + combo + " (" + (i + 1) + "/" + iterations + ")");
             List<String> l = getPotentialStrings(combo, wc);
             for (String s : l) {
                 results.add(s);
