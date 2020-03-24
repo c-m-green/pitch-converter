@@ -1,7 +1,11 @@
 package com.cgreen.pitchconverter.decoder;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 import org.apache.logging.log4j.LogManager;
@@ -23,11 +27,7 @@ public class WordCollection {
     private boolean isBuilt;
     
     WordCollection(File file) {
-        if (file == null) {
-            this.file = new File(getClass().getClassLoader().getResource("words_alpha.txt").getFile());
-        } else {
-            this.file = file;
-        }
+        this.file = file;
         root = new WordNode();
         isBuilt = false;
     }
@@ -54,28 +54,66 @@ public class WordCollection {
      */
     boolean buildWordCollection() {
         // TODO: Don't assume each line in the input file contains only a single word.
-        // TODO: Return a proper response if the input file is funky somehow.
+        // TODO: Use InputStream & BufferedReader for both cases
+        boolean wasSuccess = false;
         if (isBuilt) {
-            LOGGER.error("Tried to build the same word dictionary twice.");
-            return false;
+            LOGGER.error("Tried to build the same word collection twice.");
+            return wasSuccess;
         }
-        Scanner s;
         long start = System.currentTimeMillis();
-        try {
-            s = new Scanner(file);
-            while (s.hasNextLine()) {
-                String word = s.nextLine().toLowerCase();
-                if (word.length() > 1 || word.equalsIgnoreCase("a") || word.equalsIgnoreCase("i")) {
-                    insert(word);
+        if (file == null) {
+            // https://examples.javacodegeeks.com/core-java/io/inputstream/read-line-of-chars-from-console-with-inputstream/
+            BufferedReader br = null;
+            try {
+                InputStream in = getClass().getClassLoader().getResourceAsStream("words_alpha.txt");
+                br = new BufferedReader(new InputStreamReader(in));
+                String word;
+                while ((word = br.readLine()) != null) {
+                    if (vetWord(word)) {
+                        insert(word);
+                    }
+                }
+                isBuilt = true;
+                wasSuccess = true;
+            } catch (IOException ioe) {
+                LOGGER.debug("Error reading default word collection.");
+            } finally {
+                try {
+                    if (br != null) {
+                        br.close();
+                    }
+                }
+                catch (IOException ioe) {
+                    LOGGER.debug("Error while closing stream: " + ioe);
+                    wasSuccess = false;
                 }
             }
-            s.close();
-            LOGGER.debug("Word collection built in {} s.", (System.currentTimeMillis() - start) / 1000.);
-            isBuilt = true;
-            return true;
-        } catch (FileNotFoundException fnfe) {
-            return false;
+        } else {
+            Scanner s = null;
+            try {
+                s = new Scanner(file);
+                while (s.hasNextLine()) {
+                    String word = s.nextLine().toLowerCase();
+                    if (vetWord(word)) {
+                        insert(word);
+                    }
+                }
+                LOGGER.debug("Word collection built in {} s.", (System.currentTimeMillis() - start) / 1000.);
+                isBuilt = true;
+                wasSuccess = true;
+            } catch (FileNotFoundException fnfe) {
+                LOGGER.error("Custom word collection not found.");
+            } finally {
+                if (s != null) {
+                    s.close();
+                }
+            }
         }
+        return wasSuccess;
+    }
+        
+    private boolean vetWord(String word) {
+        return (word.length() > 1 || word.equalsIgnoreCase("a") || word.equalsIgnoreCase("i"));
     }
 
     boolean containsWord(String query) {
