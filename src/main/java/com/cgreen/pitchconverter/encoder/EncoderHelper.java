@@ -17,7 +17,7 @@ import org.audiveris.proxymusic.util.Marshalling.MarshallingException;
 
 import com.cgreen.pitchconverter.datastore.pitch.MusicSymbol;
 
-public final class EncoderUtils {
+public final class EncoderHelper {
     private static final Logger LOGGER = LogManager.getLogger();
 
     static String getText(File file) {

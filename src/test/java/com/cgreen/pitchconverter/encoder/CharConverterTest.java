@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import com.cgreen.pitchconverter.datastore.pitch.MusicSymbol;
 
 class CharConverterTest {
-    // TODO: Add test to test octave based on certain params
+
     private static char[] pitchClasses;
     @BeforeAll
     static void setUp() {
@@ -31,13 +31,16 @@ class CharConverterTest {
         
         MusicSymbol beyondHNoGerman = CharConverter.letterToPitchLiteral('j', 4, false);
         assertEquals('0', beyondHNoGerman.getPitchClass());
+        assertEquals("5", beyondHNoGerman.getRegister());
         
         MusicSymbol normalized = CharConverter.letterToPitchLiteral('é', 3, false);
         assertEquals('4', normalized.getPitchClass());
+        assertEquals("3", normalized.getRegister());
         
         // Method should return a Rest here, with an indeterminable pitch.
         MusicSymbol invalid = CharConverter.letterToPitchLiteral('@', 4, true);
         assertEquals('r', invalid.getPitchClass());
+        assertEquals("N/A", invalid.getRegister());
     }
     
     @Test
@@ -61,6 +64,7 @@ class CharConverterTest {
         
         assertEquals(7, CharConverter.findCharValue('7'));
         assertEquals(16, CharConverter.findCharValue('Q'));
+        assertEquals(3, CharConverter.findCharValue('d'));
         
         // Test invalid chars
         assertEquals(-1, CharConverter.findCharValue('%'));

@@ -54,7 +54,6 @@ public class CharConverter {
         if (!Character.isLetterOrDigit(ch)) { // if non-alphanumeric character is passed in
             return SymbolFactory.createSymbol('r', 0);
         } else {
-            char in = Normalizer.normalize(ch + "", Normalizer.Form.NFD).toUpperCase().charAt(0);
             char[] pitchClasses;
             if (isChromatic) {
                 pitchClasses = new char[12];
@@ -66,7 +65,7 @@ public class CharConverter {
             } else {
                 pitchClasses = new char[] { '0', '2', '4', '5', '7', '9', 'e' };
             }
-            int charValue = findCharValue(in);
+            int charValue = findCharValue(ch);
             MusicSymbol out = obtainPitch(pitchClasses, charValue, octaveStart);
             return out;
         }
@@ -83,12 +82,12 @@ public class CharConverter {
      * @return -1 if invalid char was passed in
      */
     static int findCharValue(char c) {
-        // TODO: Log warning if a char outside of 0-25 range is passed to this method.
+        char input = Normalizer.normalize(c + "", Normalizer.Form.NFD).toUpperCase().charAt(0);
         int charValue = -1;
-        if (Character.isLetter(c)) {
-            charValue = (int) c - 65; // Bring down to 0-25 range
-        } else if (Character.isDigit(c)) {
-            charValue = Integer.parseInt(c + "");
+        if (Character.isLetter(input)) {
+            charValue = (int) input - 65; // Bring down to 0-25 range
+        } else if (Character.isDigit(input)) {
+            charValue = Integer.parseInt(input + "");
         }
         return charValue;
     }

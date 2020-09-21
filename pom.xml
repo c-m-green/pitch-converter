@@ -55,6 +55,12 @@
             <artifactId>proxymusic</artifactId>
             <version>3.0.1</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.audiveris/proxymusic -->
+        <dependency>
+            <groupId>org.audiveris</groupId>
+            <artifactId>proxymusic</artifactId>
+            <version>3.0.1</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

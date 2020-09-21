@@ -101,10 +101,6 @@ public class PitchConverter implements Runnable {
     }
     
     private boolean callEncode(Mode m, Params p) {
-        if (outputFormat == null) {
-            // Default to txt
-            outputFormat = "text";
-        }
         Encoder encoder = new Encoder();
         return encoder.encodeMessage(inputPath, outputPath, outputFormat, p);
     }

@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 import com.cgreen.pitchconverter.datastore.pitch.MusicSymbol;
 import com.cgreen.pitchconverter.datastore.pitch.SymbolFactory;
 
-public final class DecoderUtils {
+public final class DecoderHelper {
     private static final Logger LOGGER = LogManager.getLogger();
 
     static List<MusicSymbol> getMusic(File file) {

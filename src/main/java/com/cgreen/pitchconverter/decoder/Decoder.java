@@ -25,6 +25,7 @@ public final class Decoder {
      * @return                   - true, if successful
      */
     public boolean decodeMessage(File inputPath, File outputPath, File wordCollectionPath, Params p) {
+        // TODO: Farm argument checks out to DecoderHelper
         if (wordCollectionPath == null) {
             LOGGER.debug("Using internal dictionary.");
         } else {
@@ -37,7 +38,7 @@ public final class Decoder {
             LOGGER.fatal("Dictionary of valid words unsuccessfully built.");
             return false;
         }
-        List<MusicSymbol> music = DecoderUtils.getMusic(inputPath);
+        List<MusicSymbol> music = DecoderHelper.getMusic(inputPath);
         if (music == null || music.size() == 0) {
             LOGGER.error("No music was loaded.");
             return false;
@@ -49,7 +50,7 @@ public final class Decoder {
             return true;
         } else {
             LOGGER.debug("Decoded in {} s.", (System.currentTimeMillis() - start) / 1000.);
-            return DecoderUtils.writeMessagesToFile(matches, outputPath);
+            return DecoderHelper.writeMessagesToFile(matches, outputPath);
         }
     }
 }
