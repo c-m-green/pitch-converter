@@ -1,4 +1,4 @@
-package com.cgreen.pitchconverter.converter;
+package com.cgreen.pitchconverter.decoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,12 +9,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.cgreen.pitchconverter.datastore.WordCollection;
 import com.cgreen.pitchconverter.datastore.pitch.MusicSymbol;
 import com.cgreen.pitchconverter.datastore.pitch.SymbolFactory;
 import com.cgreen.pitchconverter.util.Method;
 
-class PitchTranslatorTest {
+class PitchDecoderTest {
     
     private static List<MusicSymbol> bunchOfRests;
     private static WordCollection wc;
@@ -22,17 +21,17 @@ class PitchTranslatorTest {
     @BeforeAll
     static void setUp() {
         bunchOfRests = new ArrayList<MusicSymbol>();
-        bunchOfRests.add(SymbolFactory.createSymbol('!'));
-        bunchOfRests.add(SymbolFactory.createSymbol('^'));
-        bunchOfRests.add(SymbolFactory.createSymbol('*'));
+        bunchOfRests.add(SymbolFactory.createSymbol('!', 0));
+        bunchOfRests.add(SymbolFactory.createSymbol('^', 0));
+        bunchOfRests.add(SymbolFactory.createSymbol('*', 0));
         
-        wc = new WordCollection("words_alpha.txt");
-        assertTrue(wc.buildWordCollection());
+        wc = new WordCollection(null);
+        wc.buildWordCollection();
     }
     
     @Test
     void decodeShouldStripRests() {
-        Set<String> empty = PitchTranslator.decode(bunchOfRests, wc, Method.DEGREE, true, true, false);
+        Set<String> empty = PitchDecoder.decode(bunchOfRests, wc, Method.DEGREE, true, true);
         assertEquals(0, empty.size());
     }
 }

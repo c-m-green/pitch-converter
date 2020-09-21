@@ -15,11 +15,6 @@ public class Pitch extends MusicSymbol {
     private char pitchClass;
     private String register;
 
-    Pitch(char pitchClass) {
-        this.pitchClass = pitchClass;
-        this.register = "?";
-    }
-
     Pitch(char pitchClass, int register) {
         this.pitchClass = pitchClass;
         this.register = String.valueOf(register);

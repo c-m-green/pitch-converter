@@ -1,6 +1,7 @@
 package com.cgreen.pitchconverter.datastore.pitch;
 
 public class PitchController {
+    // TODO: I don't want to leave this exposed method here, so what to do with it?
     public static MusicSymbol transposePitch(MusicSymbol p, int interval) {
         char pc = p.getPitchClass();
         String r = p.getRegister();

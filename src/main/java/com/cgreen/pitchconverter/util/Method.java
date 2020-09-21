@@ -1,5 +1,6 @@
 package com.cgreen.pitchconverter.util;
 
 public enum Method {
-    LETTER, DEGREE
+    // TODO: toString()
+    LETTER, DEGREE, INVALID
 }

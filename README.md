@@ -6,12 +6,10 @@ Here's an app I'm working on that lets you do just that!
 
 <hr>
 
-usage: `java -jar <app-name.jar> --mode=<encode|decode> <input-file> <output-file> <word-list>`
+basic usage: `java -jar <app-name.jar> --mode=<encode|decode> <input-file> <output-file>`
 
-(word list only necessary when decoding)
+(Use `-h` for full list of options.)
 
 <hr>
 
 This is my first Java application created for fun. It was conceived around mid-2016 and receives attention from me every now and then. The goal is to make this a viable tool for composers and other curious people by adding multiple input and output formats.
-
-Thanks are in order to https://github.com/dwyl/english-words for the large text file of words.

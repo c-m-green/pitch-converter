@@ -2,30 +2,20 @@ package com.cgreen.pitchconverter.datastore.pitch;
 
 public final class SymbolFactory {
     static final String PITCH_CLASS_INTS = "0123456789te";
-    // TODO: @returns for these methods in the javadoc comments are inaccurate!!!
     /**
-     * Create a Pitch.
+     * Create a MusicSymbol.
      * 
-     * @param pitchClass - an integer representation of a pitch class. 't' and 'e'
-     *                   are used for B-flat and B-natural, respectively.
-     * @return a Pitch of the given pitch class. Invalid pitch classes return a
-     *         pitch of '?'.
-     */
-    public static MusicSymbol createSymbol(char pitchClass) {
-        if (isValidPitchClass(pitchClass)) {
-            return new Pitch(pitchClass);
-        } else {
-            return new Rest();
-        }
-    }
-    
-    /**
-     * Create a Pitch in a particular register.
+     * If a valid pitch class (in integer notation) is provided, the
+     * MusicSymbol returned will be a Pitch. Otherwise, this method returns
+     * a Rest.
+     * 
+     * Valid pitches are: 0-9,t,e
+     * 
+     * If a rest is desired, an invalid char (e.g., 'r') will do.
      * 
      * @param pitchClass
      * @param register
-     * @return a Pitch of the given pitch class. Invalid pitch classes return a
-     *         pitch of '?'.
+     * @return a Pitch of the given pitch class, or a Rest.
      */
     public static MusicSymbol createSymbol(char pitchClass, int register) {
         if (isValidPitchClass(pitchClass)) {
