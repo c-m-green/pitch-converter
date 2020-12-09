@@ -21,7 +21,7 @@ public final class Encoder {
             // Default to "text"
             outputFormat = "text";
         }
-        List<MusicSymbol> music = getMusic(inputFile, p);
+        List<MusicSymbol> music = createMusic(inputFile, p);
         if (music == null || music.size() == 0) {
             LOGGER.debug("No music created.");
             return false;
@@ -29,7 +29,7 @@ public final class Encoder {
         return EncoderHelper.writeMusicToFile(music, outputFile, outputFormat);
     }
     
-    private List<MusicSymbol> getMusic(File inputFile, Params p) {
+    private List<MusicSymbol> createMusic(File inputFile, Params p) {
         List<MusicSymbol> music = new ArrayList<MusicSymbol>();
         String message = EncoderHelper.getText(inputFile);
         // TODO: Unnecessary to exit here?
