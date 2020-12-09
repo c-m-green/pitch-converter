@@ -6,6 +6,11 @@ import com.cgreen.pitchconverter.datastore.pitch.MusicSymbol;
 import com.cgreen.pitchconverter.datastore.pitch.SymbolFactory;
 
 public class CharConverter {
+    
+    private static final char[] NON_CHROMATIC_PITCH_CLASSES = { '0', '2', '4', '5', '7', '9', 'e' };
+    private static final char[] CHROMATIC_PITCH_CLASSES = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 't', 'e' };
+    private static final char[] GERMAN_H_PITCH_CLASSES = { '9', 't', '0', '2', '4', '5', '7', 'e' };
+    private static final char[] NON_GERMAN_H_PITCH_CLASSES = { '9', 'e', '0', '2', '4', '5', '7' };
 
     /**
      * Converts a letter into a musical pitch by direct letter association (e.g., A
@@ -27,8 +32,7 @@ public class CharConverter {
             return SymbolFactory.createSymbol('r', 0);
         } else {
             char in = Normalizer.normalize(ch + "", Normalizer.Form.NFD).toUpperCase().charAt(0);
-            char[] pitchClasses = useGermanH ? new char[] { '9', 't', '0', '2', '4', '5', '7', 'e' }
-                    : new char[] { '9', 'e', '0', '2', '4', '5', '7' };
+            char[] pitchClasses = useGermanH ? GERMAN_H_PITCH_CLASSES : NON_GERMAN_H_PITCH_CLASSES;
             int charValue = findCharValue(in);
             MusicSymbol out = obtainPitch(pitchClasses, charValue, octaveStart);
             return out;
@@ -54,17 +58,7 @@ public class CharConverter {
         if (!Character.isLetterOrDigit(ch)) { // if non-alphanumeric character is passed in
             return SymbolFactory.createSymbol('r', 0);
         } else {
-            char[] pitchClasses;
-            if (isChromatic) {
-                pitchClasses = new char[12];
-                for (int i = 0; i < 10; i++) {
-                    pitchClasses[i] = Character.forDigit(i, 10);
-                }
-                pitchClasses[10] = 't';
-                pitchClasses[11] = 'e';
-            } else {
-                pitchClasses = new char[] { '0', '2', '4', '5', '7', '9', 'e' };
-            }
+            char[] pitchClasses = (isChromatic) ? CHROMATIC_PITCH_CLASSES : NON_CHROMATIC_PITCH_CLASSES;
             int charValue = findCharValue(ch);
             MusicSymbol out = obtainPitch(pitchClasses, charValue, octaveStart);
             return out;
