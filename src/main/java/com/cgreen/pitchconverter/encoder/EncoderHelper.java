@@ -21,21 +21,21 @@ public final class EncoderHelper {
     private static final Logger LOGGER = LogManager.getLogger();
 
     static String getText(File file) {
-        String textLines = "";
+        StringBuilder textLines = new StringBuilder();
         try {
             if (!getFileExtension(file).equals("txt")) {
                 return "";
             }
             Scanner s = new Scanner(file);
             while(s.hasNextLine()) {
-                textLines += s.nextLine();
+                textLines.append(s.nextLine());
             }
             s.close();
         } catch (FileNotFoundException e) {
             System.out.println("ERROR: The input file " + file.getAbsolutePath() + " was not found!");
             System.exit(1);
         }
-        return textLines;
+        return textLines.toString();
     }
     
     private static String getFileExtension(File file) {
