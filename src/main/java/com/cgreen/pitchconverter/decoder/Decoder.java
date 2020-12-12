@@ -41,7 +41,7 @@ public final class Decoder {
             LOGGER.fatal("Dictionary of valid words unsuccessfully built.");
             return false;
         }
-        List<MusicSymbol> music = DecoderHelper.getMusic(inputPath);
+        List<MusicSymbol> music = DecoderHelper.readMusicFromFile(inputPath);
         if (music == null || music.isEmpty()) {
             LOGGER.error("No music was loaded.");
             return false;

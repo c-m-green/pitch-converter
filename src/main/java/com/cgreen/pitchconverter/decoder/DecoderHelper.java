@@ -17,7 +17,7 @@ import com.cgreen.pitchconverter.datastore.pitch.SymbolFactory;
 public final class DecoderHelper {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    static List<MusicSymbol> getMusic(File file) {
+    static List<MusicSymbol> readMusicFromFile(File file) {
         List<MusicSymbol> music = new ArrayList<MusicSymbol>();
         try {
             if (!getFileExtension(file).equals("txt")) {
