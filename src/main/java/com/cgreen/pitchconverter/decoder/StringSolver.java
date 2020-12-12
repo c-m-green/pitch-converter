@@ -28,6 +28,7 @@ public final class StringSolver {
                     // System.out.println("Now trying: " + newQuery);
                     List<String> subResults = getPotentialStrings(newQuery, wc);
                     if (subResults.isEmpty()) {
+                        // Add partial match
                         possibilities.add(substr + "?");
                     } else {
                         for (String s : subResults) {
@@ -73,13 +74,13 @@ public final class StringSolver {
                 return "";
             }
         }
-        String chars = "";
+        StringBuilder chars = new StringBuilder();
         while (index < bottomIndex + 26) {
-            chars += (char) index + "";
+            chars.append((char)index);
             int increase = (isChromatic) ? 12 : 7;
             index += increase;
         }
-        return chars;
+        return chars.toString();
     }
     
     /**
@@ -97,11 +98,11 @@ public final class StringSolver {
         final String pitchClasses = useGermanH ? "9t02457e" : "9e02457";
         int bottomIndex = 97; // 'a'
         int index = pitchClasses.indexOf(p.getPitchClass()) + bottomIndex;
-        String chars = "";
+        StringBuilder chars = new StringBuilder();
         while (index < bottomIndex + 26) {
-            chars += (char) index + "";
+            chars.append((char)index);
             index += pitchClasses.length();
         }
-        return chars;
+        return chars.toString();
     }
 }

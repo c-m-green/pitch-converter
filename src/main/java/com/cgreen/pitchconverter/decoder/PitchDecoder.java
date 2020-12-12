@@ -84,17 +84,17 @@ public class PitchDecoder {
         int index = comboIndices.length - 1;
         // System.out.println("There will be " + iterations + " combinations.");
         for (int i = 0; i < iterations; i++) {
-            String combo = "";
+            StringBuilder combo = new StringBuilder();
             // Build the string to examine for this iteration.
             for (int j = 0; j < charConversions.length; j++) {
                 try {
-                    combo += charConversions[j].charAt(comboIndices[j]);
+                    combo.append(charConversions[j].charAt(comboIndices[j]));
                 } catch (NullPointerException npe) {
                     continue;
                 }
             }
             //System.out.println("Current string: " + combo + " (" + (i + 1) + "/" + iterations + ")");
-            List<String> l = StringSolver.getPotentialStrings(combo, wc);
+            List<String> l = StringSolver.getPotentialStrings(combo.toString(), wc);
             for (String s : l) {
                 results.add(s);
             }
