@@ -13,7 +13,7 @@ import com.cgreen.pitchconverter.util.Params;
 import picocli.CommandLine;
 import picocli.CommandLine.*;
 
-@Command(name = "PitchConverter", mixinStandardHelpOptions = true, version = "0.9.1")
+@Command(name = "PitchConverter", mixinStandardHelpOptions = true, version = "0.9.2")
 public class PitchConverter implements Runnable {
     
     private static final Logger LOGGER = LogManager.getLogger();
