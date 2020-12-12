@@ -54,8 +54,6 @@ public class PitchDecoder {
         // Create array to store the potential characters for each pitch
         String[] charConversions = new String[in.size()];
         
-        // Keep track of the number of potential characters for each pitch
-        int[] conversionLengths = new int[in.size()];
         int iterations = 1;
         
         // For each pitch, get the possible chars it could represent
@@ -77,11 +75,10 @@ public class PitchDecoder {
                 continue;
             }
             charConversions[i] = possibleChars;
-            conversionLengths[i] = charConversions[i].length();
-            iterations *= conversionLengths[i];
+            iterations *= charConversions[i].length();
         }
-        int[] comboIndices = new int[conversionLengths.length];
-        int index = comboIndices.length - 1;
+        int[] comboIndices = new int[charConversions.length];
+        int comboIndex = comboIndices.length - 1;
         // System.out.println("There will be " + iterations + " combinations.");
         for (int i = 0; i < iterations; i++) {
             StringBuilder combo = new StringBuilder();
@@ -98,17 +95,17 @@ public class PitchDecoder {
             for (String s : l) {
                 results.add(s);
             }
-            comboIndices[index] += 1;
+            comboIndices[comboIndex] += 1;
             // Advance the array that indicates which chars to use next time.
-            while (comboIndices[index] >= conversionLengths[index]) {
-                comboIndices[index] = 0;
-                index--;
-                if (index < 0) {
+            while (comboIndices[comboIndex] >= charConversions[comboIndex].length()) {
+                comboIndices[comboIndex] = 0;
+                comboIndex--;
+                if (comboIndex < 0) {
                     break;
                 }
-                comboIndices[index] += 1;
+                comboIndices[comboIndex] += 1;
             }
-            index = comboIndices.length - 1;
+            comboIndex = comboIndices.length - 1;
         }
         return results;
     }

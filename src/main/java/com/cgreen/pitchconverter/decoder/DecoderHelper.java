@@ -44,11 +44,10 @@ public final class DecoderHelper {
         return music;
     }
     
-    static boolean writeMessagesToFile(Set<String> strs, File outputFile) {
+    static boolean writeMessagesToFile(List<String> strs, File outputFile) {
         try {
             PrintWriter pw = new PrintWriter(outputFile);
-            List<String> perfects = cleanDecodeOutput(strs);
-            for (String p : perfects) {
+            for (String p : strs) {
                 pw.println(p);
             }
             pw.close();
@@ -73,7 +72,7 @@ public final class DecoderHelper {
         return extension;
     }
     
-    private static List<String> cleanDecodeOutput(Set<String> msgSet) {
+    static List<String> cleanDecodeOutput(Set<String> msgSet) {
         List<String> sortedMsgs = new ArrayList<String>();
         for (String s : msgSet) {
             if (!s.contains("?")) {
