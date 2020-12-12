@@ -28,8 +28,8 @@ public final class StringSolver {
                     // System.out.println("Now trying: " + newQuery);
                     List<String> subResults = getPotentialStrings(newQuery, wc);
                     if (subResults.isEmpty()) {
-                        // Add partial match
-                        possibilities.add(substr + "?");
+                        // TODO: Add partial match
+                        // possibilities.add(substr + "?");
                     } else {
                         for (String s : subResults) {
                             // System.out.println("Adding to the results: " + substr + " " + s);
