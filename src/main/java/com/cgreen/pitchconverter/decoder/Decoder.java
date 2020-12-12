@@ -39,13 +39,13 @@ public final class Decoder {
             return false;
         }
         List<MusicSymbol> music = DecoderHelper.getMusic(inputPath);
-        if (music == null || music.size() == 0) {
+        if (music == null || music.isEmpty()) {
             LOGGER.error("No music was loaded.");
             return false;
         }
         long start = System.currentTimeMillis();
         Set<String> matches = PitchDecoder.decode(music, wc, p.getMethod(), p.getUseGermanH(), p.isChromatic());
-        if (matches == null || matches.size() == 0) {
+        if (matches == null || matches.isEmpty()) {
             LOGGER.info("No messages were detected! No output produced.");
             return true;
         } else {
