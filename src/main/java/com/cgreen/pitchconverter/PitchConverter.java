@@ -84,7 +84,7 @@ public class PitchConverter implements Runnable {
             return callEncode(p);
         case "decode":
             LOGGER.debug("Calling Decoder");
-            return callDecode(p, wordCollectionPath);
+            return callDecode(p);
         default:
             LOGGER.fatal("Invalid mode supplied.");
             break;
@@ -98,7 +98,7 @@ public class PitchConverter implements Runnable {
         return encoder.encodeMessage(inputPath, outputPath, outputFormat, p);
     }
     
-    private boolean callDecode(Params p, File wcFile) {
+    private boolean callDecode(Params p) {
         Decoder decoder = new Decoder();
         return decoder.decodeMessage(inputPath, outputPath, wordCollectionPath, p);
     }
