@@ -105,7 +105,7 @@ public class PitchConverter implements Runnable {
 
     private Method getEncodeMethod() {
         if (encodeMethod == null || encodeMethod.isEmpty()) {
-            LOGGER.warn("Defaulting to \"letter\" encoding");
+            LOGGER.debug("Defaulting to \"letter\" encoding");
             return Method.LETTER;
         } else {
             encodeMethod = encodeMethod.toLowerCase();
