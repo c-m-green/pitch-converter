@@ -60,15 +60,11 @@ public class PitchConverter implements Runnable {
     private File wordCollectionPath;
 
     public void run() {
-        if (mode == null) {
-            LOGGER.fatal("No mode selected.");
-        } else {
-            LOGGER.debug("Performing operation...");
-            if (performOperation()) {
-                LOGGER.info("Operation successful.");
-                LOGGER.debug("Returning status code 0...");
-                System.exit(0);
-            }
+        LOGGER.debug("Performing operation...");
+        if (performOperation()) {
+            LOGGER.info("Operation successful.");
+            LOGGER.debug("Returning status code 0...");
+            System.exit(0);
         }
         LOGGER.fatal("An error occurred. No output produced.");
         LOGGER.debug("Returning status code 1...");
@@ -82,16 +78,13 @@ public class PitchConverter implements Runnable {
         }
         Params p = new Params(em, useGermanH, chromatic, stripNonPitchLetters, includeRests);
         mode = mode.toLowerCase();
-        Mode m;
         switch (mode) {
         case "encode":
-            m = Mode.ENCODE;
             LOGGER.debug("Calling Encoder");
-            return callEncode(m, p);
+            return callEncode(p);
         case "decode":
-            m = Mode.DECODE;
             LOGGER.debug("Calling Decoder");
-            return callDecode(m, p, wordCollectionPath);
+            return callDecode(p, wordCollectionPath);
         default:
             LOGGER.fatal("Invalid mode supplied.");
             break;
@@ -100,12 +93,12 @@ public class PitchConverter implements Runnable {
         return false;
     }
     
-    private boolean callEncode(Mode m, Params p) {
+    private boolean callEncode(Params p) {
         Encoder encoder = new Encoder();
         return encoder.encodeMessage(inputPath, outputPath, outputFormat, p);
     }
     
-    private boolean callDecode(Mode m, Params p, File wcFile) {
+    private boolean callDecode(Params p, File wcFile) {
         Decoder decoder = new Decoder();
         return decoder.decodeMessage(inputPath, outputPath, wordCollectionPath, p);
     }
@@ -131,10 +124,4 @@ public class PitchConverter implements Runnable {
     public static void main(String[] args) {
         CommandLine.run(new PitchConverter(), System.out, args);
     }
-    
-    private enum Mode {
-        // TODO: toString()
-        ENCODE, DECODE
-    }
-
 }
