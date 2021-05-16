@@ -94,11 +94,17 @@ public class PitchConverter implements Runnable {
     }
     
     private boolean callEncode(Params p) {
+        if (wordCollectionPath != null) {
+            LOGGER.warn("Word list param will be ignored for encoding.");
+        }
         Encoder encoder = new Encoder();
         return encoder.encodeMessage(inputPath, outputPath, outputFormat, p);
     }
     
     private boolean callDecode(Params p) {
+        if (!(outputFormat == null || outputFormat.isEmpty())) {
+            LOGGER.warn("Output format param will be ignored for decoding.");
+        }
         Decoder decoder = new Decoder();
         return decoder.decodeMessage(inputPath, outputPath, wordCollectionPath, p);
     }
