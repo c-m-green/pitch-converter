@@ -102,7 +102,7 @@ public class PitchConverter implements Runnable {
     }
     
     private boolean callDecode(Params p) {
-        if (!(outputFormat == null || outputFormat.isEmpty())) {
+        if (!(outputFormat == null && outputFormat.isEmpty())) {
             LOGGER.warn("Output format param will be ignored for decoding.");
         }
         Decoder decoder = new Decoder();
