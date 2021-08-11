@@ -28,7 +28,6 @@ public final class Decoder {
      * @return                   - true, if successful
      */
     public boolean decodeMessage(File inputPath, File outputPath, File wordCollectionPath, Params p) {
-        // TODO: Farm argument checks out to DecoderHelper
         if (wordCollectionPath == null) {
             LOGGER.debug("Using internal dictionary.");
         } else {
