@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,10 +17,11 @@ import org.audiveris.proxymusic.util.Marshalling;
 import org.audiveris.proxymusic.util.Marshalling.MarshallingException;
 
 import com.cgreen.pitchconverter.datastore.pitch.MusicSymbol;
+import com.cgreen.pitchconverter.util.Params;
 
 public final class EncoderHelper {
     private static final Logger LOGGER = LogManager.getLogger();
-
+    
     static String getText(File file) {
         StringBuilder textLines = new StringBuilder();
         try {
@@ -36,6 +38,31 @@ public final class EncoderHelper {
             System.exit(1);
         }
         return textLines.toString();
+    }
+    
+    static List<MusicSymbol> createMusic(File inputFile, Params p) {
+        List<MusicSymbol> music = new ArrayList<MusicSymbol>();
+        String message = EncoderHelper.getText(inputFile);
+        // TODO: Unnecessary to exit here?
+        if (message.isEmpty() || message.equals("")) {
+            LOGGER.debug("The input file was empty.");
+            return music;
+        }
+        int startOctave;
+        switch(p.getMethod()) {
+        case LETTER:
+            startOctave = p.getStripLetters() ? 4 : 3;
+            music = StringConverter.byLetter(message, startOctave, p.getStripLetters(), p.getUseGermanH(), p.getIncludeRests());
+            break;
+        case DEGREE:
+            startOctave = p.isChromatic() ? 4 : 3;
+            music = StringConverter.byDegree(message, startOctave, p.isChromatic(), p.getIncludeRests());
+            break;
+        default:
+            LOGGER.error("Invalid encoding method value. No conversion was performed.");
+            System.exit(1);
+        }
+        return music;
     }
     
     private static String getFileExtension(File file) {

@@ -97,8 +97,9 @@ public class PitchConverter implements Runnable {
         if (wordCollectionPath != null) {
             LOGGER.warn("Word list param will be ignored for encoding.");
         }
-        Encoder encoder = new Encoder();
-        return encoder.encodeMessage(inputPath, outputPath, outputFormat, p);
+        Encoder encoder = new Encoder(p);
+        encoder.encodeMessageToFile(inputPath, outputPath, outputFormat);
+        return true;
     }
     
     private boolean callDecode(Params p) {
