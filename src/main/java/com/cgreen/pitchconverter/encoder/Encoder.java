@@ -1,6 +1,7 @@
 package com.cgreen.pitchconverter.encoder;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -17,19 +18,23 @@ public final class Encoder {
         this.p = p;
     }
     
-    public List<MusicSymbol> encodeMessage(File inputFile, String outputFormat) {
+    public List<MusicSymbol> encodeMessage(File inputFile, String outputFormat) throws FileNotFoundException {
+        if (!inputFile.isFile()) {
+            throw new FileNotFoundException("The input file was not found.");
+        }
+        // TODO: Change outputFormat to enum and remove this check
         if (outputFormat == null || outputFormat.isEmpty()) {
             // Default to "text"
             outputFormat = "text";
         }
         List<MusicSymbol> music = EncoderHelper.createMusic(inputFile, p);
-        if (music == null || music.size() == 0) {
+        if (music == null || music.isEmpty()) {
             LOGGER.debug("No music created.");
         }
         return music;
     }
     
-    public void encodeMessageToFile(File inputFile, File outputFile, String outputFormat) {
+    public void encodeMessageToFile(File inputFile, File outputFile, String outputFormat) throws FileNotFoundException {
         EncoderHelper.writeMusicToFile(encodeMessage(inputFile, outputFormat), outputFile, outputFormat);
     }
     

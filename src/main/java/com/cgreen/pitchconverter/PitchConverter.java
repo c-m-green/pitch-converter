@@ -1,6 +1,7 @@
 package com.cgreen.pitchconverter;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -61,50 +62,49 @@ public class PitchConverter implements Runnable {
 
     public void run() {
         LOGGER.debug("Performing operation...");
-        if (performOperation()) {
+        try {
+            performOperation();
             LOGGER.info("Operation successful.");
             LOGGER.debug("Returning status code 0...");
             System.exit(0);
+        } catch (FileNotFoundException | IllegalArgumentException e) {
+            LOGGER.debug("An error occurred. No output produced.");
+            LOGGER.fatal("ERROR: " + e.getMessage());
+            LOGGER.debug("Returning status code 1...");
+            System.exit(1);
         }
-        LOGGER.fatal("An error occurred. No output produced.");
-        LOGGER.debug("Returning status code 1...");
-        System.exit(1);
     }
     
-    private boolean performOperation() {
+    private void performOperation() throws FileNotFoundException {
         Method em = getEncodeMethod();
-        if (em == Method.INVALID) {
-            return false;
-        }
         Params p = new Params(em, useGermanH, chromatic, stripNonPitchLetters, includeRests);
         mode = mode.toLowerCase();
         switch (mode) {
         case "encode":
             LOGGER.debug("Calling Encoder");
-            return callEncode(p);
+            callEncode(p);
+            break;
         case "decode":
             LOGGER.debug("Calling Decoder");
-            return callDecode(p);
-        default:
-            LOGGER.fatal("Invalid mode supplied.");
+            callDecode(p);
             break;
+        default:
+            LOGGER.debug("Invalid mode supplied.");
+            throw new IllegalArgumentException("Neither mode 'encode' nor 'decode' was selected.");
         }
-        LOGGER.debug("Operation failed.");
-        return false;
     }
     
-    private boolean callEncode(Params p) {
+    private void callEncode(Params p) throws FileNotFoundException {
         if (wordCollectionPath != null) {
-            LOGGER.warn("Word list param will be ignored for encoding.");
+            LOGGER.info("Word list param will be ignored for encoding.");
         }
         Encoder encoder = new Encoder(p);
         encoder.encodeMessageToFile(inputPath, outputPath, outputFormat);
-        return true;
     }
     
     private boolean callDecode(Params p) {
         if (!(outputFormat == null && outputFormat.isEmpty())) {
-            LOGGER.warn("Output format param will be ignored for decoding.");
+            LOGGER.info("Output format param will be ignored for decoding.");
         }
         Decoder decoder = new Decoder();
         return decoder.decodeMessage(inputPath, outputPath, wordCollectionPath, p);

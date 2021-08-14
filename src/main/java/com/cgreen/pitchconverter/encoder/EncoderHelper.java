@@ -22,30 +22,24 @@ import com.cgreen.pitchconverter.util.Params;
 public final class EncoderHelper {
     private static final Logger LOGGER = LogManager.getLogger();
     
-    static String getText(File file) {
-        StringBuilder textLines = new StringBuilder();
-        try {
-            if (!getFileExtension(file).equals("txt")) {
-                return "";
-            }
-            Scanner s = new Scanner(file);
-            while(s.hasNextLine()) {
-                textLines.append(s.nextLine());
-            }
-            s.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("ERROR: The input file " + file.getAbsolutePath() + " was not found!");
-            System.exit(1);
+    private static String getText(File file) throws FileNotFoundException {
+        if (!isValidInputFile(file)) {
+            throw new FileNotFoundException("The input file was inaccessible.");
         }
+        StringBuilder textLines = new StringBuilder();
+        Scanner s = new Scanner(file);
+        while(s.hasNextLine()) {
+            textLines.append(s.nextLine());
+        }
+        s.close();
         return textLines.toString();
     }
     
-    static List<MusicSymbol> createMusic(File inputFile, Params p) {
+    static List<MusicSymbol> createMusic(File inputFile, Params p) throws FileNotFoundException {
         List<MusicSymbol> music = new ArrayList<MusicSymbol>();
         String message = EncoderHelper.getText(inputFile);
-        // TODO: Unnecessary to exit here?
-        if (message.isEmpty() || message.equals("")) {
-            LOGGER.debug("The input file was empty.");
+        if (message == null || message.isEmpty() || message.isBlank()) {
+            LOGGER.debug("No text from the input file was found.");
             return music;
         }
         int startOctave;
@@ -59,8 +53,8 @@ public final class EncoderHelper {
             music = StringConverter.byDegree(message, startOctave, p.isChromatic(), p.getIncludeRests());
             break;
         default:
-            LOGGER.error("Invalid encoding method value. No conversion was performed.");
-            System.exit(1);
+            LOGGER.info("Invalid encoding method value. No conversion was performed.");
+            break;
         }
         return music;
     }
@@ -75,25 +69,24 @@ public final class EncoderHelper {
         return extension;
     }
     
-    //TODO: Don't create a file in multiple places. Do that in one place and get the contents to output depending on outputFormat
-    static boolean writeMusicToFile(List<MusicSymbol> musicOut, File outputFile, String outputFormat) {
-        boolean isSuccess = false;
+    static void writeMusicToFile(List<MusicSymbol> musicOut, File outputFile, String outputFormat) {
+        //TODO: Change outputFormat to enum and modify this part.
         outputFormat = outputFormat.toLowerCase();
+        // TODO: Check for ability to write to output file
         switch(outputFormat) {
         case "text":
-            isSuccess = writeMusicToTxt(musicOut, outputFile);
+            writeMusicToTxt(musicOut, outputFile);
             break;
         case "musicxml":
-            isSuccess = writeMusicToMusicXml(musicOut, outputFile);
+            writeMusicToMusicXml(musicOut, outputFile);
             break;
         case "midi":
-            //isSuccess = writeMusicToMidi(musicOut, outputFile);
+            //writeMusicToMidi(musicOut, outputFile);
             //break;
         default:
             LOGGER.fatal("Output format \"{}\" is invalid.", outputFormat);
-            return false;
+            throw new IllegalArgumentException("The output format was invalid.");
         }
-        return isSuccess;        
     }
     
     private static boolean writeMusicToTxt(List<MusicSymbol> musicOut, File outputFile) {
@@ -131,5 +124,9 @@ public final class EncoderHelper {
             return false;
         }
         return true;
+    }
+    
+    private static boolean isValidInputFile(File inputFile) {
+        return inputFile.isFile() && (getFileExtension(inputFile).equals("txt"));
     }
 }
