@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import com.cgreen.pitchconverter.decoder.Decoder;
 import com.cgreen.pitchconverter.encoder.Encoder;
 import com.cgreen.pitchconverter.util.Method;
+import com.cgreen.pitchconverter.util.OutputFormat;
 import com.cgreen.pitchconverter.util.Params;
 
 import picocli.CommandLine;
@@ -99,7 +100,7 @@ public class PitchConverter implements Runnable {
             LOGGER.info("Word list param will be ignored for encoding.");
         }
         Encoder encoder = new Encoder(p);
-        encoder.encodeMessageToFile(inputPath, outputPath, outputFormat);
+        encoder.encodeMessageToFile(inputPath, outputPath, getOutputFormat());
     }
     
     private boolean callDecode(Params p) {
@@ -124,6 +125,26 @@ public class PitchConverter implements Runnable {
             default:
                 LOGGER.warn("Invalid encoding method \"" + encodeMethod + "\" received.");
                 return Method.INVALID;
+            }
+        }
+    }
+    
+    private OutputFormat getOutputFormat() {
+        if (outputFormat == null || outputFormat.isEmpty()) {
+            LOGGER.debug("Defaulting to \"text\" output format.");
+            return OutputFormat.TEXT;
+        } else {
+            outputFormat = outputFormat.toLowerCase();
+            switch(outputFormat) {
+            case "text":
+                return OutputFormat.TEXT;
+            case "musicxml":
+                return OutputFormat.MUSICXML;
+            case "midi":
+                return OutputFormat.MIDI;
+            default:
+                LOGGER.warn("Invalid outputFormat \"" + outputFormat + "\" received.");
+                return OutputFormat.INVALID;
             }
         }
     }

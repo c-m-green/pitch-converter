@@ -17,6 +17,7 @@ import org.audiveris.proxymusic.util.Marshalling;
 import org.audiveris.proxymusic.util.Marshalling.MarshallingException;
 
 import com.cgreen.pitchconverter.datastore.pitch.MusicSymbol;
+import com.cgreen.pitchconverter.util.OutputFormat;
 import com.cgreen.pitchconverter.util.Params;
 
 public final class EncoderHelper {
@@ -69,18 +70,16 @@ public final class EncoderHelper {
         return extension;
     }
     
-    static void writeMusicToFile(List<MusicSymbol> musicOut, File outputFile, String outputFormat) {
-        //TODO: Change outputFormat to enum and modify this part.
-        outputFormat = outputFormat.toLowerCase();
+    static void writeMusicToFile(List<MusicSymbol> musicOut, File outputFile, OutputFormat outputFormat) {
         // TODO: Check for ability to write to output file
         switch(outputFormat) {
-        case "text":
+        case TEXT:
             writeMusicToTxt(musicOut, outputFile);
             break;
-        case "musicxml":
+        case MUSICXML:
             writeMusicToMusicXml(musicOut, outputFile);
             break;
-        case "midi":
+        case MIDI:
             //writeMusicToMidi(musicOut, outputFile);
             //break;
         default:

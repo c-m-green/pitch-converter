@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.cgreen.pitchconverter.datastore.pitch.MusicSymbol;
+import com.cgreen.pitchconverter.util.OutputFormat;
 import com.cgreen.pitchconverter.util.Params;
 
 public final class Encoder {
@@ -18,14 +19,9 @@ public final class Encoder {
         this.p = p;
     }
     
-    public List<MusicSymbol> encodeMessage(File inputFile, String outputFormat) throws FileNotFoundException {
+    public List<MusicSymbol> encodeMessage(File inputFile, OutputFormat outputFormat) throws FileNotFoundException {
         if (!inputFile.isFile()) {
             throw new FileNotFoundException("The input file was not found.");
-        }
-        // TODO: Change outputFormat to enum and remove this check
-        if (outputFormat == null || outputFormat.isEmpty()) {
-            // Default to "text"
-            outputFormat = "text";
         }
         List<MusicSymbol> music = EncoderHelper.createMusic(inputFile, p);
         if (music == null || music.isEmpty()) {
@@ -34,7 +30,7 @@ public final class Encoder {
         return music;
     }
     
-    public void encodeMessageToFile(File inputFile, File outputFile, String outputFormat) throws FileNotFoundException {
+    public void encodeMessageToFile(File inputFile, File outputFile, OutputFormat outputFormat) throws FileNotFoundException {
         EncoderHelper.writeMusicToFile(encodeMessage(inputFile, outputFormat), outputFile, outputFormat);
     }
     
