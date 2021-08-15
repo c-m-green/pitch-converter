@@ -36,10 +36,18 @@ public final class EncoderHelper {
         return textLines.toString();
     }
     
+    static List<MusicSymbol> createMusic(String input, Params p) {
+        return convertStringToMusic(input, p);
+    }
+    
     static List<MusicSymbol> createMusic(File inputFile, Params p) throws FileNotFoundException {
+        String fileContents = EncoderHelper.getText(inputFile);
+        return convertStringToMusic(fileContents, p);
+    }
+    
+    static List<MusicSymbol> convertStringToMusic(String input, Params p) {
         List<MusicSymbol> music = new ArrayList<MusicSymbol>();
-        String message = EncoderHelper.getText(inputFile);
-        if (message == null || message.isEmpty() || message.isBlank()) {
+        if (input == null || input.isEmpty() || input.isBlank()) {
             LOGGER.debug("No text from the input file was found.");
             return music;
         }
@@ -47,11 +55,11 @@ public final class EncoderHelper {
         switch(p.getMethod()) {
         case LETTER:
             startOctave = p.getStripLetters() ? 4 : 3;
-            music = StringConverter.byLetter(message, startOctave, p.getStripLetters(), p.getUseGermanH(), p.getIncludeRests());
+            music = StringConverter.byLetter(input, startOctave, p.getStripLetters(), p.getUseGermanH(), p.getIncludeRests());
             break;
         case DEGREE:
             startOctave = p.isChromatic() ? 4 : 3;
-            music = StringConverter.byDegree(message, startOctave, p.isChromatic(), p.getIncludeRests());
+            music = StringConverter.byDegree(input, startOctave, p.isChromatic(), p.getIncludeRests());
             break;
         default:
             LOGGER.info("Invalid encoding method value. No conversion was performed.");

@@ -19,7 +19,11 @@ public final class Encoder {
         this.p = p;
     }
     
-    public List<MusicSymbol> encodeMessage(File inputFile, OutputFormat outputFormat) throws FileNotFoundException {
+    public List<MusicSymbol> encodeMessage(String inputPhrase) {
+        return EncoderHelper.createMusic(inputPhrase, p);
+    }
+    
+    public void encodeMessageToFile(File inputFile, File outputFile, OutputFormat outputFormat) throws FileNotFoundException {
         if (!inputFile.isFile()) {
             throw new FileNotFoundException("The input file was not found.");
         }
@@ -27,11 +31,7 @@ public final class Encoder {
         if (music == null || music.isEmpty()) {
             LOGGER.debug("No music created.");
         }
-        return music;
-    }
-    
-    public void encodeMessageToFile(File inputFile, File outputFile, OutputFormat outputFormat) throws FileNotFoundException {
-        EncoderHelper.writeMusicToFile(encodeMessage(inputFile, outputFormat), outputFile, outputFormat);
+        EncoderHelper.writeMusicToFile(music, outputFile, outputFormat);
     }
     
     public void setParams(Params p) {
