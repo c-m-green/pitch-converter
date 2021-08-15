@@ -3,10 +3,9 @@ package com.cgreen.pitchconverter.decoder;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Scanner;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -50,68 +49,49 @@ public class WordCollection {
      * Read the text file to amass a collection of words.
      * 
      * @return whether the collection was built
-     * @throws FileNotFoundException
      */
     boolean buildWordCollection() {
         // TODO: Don't assume each line in the input file contains only a single word.
-        // TODO: Use InputStream & BufferedReader for both cases
         boolean wasSuccess = false;
         if (isBuilt) {
-            LOGGER.error("Tried to build the same word collection twice.");
-            return wasSuccess;
+            LOGGER.debug("Tried to build the same word collection twice.");
+            return false;
         }
         long start = System.currentTimeMillis();
-        if (file == null) {
-            // https://examples.javacodegeeks.com/core-java/io/inputstream/read-line-of-chars-from-console-with-inputstream/
-            BufferedReader br = null;
-            try {
-                InputStream in = getClass().getClassLoader().getResourceAsStream("words_alpha.txt");
-                br = new BufferedReader(new InputStreamReader(in));
-                String word;
-                while ((word = br.readLine()) != null) {
-                    if (vetWord(word)) {
-                        insert(word);
-                    }
-                }
-                isBuilt = true;
-                wasSuccess = true;
-            } catch (IOException ioe) {
-                LOGGER.debug("Error reading default word collection.");
-            } finally {
-                try {
-                    if (br != null) {
-                        br.close();
-                    }
-                }
-                catch (IOException ioe) {
-                    LOGGER.debug("Error while closing stream: " + ioe);
-                    wasSuccess = false;
+        // https://examples.javacodegeeks.com/core-java/io/inputstream/read-line-of-chars-from-console-with-inputstream/
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader(file));
+        } catch (FileNotFoundException fnfe) {
+            if (file != null) {
+                LOGGER.warn("Unable to access user-specified dictionary.");
+            }
+            br = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("words_alpha.txt")));
+        }
+        try {
+            String word;
+            while ((word = br.readLine().toLowerCase()) != null) {
+                if (vetWord(word)) {
+                    insert(word);
                 }
             }
-        } else {
-            Scanner s = null;
+            LOGGER.debug("Word collection built in {} s.", (System.currentTimeMillis() - start) / 1000.);
+            isBuilt = true;
+            wasSuccess = true;
+        } catch (IOException ioe) {
+            LOGGER.debug("Error reading word from file.");
+        } finally {
             try {
-                s = new Scanner(file);
-                while (s.hasNextLine()) {
-                    String word = s.nextLine().toLowerCase();
-                    if (vetWord(word)) {
-                        insert(word);
-                    }
+                if (br != null) {
+                    br.close();
                 }
-                LOGGER.debug("Word collection built in {} s.", (System.currentTimeMillis() - start) / 1000.);
-                isBuilt = true;
-                wasSuccess = true;
-            } catch (FileNotFoundException fnfe) {
-                LOGGER.error("Custom word collection not found.");
-            } finally {
-                if (s != null) {
-                    s.close();
-                }
+            } catch (IOException e) {
+                LOGGER.error("Error closing input stream.");
             }
         }
         return wasSuccess;
     }
-        
+    
     private boolean vetWord(String word) {
         return (word.length() > 1 || word.equalsIgnoreCase("a") || word.equalsIgnoreCase("i"));
     }
