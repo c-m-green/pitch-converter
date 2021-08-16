@@ -29,7 +29,7 @@ public final class DecoderHelper {
         // Maybe this should accept a .csv file?
         try {
             String note;
-            while((note = br.readLine().toLowerCase()) != null) {
+            while((note = br.readLine()) != null) {
                 if (note.contains("rest")) {
                     music.add(SymbolFactory.createSymbol('r', 0));
                 } else {

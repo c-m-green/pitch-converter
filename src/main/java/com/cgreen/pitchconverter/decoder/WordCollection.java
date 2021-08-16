@@ -62,14 +62,15 @@ public class WordCollection {
         try {
             br = new BufferedReader(new FileReader(file));
         } catch (FileNotFoundException fnfe) {
-            if (file != null) {
-                LOGGER.warn("Unable to access user-specified dictionary.");
-            }
+            LOGGER.warn("Unable to access user-specified dictionary.");
             br = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("words_alpha.txt")));
+        } catch (NullPointerException npe) {
+            br = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("words_alpha.txt"))); 
         }
         try {
             String word;
-            while ((word = br.readLine().toLowerCase()) != null) {
+            while ((word = br.readLine()) != null) {
+                word = word.toLowerCase();
                 if (vetWord(word)) {
                     insert(word);
                 }
