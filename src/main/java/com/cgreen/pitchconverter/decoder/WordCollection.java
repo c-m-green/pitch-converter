@@ -52,7 +52,6 @@ public class WordCollection {
      */
     boolean buildWordCollection() {
         // TODO: Don't assume each line in the input file contains only a single word.
-        boolean wasSuccess = false;
         if (isBuilt) {
             LOGGER.debug("Tried to build the same word collection twice.");
             return false;
@@ -77,7 +76,6 @@ public class WordCollection {
             }
             LOGGER.debug("Word collection built in {} s.", (System.currentTimeMillis() - start) / 1000.);
             isBuilt = true;
-            wasSuccess = true;
         } catch (IOException ioe) {
             LOGGER.debug("Error reading word from file.");
         } finally {
@@ -89,7 +87,7 @@ public class WordCollection {
                 LOGGER.error("Error closing input stream.");
             }
         }
-        return wasSuccess;
+        return isBuilt;
     }
     
     private boolean vetWord(String word) {
