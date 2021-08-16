@@ -1,11 +1,13 @@
 package com.cgreen.pitchconverter.decoder;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
@@ -17,49 +19,45 @@ import com.cgreen.pitchconverter.datastore.pitch.SymbolFactory;
 public final class DecoderHelper {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    static List<MusicSymbol> readMusicFromFile(File file) {
+    static List<MusicSymbol> readMusicFromFile(File file) throws FileNotFoundException {
         List<MusicSymbol> music = new ArrayList<MusicSymbol>();
+        if (!getFileExtension(file).equals("txt")) {
+            return music;
+        }
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        // TODO: This currently makes MAJOR assumptions about the content of the file; i.e., everything's in the right format.
+        // Maybe this should accept a .csv file?
         try {
-            if (!getFileExtension(file).equals("txt")) {
-                return null;
-            }
-            Scanner s = new Scanner(file);
-            // TODO: This currently makes MAJOR assumptions about the content of the file; i.e., everything's in the right format.
-            // Maybe this should accept a .csv file?
-            while(s.hasNextLine()) {
-                String line = s.nextLine();
-                if (line.contains("rest")) {
+            String note;
+            while((note = br.readLine().toLowerCase()) != null) {
+                if (note.contains("rest")) {
                     music.add(SymbolFactory.createSymbol('r', 0));
                 } else {
-                    String pitchText = line.split(" ")[0];
+                    String pitchText = note.split(" ")[0];
                     MusicSymbol p = SymbolFactory.createSymbol(pitchText.split(":")[0].charAt(0), Integer.valueOf(pitchText.split(":")[1]));
                     music.add(p);
                 }
             }
-            s.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("ERROR: The input file " + file.getAbsolutePath() + " was not found!");
-            System.exit(1);
+        } catch (IOException ioe) {
+            LOGGER.error("Error reading music from file.");
+        } finally {
+            try {
+                br.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                LOGGER.error("Error closing input file stream.");
+            }
         }
         return music;
     }
     
-    static boolean writeMessagesToFile(List<String> strs, File outputFile) {
-        try {
-            PrintWriter pw = new PrintWriter(outputFile);
-            for (String p : strs) {
-                pw.println(p);
-            }
-            pw.close();
-            System.out.println("Wrote to " + outputFile.getAbsolutePath());
-            return true;
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            System.out.println("File not found");
-            e.printStackTrace();
+    static void writeMessagesToFile(List<String> strs, File outputFile) throws FileNotFoundException {
+        PrintWriter pw = new PrintWriter(outputFile);
+        for (String p : strs) {
+            pw.println(p);
         }
-        return false;
-        
+        pw.close();
+        LOGGER.info("Wrote to " + outputFile.getAbsolutePath());       
     }
     
     private static String getFileExtension(File file) {

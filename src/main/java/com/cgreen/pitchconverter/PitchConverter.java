@@ -103,12 +103,12 @@ public class PitchConverter implements Runnable {
         encoder.encodeMessageToFile(inputPath, outputPath, getOutputFormat());
     }
     
-    private boolean callDecode(Params p) {
+    private void callDecode(Params p) throws FileNotFoundException {
         if (!(outputFormat == null && outputFormat.isEmpty())) {
             LOGGER.info("Output format param will be ignored for decoding.");
         }
         Decoder decoder = new Decoder();
-        return decoder.decodeMessage(inputPath, outputPath, wordCollectionPath, p);
+        decoder.decodeMessageToFile(inputPath, outputPath, wordCollectionPath, p);
     }
 
     private Method getEncodeMethod() {
