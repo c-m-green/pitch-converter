@@ -50,7 +50,6 @@
             <version>2.17.1</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.audiveris/proxymusic -->
-        <!--  Looks like this link is dead. Investigate alternative solutions. -->
         <dependency>
             <groupId>org.audiveris</groupId>
             <artifactId>proxymusic</artifactId>
