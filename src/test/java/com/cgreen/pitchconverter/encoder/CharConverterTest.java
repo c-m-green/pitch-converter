@@ -33,7 +33,7 @@ class CharConverterTest {
         assertEquals('0', beyondHNoGerman.getPitchClass());
         assertEquals("5", beyondHNoGerman.getRegister());
         
-        MusicSymbol normalized = CharConverter.letterToPitchLiteral('é', 3, false);
+        MusicSymbol normalized = CharConverter.letterToPitchLiteral('Ã©', 3, false);
         assertEquals('4', normalized.getPitchClass());
         assertEquals("3", normalized.getRegister());
         
@@ -48,7 +48,7 @@ class CharConverterTest {
         MusicSymbol firstLetter = CharConverter.alphaNumToPitchDegree('A', 0, false);
         assertEquals('0', firstLetter.getPitchClass());
         
-        MusicSymbol normalized = CharConverter.alphaNumToPitchDegree('â', 12, true);
+        MusicSymbol normalized = CharConverter.alphaNumToPitchDegree('Ã¢', 12, true);
         assertEquals('0', normalized.getPitchClass());
         
         MusicSymbol chromatic = CharConverter.alphaNumToPitchDegree('d', 3, true);
