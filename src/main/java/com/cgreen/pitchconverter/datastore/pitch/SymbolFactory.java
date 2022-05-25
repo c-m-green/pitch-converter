@@ -27,6 +27,6 @@ public final class SymbolFactory {
 
     
     private static boolean isValidPitchClass(char pc) {
-        return !(PITCH_CLASS_INTS.indexOf(pc) == -1);
+        return (PITCH_CLASS_INTS.indexOf(pc) != -1);
     }
 }
