@@ -19,12 +19,12 @@ public class CharConverter {
      * Letters that do not directly correspond to a pitch class (i.e., anything past
      * G or H) are converted through modular arithmetic.
      * 
-     * @param ch          - input character
-     * @param octaveStart - the register in which to start the sequence
-     * @param useGermanH  - Option to include H as a viable base letter. In the
-     *                   German naming scheme, 'H' represents B-natural ('B' then
-     *                   represents B-flat).
-     * @return - the converted pitch, or a rest if input
+     * @param ch          input character
+     * @param octaveStart the register in which to start the sequence
+     * @param useGermanH  Option to include H as a viable base letter. In the
+     *                    German naming scheme, 'H' represents B-natural ('B' then
+     *                    represents B-flat).
+     * @return the converted pitch, or a rest if input
      *         character is not a letter.
      */
     static MusicSymbol letterToPitchLiteral(char ch, int octaveStart, boolean useGermanH) {
@@ -46,10 +46,10 @@ public class CharConverter {
      * Starts with 'A' at zero (C-natural) and works forward. Any letters whose
      * indices are out of range are converted using modular arithmetic.
      * 
-     * @param ch          - input character
-     * @param octaveStart - the register in which to start the sequence. For
-     *                    example: if 4, then input char 'A' would map to C4.
-     * @param isChromatic - toggle the use of accidentals when advancing up through
+     * @param ch           input character
+     * @param octaveStart  the register in which to start the sequence. For
+     *                     example: if 4, then input char 'A' would map to C4.
+     * @param isChromatic  toggle the use of accidentals when advancing up through
      *                    the alphabet
      * @return The converted pitch object, or a rest if input character
      *         is not a letter nor number.
@@ -72,7 +72,7 @@ public class CharConverter {
      * Letters will convert to their index in the alphabet. Char representations of
      * integers will convert to their int value.
      * 
-     * @param c - Input character.
+     * @param c Input character.
      * @return -1 if invalid char was passed in
      */
     static int findCharValue(char c) {
@@ -89,12 +89,12 @@ public class CharConverter {
     /**
      * Get a pitch based on input values.
      * 
-     * @param pitchClasses  - set of possible pitch classes
-     * @param charValue     - the index at which the pitch class will be derived
+     * @param pitchClasses  set of possible pitch classes
+     * @param charValue     the index at which the pitch class will be derived
      *                      from the set of available pitch classes. Values beyond
      *                      the length of the set of pitch classes will be reduced
      *                      using modular arithmetic.
-     * @param registerStart - the lowest octave at which a pitch will be created
+     * @param registerStart the lowest octave at which a pitch will be created
      * @return a musical symbol
      */
     static MusicSymbol obtainPitch(char[] pitchClasses, int charValue, int registerStart) {
