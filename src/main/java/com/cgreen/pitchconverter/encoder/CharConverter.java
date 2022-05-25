@@ -34,8 +34,7 @@ public class CharConverter {
             char in = Normalizer.normalize(ch + "", Normalizer.Form.NFD).toUpperCase().charAt(0);
             char[] pitchClasses = useGermanH ? GERMAN_H_PITCH_CLASSES : NON_GERMAN_H_PITCH_CLASSES;
             int charValue = findCharValue(in);
-            MusicSymbol out = obtainPitch(pitchClasses, charValue, octaveStart);
-            return out;
+            return obtainPitch(pitchClasses, charValue, octaveStart);
         }
     }
 
@@ -60,8 +59,7 @@ public class CharConverter {
         } else {
             char[] pitchClasses = (isChromatic) ? CHROMATIC_PITCH_CLASSES : NON_CHROMATIC_PITCH_CLASSES;
             int charValue = findCharValue(ch);
-            MusicSymbol out = obtainPitch(pitchClasses, charValue, octaveStart);
-            return out;
+            return obtainPitch(pitchClasses, charValue, octaveStart);
         }
     }
 
@@ -103,8 +101,7 @@ public class CharConverter {
         } else {
             int pitchIndex = charValue % pitchClasses.length;
             int register = charValue / pitchClasses.length + registerStart;
-            MusicSymbol out = SymbolFactory.createSymbol(pitchClasses[pitchIndex], register);
-            return out;
+            return SymbolFactory.createSymbol(pitchClasses[pitchIndex], register);
         }
     }
 
