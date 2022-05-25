@@ -15,15 +15,15 @@ public class StringConverter {
      * Letters that are not converted this way continue the pattern through the
      * alphabet.
      * 
-     * @param input        - a String to convert
-     * @param startOctave  - the lowest octave in which a pitch will be created
-     * @param stripLetters - Before converting, remove letters that do not exist as
+     * @param input        a String to convert
+     * @param startOctave  the lowest octave in which a pitch will be created
+     * @param stripLetters Before converting, remove letters that do not exist as
      *                     pitch class names.
-     * @param useGermanH   - option to include H as a viable base letter. In the
+     * @param useGermanH   option to include H as a viable base letter. In the
      *                     German naming scheme, 'H' represents B-natural ('B' then
      *                     represents B-flat).
-     * @param writeRests   - option to include rests in output
-     * @return - a list of Pitch objects
+     * @param writeRests   option to include rests in output
+     * @return a list of Pitch objects
      */
     static List<MusicSymbol> byLetter(String input, int startOctave, boolean stripLetters, boolean useGermanH, boolean writeRests) {
         List<MusicSymbol> out = new ArrayList<MusicSymbol>();
@@ -49,12 +49,12 @@ public class StringConverter {
      * Letters lower in the alphabet will be lower pitched; the inverse is also
      * true.
      * 
-     * @param input       - a String to convert
-     * @param startOctave - the lowest register in which a pitch will be created
-     * @param isChromatic - option to include chromatic notes. If false, all notes
+     * @param input       a String to convert
+     * @param startOctave the lowest register in which a pitch will be created
+     * @param isChromatic option to include chromatic notes. If false, all notes
      *                    will be part of a C Major scale.
-     * @param writeRests  - option to include rests in output
-     * @return
+     * @param writeRests  option to include rests in output
+     * @return converted music as a list
      */
     static List<MusicSymbol> byDegree(String input, int startOctave, boolean isChromatic, boolean writeRests) {
         List<MusicSymbol> out = new ArrayList<MusicSymbol>();
@@ -71,8 +71,8 @@ public class StringConverter {
     /**
      * Removes characters from a string that are not also pitch class names.
      * 
-     * @param input
-     * @param pitchLetters - the collection of note names to retain
+     * @param input string input
+     * @param pitchLetters the collection of note names to retain
      * @return the stripped string
      */
     private static String stripNonPitchLetters(String input, String pitchLetters) {
