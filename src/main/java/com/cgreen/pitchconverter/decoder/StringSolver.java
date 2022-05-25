@@ -59,9 +59,6 @@ public final class StringSolver {
      * @return String of potential characters
      */
     static String getPossibleCharsByDegree(Pitch p, boolean isChromatic) {
-        if (p.getPitchClass() == '?') {
-            return "";
-        }
         int bottomIndex = 97; // 'a'
         int index;
         if (isChromatic) {
