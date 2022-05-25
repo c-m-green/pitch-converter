@@ -4,8 +4,7 @@ package com.cgreen.pitchconverter.datastore.pitch;
  * The Pitch class represents a musical pitch.
  * 
  * Pitches use the integer representation of pitch classes to track their
- * frequency. Pitches can be created with or without a register. Pitches use a
- * question mark for unknown registers.
+ * frequency.
  * 
  * @author Christopher Green
  *
