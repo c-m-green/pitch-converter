@@ -3,18 +3,16 @@ package com.cgreen.pitchconverter.datastore.pitch;
 public final class SymbolFactory {
     static final String PITCH_CLASS_INTS = "0123456789te";
     /**
-     * Create a MusicSymbol.
+     * Creates a MusicSymbol.
      * 
-     * If a valid pitch class (in integer notation) is provided, the
-     * MusicSymbol returned will be a Pitch. Otherwise, this method returns
-     * a Rest.
-     * 
-     * Valid pitches are: 0-9,t,e
-     * 
+     * If a valid pitch class is provided, the MusicSymbol returned will be a
+     * Pitch. Otherwise, this method returns a Rest.
+     *
      * If a rest is desired, an invalid char (e.g., 'r') will do.
      * 
-     * @param pitchClass
-     * @param register
+     * @param pitchClass Integer notation of a pitch. Valid pitches are: 0-9,t,e
+     * @param register The register of the pitch. For example, the register of
+     *                 middle C would have a value of 4.
      * @return a Pitch of the given pitch class, or a Rest.
      */
     public static MusicSymbol createSymbol(char pitchClass, int register) {
