@@ -52,18 +52,16 @@ public final class EncoderHelper {
             return music;
         }
         int startOctave;
-        switch(p.getMethod()) {
-        case LETTER:
-            startOctave = p.getStripLetters() ? 4 : 3;
-            music = StringConverter.byLetter(input, startOctave, p.getStripLetters(), p.getUseGermanH(), p.getIncludeRests());
-            break;
-        case DEGREE:
-            startOctave = p.isChromatic() ? 4 : 3;
-            music = StringConverter.byDegree(input, startOctave, p.isChromatic(), p.getIncludeRests());
-            break;
-        default:
-            LOGGER.info("Invalid encoding method value. No conversion was performed.");
-            break;
+        switch (p.getMethod()) {
+            case LETTER -> {
+                startOctave = p.getStripLetters() ? 4 : 3;
+                music = StringConverter.byLetter(input, startOctave, p.getStripLetters(), p.getUseGermanH(), p.getIncludeRests());
+            }
+            case DEGREE -> {
+                startOctave = p.isChromatic() ? 4 : 3;
+                music = StringConverter.byDegree(input, startOctave, p.isChromatic(), p.getIncludeRests());
+            }
+            default -> LOGGER.info("Invalid encoding method value. No conversion was performed.");
         }
         return music;
     }
