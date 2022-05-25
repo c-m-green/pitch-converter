@@ -8,6 +8,7 @@ music.txt
 .classpath
 .project
 .settings/
+.idea/
 
 bin/
 /target/
