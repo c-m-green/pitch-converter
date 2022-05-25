@@ -104,7 +104,7 @@ public class PitchConverter implements Runnable {
     }
     
     private void callDecode(Params p) throws FileNotFoundException {
-        if (!(outputFormat == null && outputFormat.isEmpty())) {
+        if (outputFormat != null) {
             LOGGER.info("Output format param will be ignored for decoding.");
         }
         Decoder decoder = new Decoder();
