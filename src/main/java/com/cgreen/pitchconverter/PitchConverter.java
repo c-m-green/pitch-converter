@@ -81,17 +81,18 @@ public class PitchConverter implements Runnable {
         Params p = new Params(em, useGermanH, chromatic, stripNonPitchLetters, includeRests);
         mode = mode.toLowerCase();
         switch (mode) {
-        case "encode":
-            LOGGER.debug("Calling Encoder");
-            callEncode(p);
-            break;
-        case "decode":
-            LOGGER.debug("Calling Decoder");
-            callDecode(p);
-            break;
-        default:
-            LOGGER.debug("Invalid mode supplied.");
-            throw new IllegalArgumentException("Neither mode 'encode' nor 'decode' was selected.");
+            case "encode" -> {
+                LOGGER.debug("Calling Encoder");
+                callEncode(p);
+            }
+            case "decode" -> {
+                LOGGER.debug("Calling Decoder");
+                callDecode(p);
+            }
+            default -> {
+                LOGGER.debug("Invalid mode supplied.");
+                throw new IllegalArgumentException("Neither mode 'encode' nor 'decode' was selected.");
+            }
         }
     }
     
