@@ -35,11 +35,7 @@ public final class EncoderHelper {
         s.close();
         return textLines.toString();
     }
-    
-    static List<MusicSymbol> createMusic(String input, Params p) {
-        return convertStringToMusic(input, p);
-    }
-    
+
     static List<MusicSymbol> createMusic(File inputFile, Params p) throws FileNotFoundException {
         String fileContents = EncoderHelper.getText(inputFile);
         return convertStringToMusic(fileContents, p);
@@ -76,7 +72,7 @@ public final class EncoderHelper {
         return extension;
     }
     
-    static void writeMusicToFile(List<MusicSymbol> musicOut, File outputFile, OutputFormat outputFormat) {
+    static void writeMusicToFile(List<MusicSymbol> musicOut, File outputFile, OutputFormat outputFormat) throws FileNotFoundException {
         // TODO: Check for ability to write to output file
         switch(outputFormat) {
         case TEXT:
@@ -89,29 +85,23 @@ public final class EncoderHelper {
             //writeMusicToMidi(musicOut, outputFile);
             //break;
         default:
-            LOGGER.fatal("Output format \"{}\" is invalid.", outputFormat);
-            throw new IllegalArgumentException("The output format was invalid.");
+            LOGGER.debug("Output format \"{}\" is invalid.", outputFormat);
+            throw new IllegalArgumentException("Invalid output format: " + outputFormat);
         }
     }
     
-    private static boolean writeMusicToTxt(List<MusicSymbol> musicOut, File outputFile) {
-        try {
-            PrintWriter pw = new PrintWriter(outputFile.getAbsolutePath());
-            for (MusicSymbol ms : musicOut) {
-                pw.println(ms);
-            }
-            pw.close();
-            LOGGER.info("Wrote to " + outputFile.getAbsolutePath());
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            LOGGER.error("File not found.");
-            e.printStackTrace();
-            return false;
+    private static void writeMusicToTxt(List<MusicSymbol> musicOut, File outputFile) throws FileNotFoundException {
+        //TODO: try-with-resources
+        PrintWriter pw = new PrintWriter(outputFile.getAbsolutePath());
+        for (MusicSymbol ms : musicOut) {
+            pw.println(ms);
         }
-        return true;
+        pw.close();
+        LOGGER.info("Wrote to " + outputFile.getAbsolutePath());
     }
     
-    private static boolean writeMusicToMusicXml(List<MusicSymbol> musicOut, File outputFile) {
+    private static void writeMusicToMusicXml(List<MusicSymbol> musicOut, File outputFile) {
+        //TODO: try-with-resources
         try {
             PartwiseBuilder pb = new PartwiseBuilder(musicOut);
             ScorePartwise score = pb.buildScore(outputFile.getName());
@@ -123,12 +113,9 @@ public final class EncoderHelper {
             outputStream.close();
         } catch (IOException ioe) {
             LOGGER.fatal("Something went wrong writing to {}", outputFile.getAbsolutePath());
-            return false;
         } catch (MarshallingException me) {
             LOGGER.fatal("Something went wrong marshalling into a score.");
-            return false;
         }
-        return true;
     }
     
     private static boolean isValidInputFile(File inputFile) {

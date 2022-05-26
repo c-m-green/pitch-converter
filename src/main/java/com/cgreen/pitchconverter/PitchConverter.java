@@ -65,13 +65,13 @@ public class PitchConverter implements Runnable {
         LOGGER.debug("Performing operation...");
         try {
             performOperation();
-            LOGGER.info("Operation successful.");
-            LOGGER.debug("Returning status code 0...");
+            LOGGER.info("Operation completed.");
+            LOGGER.debug("Returning status code 0.");
             System.exit(0);
         } catch (FileNotFoundException | IllegalArgumentException e) {
-            LOGGER.debug("An error occurred. No output produced.");
+            LOGGER.debug("An error occurred. No output was produced.");
             LOGGER.fatal("ERROR: " + e.getMessage());
-            LOGGER.debug("Returning status code 1...");
+            LOGGER.debug("Returning status code 1.");
             System.exit(1);
         }
     }

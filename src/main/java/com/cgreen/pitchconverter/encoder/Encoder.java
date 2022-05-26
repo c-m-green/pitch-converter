@@ -20,12 +20,12 @@ public final class Encoder {
     }
     
     public List<MusicSymbol> encodeMessage(String inputPhrase) {
-        return EncoderHelper.createMusic(inputPhrase, p);
+        return EncoderHelper.convertStringToMusic(inputPhrase, p);
     }
     
     public void encodeMessageToFile(File inputFile, File outputFile, OutputFormat outputFormat) throws FileNotFoundException {
         if (!inputFile.isFile()) {
-            throw new FileNotFoundException("The input file was not found.");
+            throw new FileNotFoundException("The input file was not found, or is not a file.");
         }
         List<MusicSymbol> music = EncoderHelper.createMusic(inputFile, p);
         if (music == null || music.isEmpty()) {
