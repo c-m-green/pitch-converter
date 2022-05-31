@@ -75,8 +75,14 @@ class CharConverterTest {
     void obtainPitchShouldReturnAppropriateSymbol() {
         MusicSymbol pitch = CharConverter.obtainPitch(pitchClasses, 2, 4);
         assertEquals('0', pitch.getPitchClass());
+        assertEquals("4", pitch.getRegister());
         
         MusicSymbol rest = CharConverter.obtainPitch(pitchClasses, -1, 4);
         assertEquals('r', rest.getPitchClass());
+        assertEquals("N/A", rest.getRegister());
+
+        MusicSymbol higherPitch = CharConverter.obtainPitch(pitchClasses, 16, 4);
+        assertEquals('0', higherPitch.getPitchClass());
+        assertEquals("6", higherPitch.getRegister());
     }
 }
