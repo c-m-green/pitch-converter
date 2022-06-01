@@ -17,4 +17,9 @@ public class Rest extends MusicSymbol {
     public String toString() {
         return "[rest]";
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return (obj != null && this.getClass() == obj.getClass());
+    }
 }

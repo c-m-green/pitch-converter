@@ -1,5 +1,9 @@
 package com.cgreen.pitchconverter.datastore.pitch;
 
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
+import java.util.Objects;
+
 /**
  * The Pitch class represents a musical pitch.
  * 
@@ -11,8 +15,8 @@ package com.cgreen.pitchconverter.datastore.pitch;
  */
 public class Pitch extends MusicSymbol {
 
-    private char pitchClass;
     private String register;
+    private char pitchClass;
 
     Pitch(char pitchClass, int register) {
         this.pitchClass = pitchClass;
@@ -55,5 +59,30 @@ public class Pitch extends MusicSymbol {
     @Override
     public String toString() {
         return pitchClass + ":" + register;
+    }
+
+    // https://stackoverflow.com/a/27609
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(31, 151).
+                append(register).
+                append(pitchClass).
+                toHashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+
+        if (obj.getClass() != this.getClass()) {
+            return false;
+        }
+
+        final Pitch other = (Pitch) obj;
+
+        return (this.register.equals(other.register) &&
+                this.pitchClass == other.pitchClass);
     }
 }
