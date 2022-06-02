@@ -153,4 +153,11 @@ class StringConverterTest {
         expected.add(SymbolFactory.createSymbol('r', 0));
         assertEquals(expected, music);
     }
+
+    @Test
+    void stripNonPitchLettersStripsNonPitchLetters() {
+        final String input = "abcdefghijklmnopqrstuvwxyz";
+        final String pitchLetters = "JKLMN";
+        assertEquals("JKLMN", StringConverter.stripNonPitchLetters(input, pitchLetters));
+    }
 }
