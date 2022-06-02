@@ -75,16 +75,16 @@ public class StringConverter {
      * @param pitchLetters the collection of note names to retain
      * @return the stripped string
      */
-    private static String stripNonPitchLetters(String input, String pitchLetters) {
-        String output = "";
+    static String stripNonPitchLetters(String input, String pitchLetters) {
+        StringBuilder output = new StringBuilder();
         for (int i = 0; i < input.length(); i++) {
             char ch = input.charAt(i);
             ch = Normalizer.normalize(ch + "", Normalizer.Form.NFD).toUpperCase().charAt(0);
             if (pitchLetters.indexOf(ch) != -1 || ch == ' ') {
-                output += ch;
+                output.append(ch);
             }
         }
-        return output;
+        return output.toString();
     }
 
 }
