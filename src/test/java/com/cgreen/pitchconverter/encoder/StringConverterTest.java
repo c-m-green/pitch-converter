@@ -93,4 +93,64 @@ class StringConverterTest {
         expected.add(SymbolFactory.createSymbol('2', 4));
         assertEquals(expected, music);
     }
+
+    @Test
+    void byDegreeReturnsExpectedResult() {
+        final String input = "Hello, world!";
+        final int startOctave = 4;
+        List<MusicSymbol> music = StringConverter.byDegree(input, startOctave, false, false);
+        List<MusicSymbol> expected = new ArrayList<MusicSymbol>();
+        expected.add(SymbolFactory.createSymbol('0', 5));
+        expected.add(SymbolFactory.createSymbol('7', 4));
+        expected.add(SymbolFactory.createSymbol('7', 5));
+        expected.add(SymbolFactory.createSymbol('7', 5));
+        expected.add(SymbolFactory.createSymbol('0', 6));
+        expected.add(SymbolFactory.createSymbol('2', 7));
+        expected.add(SymbolFactory.createSymbol('0', 6));
+        expected.add(SymbolFactory.createSymbol('5', 6));
+        expected.add(SymbolFactory.createSymbol('7', 5));
+        expected.add(SymbolFactory.createSymbol('5', 4));
+        assertEquals(expected, music);
+    }
+
+    @Test
+    void byDegreeEncodesChromatically() {
+        final String input = "Hello, world!";
+        final int startOctave = 4;
+        List<MusicSymbol> music = StringConverter.byDegree(input, startOctave, true, false);
+        List<MusicSymbol> expected = new ArrayList<MusicSymbol>();
+        expected.add(SymbolFactory.createSymbol('7', 4));
+        expected.add(SymbolFactory.createSymbol('4', 4));
+        expected.add(SymbolFactory.createSymbol('e', 4));
+        expected.add(SymbolFactory.createSymbol('e', 4));
+        expected.add(SymbolFactory.createSymbol('2', 5));
+        expected.add(SymbolFactory.createSymbol('t', 5));
+        expected.add(SymbolFactory.createSymbol('2', 5));
+        expected.add(SymbolFactory.createSymbol('5', 5));
+        expected.add(SymbolFactory.createSymbol('e', 4));
+        expected.add(SymbolFactory.createSymbol('3', 4));
+        assertEquals(expected, music);
+    }
+
+    @Test
+    void byDegreeInsertsRests() {
+        final String input = "Hello, world!";
+        final int startOctave = 4;
+        List<MusicSymbol> music = StringConverter.byDegree(input, startOctave, false, true);
+        List<MusicSymbol> expected = new ArrayList<MusicSymbol>();
+        expected.add(SymbolFactory.createSymbol('0', 5));
+        expected.add(SymbolFactory.createSymbol('7', 4));
+        expected.add(SymbolFactory.createSymbol('7', 5));
+        expected.add(SymbolFactory.createSymbol('7', 5));
+        expected.add(SymbolFactory.createSymbol('0', 6));
+        expected.add(SymbolFactory.createSymbol('r', 0));
+        expected.add(SymbolFactory.createSymbol('r', 0));
+        expected.add(SymbolFactory.createSymbol('2', 7));
+        expected.add(SymbolFactory.createSymbol('0', 6));
+        expected.add(SymbolFactory.createSymbol('5', 6));
+        expected.add(SymbolFactory.createSymbol('7', 5));
+        expected.add(SymbolFactory.createSymbol('5', 4));
+        expected.add(SymbolFactory.createSymbol('r', 0));
+        assertEquals(expected, music);
+    }
 }
