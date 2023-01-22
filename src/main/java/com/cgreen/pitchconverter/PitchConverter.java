@@ -2,6 +2,7 @@ package com.cgreen.pitchconverter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -68,7 +69,7 @@ public class PitchConverter implements Runnable {
             LOGGER.info("Operation completed.");
             LOGGER.debug("Returning status code 0.");
             System.exit(0);
-        } catch (FileNotFoundException | IllegalArgumentException e) {
+        } catch (IOException | IllegalArgumentException e) {
             LOGGER.debug("An error occurred. No output was produced.");
             LOGGER.fatal("ERROR: " + e.getMessage());
             LOGGER.debug("Returning status code 1.");
@@ -76,7 +77,7 @@ public class PitchConverter implements Runnable {
         }
     }
     
-    private void performOperation() throws FileNotFoundException {
+    private void performOperation() throws IOException {
         Method em = getEncodeMethod();
         Params p = new Params(em, useGermanH, chromatic, stripNonPitchLetters, includeRests);
         mode = mode.toLowerCase();
@@ -96,7 +97,7 @@ public class PitchConverter implements Runnable {
         }
     }
     
-    private void callEncode(Params p) throws FileNotFoundException {
+    private void callEncode(Params p) throws IOException {
         if (wordCollectionPath != null) {
             LOGGER.info("Word list param will be ignored for encoding.");
         }

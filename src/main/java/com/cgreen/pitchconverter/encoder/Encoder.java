@@ -2,6 +2,7 @@ package com.cgreen.pitchconverter.encoder;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -23,7 +24,7 @@ public final class Encoder {
         return EncoderHelper.convertStringToMusic(inputPhrase, p);
     }
     
-    public void encodeMessageToFile(File inputFile, File outputFile, OutputFormat outputFormat) throws FileNotFoundException {
+    public void encodeMessageToFile(File inputFile, File outputFile, OutputFormat outputFormat) throws IOException {
         if (!inputFile.isFile()) {
             throw new FileNotFoundException("The input file was not found, or is not a file.");
         }

@@ -160,4 +160,19 @@ class StringConverterTest {
         final String pitchLetters = "JKLMN";
         assertEquals("JKLMN", StringConverter.stripNonPitchLetters(input, pitchLetters));
     }
+
+    @Test
+    void newLineCountsAsRest() {
+        final String input = "1\n2\n\n3";
+        final int startOctave = 4;
+        List<MusicSymbol> music = StringConverter.byDegree(input, startOctave, true, true);
+        List<MusicSymbol> expected = new ArrayList<MusicSymbol>();
+        expected.add(SymbolFactory.createSymbol('1', 4));
+        expected.add(SymbolFactory.createSymbol('r', 0));
+        expected.add(SymbolFactory.createSymbol('2', 4));
+        expected.add(SymbolFactory.createSymbol('r', 0));
+        expected.add(SymbolFactory.createSymbol('r', 0));
+        expected.add(SymbolFactory.createSymbol('3', 4));
+        assertEquals(expected, music);
+    }
 }

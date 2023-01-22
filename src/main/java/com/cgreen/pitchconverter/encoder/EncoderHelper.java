@@ -1,14 +1,8 @@
 package com.cgreen.pitchconverter.encoder;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,21 +16,27 @@ import com.cgreen.pitchconverter.util.Params;
 
 public final class EncoderHelper {
     private static final Logger LOGGER = LogManager.getLogger();
-    
-    private static String getText(File file) throws FileNotFoundException {
+
+    private static String getText(File file) throws IOException {
         if (!isValidInputFile(file)) {
             throw new FileNotFoundException("The input file was inaccessible.");
         }
         StringBuilder textLines = new StringBuilder();
-        Scanner s = new Scanner(file);
-        while(s.hasNextLine()) {
-            textLines.append(s.nextLine());
+        LineNumberReader lnr = new LineNumberReader(new FileReader(file));
+        String line = "";
+        while (line != null) {
+            line = lnr.readLine();
+            if (line != null) {
+                if (lnr.getLineNumber() > 1) {
+                    textLines.append("\n");
+                }
+                textLines.append(line);
+            }
         }
-        s.close();
         return textLines.toString();
     }
 
-    static List<MusicSymbol> createMusic(File inputFile, Params p) throws FileNotFoundException {
+    static List<MusicSymbol> createMusic(File inputFile, Params p) throws IOException {
         String fileContents = EncoderHelper.getText(inputFile);
         return convertStringToMusic(fileContents, p);
     }
